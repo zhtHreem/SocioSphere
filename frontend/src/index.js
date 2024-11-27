@@ -7,11 +7,20 @@ import { UserProfile } from './pages/userprofile';
 import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
+import Add from './Components/addSociety';
+import Society from './Components/SocietyPage'
+
 const router = createBrowserRouter([
  
   {
     path:"/",
     element:<App/>
+  },{
+    path:"/add",
+    element:<Add/>
+  },{
+    path:"/society",
+    element:<Society/>
   },
   {
     path:"/user",
