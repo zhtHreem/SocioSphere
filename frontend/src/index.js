@@ -4,7 +4,7 @@ import { RouterProvider ,createBrowserRouter} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import { UserProfile } from './pages/userprofile';
-import { SocietyForm } from './pages/createapplyform';
+import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
 const router = createBrowserRouter([
