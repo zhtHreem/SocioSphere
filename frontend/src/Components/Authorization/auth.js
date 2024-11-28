@@ -2,6 +2,7 @@ import React, { useState,useMemo } from 'react';
 import { Box, Button, Container, TextField, Typography, Paper, Tab, Tabs, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import { Visibility, VisibilityOff, Favorite, Star, Pets, Cake, AutoFixHigh, CatchingPokemon,Beenhere, Article, People } from '@mui/icons-material';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import axios from "axios";
 const BackgroundIcons = () => {
   const icons = [Favorite, Star, Pets, Article, AutoFixHigh, People, Beenhere];
   const colors = ['#FFB6C1', '#FF69B4', '#FFC0CB', '#FF85A2', '#FFD1DC', 'black', '#FF6B6B', '#FFD700'];
@@ -49,7 +50,48 @@ const AuthPage = () => {
   };
   const handleSignupChange = (e) => {
     const { name, value } = e.target;
-    setSignupData({ ...signupData, [name]: value });
+   // console.log(`Changing ${name} to ${value}`);
+    setSignupData(prevData => ({ 
+    ...prevData, 
+    [name]: value 
+  }));
+   console.log(signupData)
+  };
+
+
+   const handleLoginSubmit = async (e) => {
+    
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/api/login", loginData);
+      // Save JWT Token (Consider using HttpOnly cookies for better security)
+      localStorage.setItem("token", response.data.token);
+      alert("Login successful!");
+    } catch (error) {
+      console.error("Login error:", error.response?.data || error.message);
+      alert("Login failed! Please check your credentials.");
+    }
+  };
+
+
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    if (signupData.password !== signupData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/register", {
+        username: signupData.username,
+        email: signupData.email,
+        password: signupData.password,
+      });
+      alert("Sign up successful! You can now log in.");
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
+      alert("Sign up failed! Please try again.");
+    }
   };
   const commonTextFieldProps = {
     margin: "normal", required: true, fullWidth: true, variant: "outlined",
@@ -81,7 +123,7 @@ const AuthPage = () => {
               <TextField {...commonTextFieldProps} name="password" label="Password" value={loginData.password} onChange={handleLoginChange} type={showPassword ? 'text' : 'password'} id="login-password" autoComplete="current-password" 
                 InputProps={{ endAdornment: (<IconButton onClick={() => setShowPassword(!showPassword)} edge="end">{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>)}} 
               />
-              <Button {...commonButtonProps} type="submit">Login <Star sx={{ ml: 1, fontSize: 'small' }} /></Button>
+              <Button {...commonButtonProps} type="submit" onClick={handleLoginSubmit}>Login <Star sx={{ ml: 1, fontSize: 'small' }} /></Button>
             </Box>
           ) : (
             <Box component="form" sx={{ width: '100%' }}>
@@ -90,8 +132,8 @@ const AuthPage = () => {
               <TextField {...commonTextFieldProps} value={signupData.password} onChange={handleSignupChange} name="password" label="Password" type={showPassword ? 'text' : 'password'} id="signup-password" autoComplete="new-password" 
                 InputProps={{ endAdornment: (<IconButton onClick={() => setShowPassword(!showPassword)} edge="end">{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>) }} 
               />
-              <TextField {...commonTextFieldProps} value={signupData.confirmPassword} onChange={handleSignupChange} name="confirm-password" label="Confirm Password" type={showPassword ? 'text' : 'password'} id="signup-confirm-password" />
-              <Button {...commonButtonProps} type="submit">Sign Up <Star sx={{ ml: 1, fontSize: 'small' }} /></Button>
+              <TextField {...commonTextFieldProps} value={signupData.confirmPassword} onChange={handleSignupChange} name="confirmPassword" label="Confirm Password" type={showPassword ? 'text' : 'password'} id="signup-confirm-password" />
+              <Button {...commonButtonProps} type="submit" onClick={handleSignupSubmit}>Sign Up <Star sx={{ ml: 1, fontSize: 'small' }} /></Button>
             </Box>
           )}
         </Paper>
