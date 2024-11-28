@@ -19,24 +19,9 @@ const BackgroundIcons = () => {
       const transformTranslate = `translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px)`;
 
       return (
-        <Box
-          key={index}
-          sx={{
-            position: 'absolute',
-            color,
-            opacity: 0.2,
-            top,
-            left,
-            transform: 'rotate(45deg)',
-            animation: `float 10s infinite`,
-            animationDelay,
-            '@keyframes float': {
-              '0%': { transform: 'translate(0, 0) rotate(45deg)' },
-              '50%': { transform: transformTranslate + ' rotate(45deg)' },
-              '100%': { transform: 'translate(0, 0) rotate(45deg)' }
-            }
-          }}
-        >
+        <Box key={index}
+          sx={{ position: 'absolute',  color,  opacity: 0.2,    top, left, transform: 'rotate(45deg)',  animation: `float 10s infinite`,
+            animationDelay,  '@keyframes float': {    '0%': { transform: 'translate(0, 0) rotate(45deg)' },   '50%': { transform: transformTranslate + ' rotate(45deg)' },  '100%': { transform: 'translate(0, 0) rotate(45deg)' }     }  }}  >
           <IconComponent sx={{ fontSize: size }} />
         </Box>
       );

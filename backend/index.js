@@ -1,11 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import societyRoutes from './src/routes/societyRoutes.js';
+
 
 import connectDB from './src/config/db.js';
 
 // Route imports
 //import authRoutes from './routes/authRoutes.js';
+
 
 
 // Load environment variables
@@ -23,6 +26,7 @@ connectDB();
 
 // Routes
 //app.use('/api/auth', authRoutes);
+app.use('/api/societies', societyRoutes);
 
 
 // Error handling middleware
