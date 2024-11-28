@@ -84,10 +84,10 @@ function User(){
   };
     return(
         <Box mt={6}>
-           < BackgroundIcons/>
+          < BackgroundIcons/>
 
            <Grid container direction={"column"} >
-                <Grid item sx={{background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)',display: "flex",flexDirection:"column", height:"40vh",justifyContent:"center",alignItems:"center", zIndex:5}}>
+                <Grid item   sx={{background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)',display: "flex",flexDirection:"column", height:"40vh",justifyContent:"center",alignItems:"center", zIndex:5,transition: 'height 0.3s ease','&:hover': { height: '50vh'}}}>
                     <Avatar  sx={{ backgroundColor:"#FBA834",width: 150, height: 150  }}>
                         <PersonIcon fontSize="large"/>
                     </Avatar>
@@ -111,7 +111,7 @@ function User(){
         </AccordionSummary>
 
                      
-                     <AccordionDetails sx={{backgroundColor:"#393646"}}>
+                     <AccordionDetails sx={{backgroundColor:"#393646",p:5}}>
                      <Slider {...settings}> 
                       {societies.map((society,index)=>(
                          <div key={index}>

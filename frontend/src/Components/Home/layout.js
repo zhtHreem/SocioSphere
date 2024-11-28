@@ -53,42 +53,42 @@ const Navbar = () => {
 
   return (
     <Box sx={{ display: 'flex',  overflow:"hidden"}}>
-      <AppBar     sx={{   background: 'linear-gradient(135deg, #ff6b6b, #4ecdc4)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden"}} >
+      <AppBar     sx={{   background: 'white',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden"}} >
         <Toolbar>
           <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' } }} >
 
             <MenuIcon />
           </IconButton>
           
-          <Typography variant="h6"    component="div"  sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+          <Typography variant="h6"    component="div"  sx={{color:"black", flexGrow: 1, fontWeight: 'bold' }}>
             SocioSphere
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button  key={item.name}  color="inherit"   startIcon={item.icon}
-                sx={{   mx: 1, 
+              <Button  key={item.name}    startIcon={item.icon}
+                sx={{   mx: 1, color:"black",
                   '&:hover': { 
                     background: 'rgba(255,255,255,0.2)'   }  }}  >
                 {item.name}
               </Button>
             ))}
             
-            <IconButton color="inherit">
+            <IconButton  sx={{color:"black"}}>
               <NotificationsIcon />
             </IconButton>
 
             {isLoggedIn ? (
               <>
-                <IconButton color="inherit" onClick={() => { navigate("/user") }}>
+                <IconButton  sx={{color:"black"}} onClick={() => { navigate("/user") }}>
                   <ProfileIcon />
                 </IconButton>
-                <Button  color="inherit"   startIcon={<LogoutIcon />} onClick={() => setIsLoggedIn(false)}   >
+                <Button   sx={{color:"black"}}   startIcon={<LogoutIcon />} onClick={() => setIsLoggedIn(false)}   >
                   Logout
                 </Button>
               </>
             ) : (
-              <Button    color="inherit"  startIcon={<LoginIcon />} onClick={() => {navigate("/auth");setIsLoggedIn(true)}} >   Login</Button>
+              <Button   sx={{color:"black"}}    startIcon={<LoginIcon />} onClick={() => {navigate("/auth");setIsLoggedIn(true)}} >   Login</Button>
             )}
           </Box>
         </Toolbar>
@@ -107,7 +107,7 @@ const Navbar = () => {
 
 const Footer = () => {
   return (
-    <Paper   component="footer" square   variant="outlined"   sx={{   background: 'linear-gradient(135deg, #FEC260, #F5F5DC)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',  py: 3,  px: 2,  marginTop: 'auto', bottom: 0 ,overflow:"hidden",position:"relative",zIndex:5 }} >
+    <Paper   component="footer" square   variant="outlined"   sx={{   background: 'white',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',  py: 3,  px: 2,  marginTop: 'auto', bottom: 0 ,overflow:"hidden",position:"relative",zIndex:5 }} >
       <Container maxWidth="lg">
         <Box   sx={{    display: 'flex',    justifyContent: 'space-between',  alignItems: 'center'   }} >
           <Typography variant="body2" color="text.secondary">
