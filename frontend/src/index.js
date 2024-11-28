@@ -9,7 +9,7 @@ import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
 import Add from './Components/addSociety';
 import Society from './Components/SocietyPage'
-
+import Authorization from './pages/authorization';
 const router = createBrowserRouter([
  
   {
@@ -37,6 +37,11 @@ const router = createBrowserRouter([
   {
      path:"/position",
      element:<Positions/>
+  },
+  
+  {
+     path:"/auth",
+     element:<Authorization/>
   }
  
  
