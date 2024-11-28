@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { Box,Avatar, Typography, Stack, Card, CardHeader, CardContent,Tabs,Tab } from    "@mui/material";
+import { Box,Avatar, Typography, Stack, Card, CardHeader, CardContent,Tabs,Tab, CardMedia } from    "@mui/material";
 import Grid from '@mui/material/Grid2';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import PersonIcon from '@mui/icons-material/Person';
-
-
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { BackgroundIcons } from "../Authorization/auth";
+import ContactPageIcon from '@mui/icons-material/ContactPage';
 const societies = [
   { 
     name: "Softec", 
@@ -80,11 +83,11 @@ function User(){
     ],
   };
     return(
-        <Box>
-
+        <Box mt={6}>
+           < BackgroundIcons/>
 
            <Grid container direction={"column"} >
-                <Grid item sx={{background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)',display: "flex",flexDirection:"column", height:"40vh",justifyContent:"center",alignItems:"center"}}>
+                <Grid item sx={{background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)',display: "flex",flexDirection:"column", height:"40vh",justifyContent:"center",alignItems:"center", zIndex:5}}>
                     <Avatar  sx={{ backgroundColor:"#FBA834",width: 150, height: 150  }}>
                         <PersonIcon fontSize="large"/>
                     </Avatar>
@@ -93,11 +96,22 @@ function User(){
                     <Typography variant="body2" color="white">{user.Joiningdate}</Typography>
                   
                  </Grid>
-                 <Grid item  padding={5} sx={{backgroundColor:"#76ABAE",width: '100%',overflow: 'hidden'}}>
+                 <Grid item  padding={10} sx={{backgroundColor:"#F2F2F2",width: '100%',overflow: 'hidden'}}>
 
                      <Box sx={{ }}>  
-              
-                     <Typography variant="h3" sx={{marginBottom:5}}>My Societies</Typography>
+                     <Accordion defaultExpanded sx={{position: 'relative', zIndex: 5}}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"
+          id="panel3-header"
+          
+        >
+        
+          <Typography variant="h6" >My Societies</Typography>
+        </AccordionSummary>
+
+                     
+                     <AccordionDetails sx={{backgroundColor:"#393646"}}>
                      <Slider {...settings}> 
                       {societies.map((society,index)=>(
                          <div key={index}>
@@ -115,12 +129,14 @@ function User(){
                       ))}       
 
                     </Slider>
+                    </AccordionDetails>
+                    </Accordion>
                     </Box>  
 
                     
-                    <Box sx={{ width: '100%',marginTop:10 }}>
+                    <Box sx={{ width: '100%',marginTop:10,position: 'relative', zIndex: 5 }}>
                     <Typography variant="h3" sx={{textAlign:"center"}}>Application Tracker</Typography>
-                        <Tabs value={selectedTab} onChange={handleTabChange}  textColor="secondary" indicatorColor="secondary"  aria-label="secondary tabs example" >
+                        <Tabs value={selectedTab} onChange={handleTabChange}  textColor="secondary" indicatorColor="secondary"  aria-label="secondary tabs example" sx={{position: 'relative', zIndex: 5}}>
                         {societies.map((society, index) => (
                              <Tab key={index} value={society.name} label={society.name} />
                         ))}
@@ -129,11 +145,14 @@ function User(){
 
                             {societies.filter(society => society.name === selectedSociety).map((society) => { 
                             return (
-                            <Grid container p={5} gap={5} sx={{background:"white"}}>
+                            <Grid container p={5} gap={5} sx={{background:"white",border:"2px solid #42032C"}}>
+                          
                             {society.applications.map((app, index)=> (
-                                <Grid item key={index} xs={6} md={4}>
+                                <Grid item key={index} xs={6} md={4} sx={{position: 'relative', zIndex: 5}}>
                                     <Card elevation={20}>
-                                        <CardHeader />
+                                        <CardMedia sx={{  display: 'flex', justifyContent: 'center',  alignItems: 'center', height: 120,      backgroundColor: "#FBA834",  }}>
+                                            <ContactPageIcon fontSize="large" sx={{ color: "#FFFFFF" }} />
+                                         </CardMedia> 
                                               <CardContent>
                                                   <Typography variant="h6" color="text.secondary">  {app.user} </Typography>
                                                   <Typography variant="body2" color="text.secondary"> Status: {app.status} </Typography>

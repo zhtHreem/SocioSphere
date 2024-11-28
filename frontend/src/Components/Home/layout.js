@@ -52,8 +52,8 @@ const Navbar = () => {
   );
 
   return (
-    <Box sx={{ display: 'flex', }}>
-      <AppBar    position="fixed"  sx={{   background: 'linear-gradient(135deg, #ff6b6b, #4ecdc4)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden"}} >
+    <Box sx={{ display: 'flex',  overflow:"hidden"}}>
+      <AppBar     sx={{   background: 'linear-gradient(135deg, #ff6b6b, #4ecdc4)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden"}} >
         <Toolbar>
           <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' } }} >
 
@@ -107,7 +107,7 @@ const Navbar = () => {
 
 const Footer = () => {
   return (
-    <Paper   component="footer" square   variant="outlined"   sx={{   backgroundColor: '#f5f5f5',  py: 3,  px: 2,  marginTop: 'auto', bottom: 0, width: '100%'  }} >
+    <Paper   component="footer" square   variant="outlined"   sx={{   background: 'linear-gradient(135deg, #FEC260, #F5F5DC)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',  py: 3,  px: 2,  marginTop: 'auto', bottom: 0 ,overflow:"hidden",position:"relative",zIndex:5 }} >
       <Container maxWidth="lg">
         <Box   sx={{    display: 'flex',    justifyContent: 'space-between',  alignItems: 'center'   }} >
           <Typography variant="body2" color="text.secondary">
