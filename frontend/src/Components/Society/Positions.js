@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { Avatar,Alert, Box, Typography, Chip,Modal,  Button, useMediaQuery ,TextField} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -7,7 +9,12 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonIcon from '@mui/icons-material/Person';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import axios from "axios";
+
+
+
 const SocietyPositions = () => {
+    const { societyId } = useParams();
+      const [society, setSociety] = useState(null); // For fetching society details
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -27,17 +34,38 @@ const SocietyPositions = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
 
+
+
+
+
+  // Fetch society and positions
+  useEffect(() => {
+    const fetchSociety = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/societies/${societyId}`);
+        setSociety(response.data);
+        console.log(response.data)
+        setLevels(response.data.positions || []);
+      } catch (error) {
+        setSnackbarMessage("Error fetching society details.");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
+      }
+    };
+    fetchSociety();
+  }, [societyId]);
+
   const saveChanges = async () => {
-  const societyId = "6748f6ad0d01a40f0ed06d81"; // Replace with the actual society ID
+ // const societyId = "674987056173a6d6b60435d2"; // Replace with the actual society ID
 
   try {
     // Send PUT request to update positions
     const response = await axios.put(
       `http://localhost:5000/api/societies/${societyId}/positions`,
       {
-        positions: levels.map(level => ({
-          title: level.label,
-          users: level.users.map(user => user._id), // Assuming each user has an _id
+        positions: society.positions.map(position => ({
+          title: position.title,
+           users: position.users ? position.users.map(user => user) : [],// users: position.users.map(user => user), // Assuming each user has an _id
         })),
       },
       {
@@ -77,16 +105,21 @@ const SocietyPositions = () => {
     setOpen(false);
   };
   const addLevel = () => {
-    //const userLabel = prompt("Enter the name for the new level:");
+ 
+    setSociety(prevSociety => ({
+      ...prevSociety,
+      positions: [...prevSociety.positions, { title: newLabel, users: [] }]
+    }));
+    generatePath(society.positions )
     
-    setLevels((prevLevels) => [
-      ...prevLevels,
-      { id: prevLevels.length + 1, label: newLabel, users: [],  },
-    ]);
      handleClose();
   };
    const deleteLevel = (id) => {
-    setLevels(prevLevels => prevLevels.filter(level => level.id !== id));
+    // setLevels(prevLevels => prevLevels.filter(level => level._id !== id));
+     setSociety(prevSociety => ({
+      ...prevSociety,
+      positions: prevSociety.positions.filter(position => position._id !== id)
+    }));
   };
   
   const toggleUserNameVisibility = (levelId, userName) => {
@@ -97,7 +130,7 @@ const SocietyPositions = () => {
   };
 
   const generatePath = (levels) => {
-  if (levels.length === 0) {
+  if (!levels || levels.length === 0) {
     return ""; // No path if there are no levels
   }
   const pathData = levels.map((level, index) => {
@@ -114,10 +147,17 @@ const SocietyPositions = () => {
   return pathString;
 };
 
-  const path = generatePath(levels);
+if (!society || !society.positions) {
+  return <div>Loading...</div>; // Show a loading message or a fallback UI while data is being fetched
+}
+
+
+
+
+  const path = generatePath(society.positions || []);
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", background: "linear-gradient(to bottom, #E3F2FD, #80D8FF)", padding: 10 }}>
+    <Box sx={{ display: "flex", height: "100vh", background: "linear-gradient(to bottom, #E3F2FD, #80D8FF)", padding: 10,overflow:"scroll" }}>
      <Snackbar   open={openSnackbar}   autoHideDuration={6000}  onClose={handleCloseSnackbar}    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}  >
                 <Alert   onClose={handleCloseSnackbar}  severity={snackbarSeverity}  sx={{ width: '100%' }}    >
                     {snackbarMessage}
@@ -125,6 +165,13 @@ const SocietyPositions = () => {
             </Snackbar>
       <Box sx={{ width: "75%", position: "relative", paddingRight: isSmallScreen ? 0 : 2 }}>
         
+
+        <Typography variant="h4" sx={{ mb: 4 }}>
+          {society ? society.name : "Loading..."}
+        </Typography>
+
+
+
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2, px: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><FavoriteIcon color="error" /><Typography>35</Typography></Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><Typography>68 / 100</Typography></Box>
@@ -143,26 +190,26 @@ const SocietyPositions = () => {
           <path d={path} stroke="#B3E5FC" strokeWidth="10" fill="none" />
         </svg>
         <Box sx={{ position: "relative", width: "100%", zIndex: 2 }}>
-          {levels.map((level, index) => (
-            <Box   key={level.id} sx={{   position: "absolute",  top: `${index * 150}px`,   left: `${Math.sin(index) * (isSmallScreen ? 50 : 150) + 140}px`, display: "flex",   alignItems: "center",  gap: 2   }} >
-              <Chip label={level.label} size="small" color="secondary" />
+          {society?.positions?.map((position, index) => (
+            <Box   key={position._id} sx={{   position: "absolute",  top: `${index * 150}px`,   left: `${Math.sin(index) * (isSmallScreen ? 50 : 150) + 140}px`, display: "flex",   alignItems: "center",  gap: 2   }} >
+              <Chip label={position.title} size="small" color="secondary" />
               {index === 0 && <CakeIcon sx={{ color: "purple" }} />}
               {index === 1 && <VideocamIcon sx={{ color: "blue" }} />}
               {index === 2 && <FavoriteIcon sx={{ color: "red" }} />}
-                            <Button variant="outlined" color="error" onClick={() => deleteLevel(level.id)} sx={{ mt: 1 }}>Delete Level</Button>
+                            <Button variant="outlined" color="error" onClick={() => deleteLevel(position._id)} sx={{ mt: 1 }}>Delete Level</Button>
 
               {/* Display avatars with toggle for username */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                {level.users.map((user, userIndex) => (
+                {position.users.map((user, userIndex) => (
                   <Box  key={userIndex} sx={{  display: "flex",  flexDirection: "column",  alignItems: "center",     position: "relative"   }} >
-                    <Avatar  alt={user.name}  src={<PersonIcon/>} 
+                    <Avatar  alt={user}  src={<PersonIcon/>} 
                       sx={{  width: 30, height: 30, cursor: "pointer"  }} 
-                      onClick={() => toggleUserNameVisibility(level.id, user.name)}
-                      onMouseEnter={() => toggleUserNameVisibility(level.id, user.name)}
-                      onMouseLeave={() => toggleUserNameVisibility(level.id, user.name)}  />
-                    {revealedUsers[`${level.id}-${user.name}`] && (
+                      onClick={() => toggleUserNameVisibility(position._id, user)}
+                      onMouseEnter={() => toggleUserNameVisibility(position._id, user)}
+                      onMouseLeave={() => toggleUserNameVisibility(position._id, user)}  />
+                    {revealedUsers[`${index}-${user}`] && (
                       <Typography variant="body2" sx={{    position: "absolute",  top: "-25px",  backgroundColor: "rgba(0,0,0,0.7)",    color: "white",  padding: "2px 5px",  borderRadius: "4px",  fontSize: "0.7rem"  }}   >
-                        {user.name}
+                        {user}
                       </Typography>
                     )}
                   </Box>
@@ -177,10 +224,10 @@ const SocietyPositions = () => {
       </Box>
       {!isSmallScreen && (
         <Box sx={{ width: "25%", padding: 2, backgroundColor: "#fff", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
-          <Typography variant="h6" sx={{ mb: 2 }}>Society Name</Typography>
-          <Typography variant="body2">1.Level a - 120 people</Typography>
-          <Typography variant="body2">2. Level B - 110 people</Typography>
-          <Typography variant="body2">3. Level C - 90 people</Typography>
+          <Typography variant="h6" sx={{ mb: 2 }}>{society.name}</Typography>
+          {society.positions.map((position, index) => (
+           <Typography key={index} variant="body2">{`${index + 1}. ${position.title} - ${position.users.length} people`}</Typography>
+          ))}
           <Typography variant="body2" sx={{ mt: 4 }}>Stay tuned for updates!</Typography>
         </Box>
       )}
