@@ -1,14 +1,14 @@
 import React from 'react';
-import {AuthPage} from '../Components/Authorization/auth';
+import Admin from '../Components/User/admin';
 import { Navbar,Footer } from '../Components/Home/layout';
-const Authorization = () => {
+const AdminPage = () => {
     return(
         <>
             <Navbar/>
-              <AuthPage/>
+              <Admin/>
               <Footer/>
         </>      
     )
 }
 
-export default Authorization;
+export default AdminPage ;

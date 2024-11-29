@@ -1,7 +1,7 @@
 import express from 'express';
 import Society from '../models/Society.js';
 import Event from '../models/Event.js';
-
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/add', async (req, res) => {
   const { name, description, image } = req.body;
   try {
-    const newSociety = new Society({ name, description, image });
+    const newSociety = new Society({ name, description, image ,positions: [],});
     await newSociety.save();
     res.status(201).json(newSociety);
   } catch (error) {

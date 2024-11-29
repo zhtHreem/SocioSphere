@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import { Box,Avatar, Typography, Stack, Card, CardHeader, CardContent,Tabs,Tab, CardMedia } from    "@mui/material";
+import { Box,Avatar, Typography, Card, CardContent,Tabs,Tab,IconButton, CardMedia, Tooltip } from    "@mui/material";
+import { Navigate } from "react-router-dom";
 import Grid from '@mui/material/Grid2';
-import Slider from 'react-slick';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import PersonIcon from '@mui/icons-material/Person';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { BackgroundIcons } from "../Authorization/auth";
+
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 const societies = [
   { 
@@ -48,8 +45,8 @@ const societies = [
 
 console.log(societies);
 
-function User(){
-    const [user,setUser]=useState({name:"Arsalan",Joiningdate:"10-12-2024"})
+function Admin(){
+    const [user,setUser]=useState({name:"Admin",Joiningdate:"10-12-2024"})
    // const [value, setValue] = React.useState('one');
     const [selectedTab, setSelectedTab] = useState('one');
      const [selectedSociety, setSelectedSociety] = useState(societies[0].name);
@@ -58,35 +55,11 @@ function User(){
     setSelectedTab(newValue);
     setSelectedSociety(newValue);
   };
-    const settings = {
-    dots: true, // Show dots for navigation
-    infinite: true, // Infinite scrolling
-    speed: 500, // Speed of transition
-    slidesToShow: 4, // Number of items to show at once 
-    slidesToScroll: 1, // Number of items to scroll at once
-    centerMode: true,
-    centerPadding: '60px',
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1, // Show 1 item for smaller screens
-        },
-      },
-    ],
-  };
+    
     return(
-        <Box mt={6}>
-          < BackgroundIcons/>
+        <Box mt={6}>        
 
-           <Grid container direction={"column"} >
+           <Grid container direction={"column"} sx={{position:"relative"}}>
                 <Grid item   sx={{background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)',display: "flex",flexDirection:"column", height:"40vh",justifyContent:"center",alignItems:"center", zIndex:5,transition: 'height 0.3s ease','&:hover': { height: '50vh'}}}>
                     <Avatar  sx={{ backgroundColor:"#FBA834",width: 150, height: 150  }}>
                         <PersonIcon fontSize="large"/>
@@ -98,42 +71,7 @@ function User(){
                  </Grid>
                  <Grid item  padding={10} sx={{backgroundColor:"#F2F2F2",width: '100%',overflow: 'hidden'}}>
 
-                     <Box sx={{ }}>  
-                     <Accordion defaultExpanded sx={{position: 'relative', zIndex: 5}}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
           
-        >
-        
-          <Typography variant="h6" >My Societies</Typography>
-        </AccordionSummary>
-
-                     
-                     <AccordionDetails sx={{backgroundColor:"#393646",p:5}}>
-                     <Slider {...settings}> 
-                      {societies.map((society,index)=>(
-                         <div key={index}>
-                                <Card elevation={20} >
-                                     <CardHeader>
-
-                                     </CardHeader>
-                                     <CardContent>
-                                           <Typography gutterBottom variant="h5" component="div">{society.name} </Typography>
-                                           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{society.position} </Typography>
-      
-                                     </CardContent>
-                                </Card>
-                         </div>
-                      ))}       
-
-                    </Slider>
-                    </AccordionDetails>
-                    </Accordion>
-                    </Box>  
-
-                    
                     <Box sx={{ width: '100%',marginTop:10,position: 'relative', zIndex: 5 }}>
                     <Typography variant="h3" sx={{textAlign:"center"}}>Application Tracker</Typography>
                         <Tabs value={selectedTab} onChange={handleTabChange}  textColor="secondary" indicatorColor="secondary"  aria-label="secondary tabs example" sx={{position: 'relative', zIndex: 5}}>
@@ -166,11 +104,13 @@ function User(){
                     </Box> 
                    
                  </Grid>
-
-
+                
+                <Tooltip title="Create New Society" arrow>
+                 <IconButton   sx={{position:"fixed",right:20,bottom:10,zIndex: 100,}}><AddCircleIcon sx={{ color: "#6A9C89", fontSize: 60 }}/></IconButton>
+                </Tooltip>
             </Grid>
         </Box>
     )
 }
 
-export default User;
+export default Admin;

@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { Avatar, Box, Typography, Chip,Modal,  Button, useMediaQuery ,TextField} from "@mui/material";
+import { Avatar,Alert, Box, Typography, Chip,Modal,  Button, useMediaQuery ,TextField} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import CakeIcon from "@mui/icons-material/Cake";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonIcon from '@mui/icons-material/Person';
-
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+import axios from "axios";
 const SocietyPositions = () => {
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [open, setOpen] = useState(false);
   const [newLabel, setNewLabel] = useState("");
   const [levels, setLevels] = useState([
@@ -22,6 +26,51 @@ const SocietyPositions = () => {
 
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
+
+  const saveChanges = async () => {
+  const societyId = "6748f6ad0d01a40f0ed06d81"; // Replace with the actual society ID
+
+  try {
+    // Send PUT request to update positions
+    const response = await axios.put(
+      `http://localhost:5000/api/societies/${societyId}/positions`,
+      {
+        positions: levels.map(level => ({
+          title: level.label,
+          users: level.users.map(user => user._id), // Assuming each user has an _id
+        })),
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('token') // Get the token from local storage
+        }
+      }
+    );
+    
+
+     if (response.status === 200) {
+             setSnackbarMessage('Posiitons updated successfully!');
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);
+           
+        }
+    
+  } catch (error) {
+    setSnackbarMessage(error.response?.data?.message || 'Error updating positions:');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+  }
+};
+
+
+  const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
+  
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setNewLabel(""); // Reset input on close
@@ -36,7 +85,10 @@ const SocietyPositions = () => {
     ]);
      handleClose();
   };
-
+   const deleteLevel = (id) => {
+    setLevels(prevLevels => prevLevels.filter(level => level.id !== id));
+  };
+  
   const toggleUserNameVisibility = (levelId, userName) => {
     setRevealedUsers(prev => ({
       ...prev,
@@ -45,24 +97,32 @@ const SocietyPositions = () => {
   };
 
   const generatePath = (levels) => {
-    const pathData = levels.map((level, index) => {
-      const offsetY = index * 150;
-      const horizontalVariation = isSmallScreen ? 50 : 150;
-      const offsetX = Math.sin(index) * horizontalVariation + 150;
-      return { x: offsetX, y: offsetY };
-    });
+  if (levels.length === 0) {
+    return ""; // No path if there are no levels
+  }
+  const pathData = levels.map((level, index) => {
+    const offsetY = index * 150;
+    const horizontalVariation = isSmallScreen ? 50 : 150;
+    const offsetX = Math.sin(index) * horizontalVariation + 150;
+    return { x: offsetX, y: offsetY };
+  });
 
-    let pathString = `M ${pathData[0].x} ${pathData[0].y} `;
-    for (let i = 1; i < pathData.length; i++) {
-      pathString += `C ${pathData[i - 1].x} ${pathData[i - 1].y + 50}, ${pathData[i].x} ${pathData[i].y - 50}, ${pathData[i].x} ${pathData[i].y} `;
-    }
-    return pathString;
-  };
+  let pathString = `M ${pathData[0].x} ${pathData[0].y} `;
+  for (let i = 1; i < pathData.length; i++) {
+    pathString += `C ${pathData[i - 1].x} ${pathData[i - 1].y + 50}, ${pathData[i].x} ${pathData[i].y - 50}, ${pathData[i].x} ${pathData[i].y} `;
+  }
+  return pathString;
+};
 
   const path = generatePath(levels);
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", background: "linear-gradient(to bottom, #E3F2FD, #80D8FF)", overflowY: "scroll", padding: 2 }}>
+    <Box sx={{ display: "flex", height: "100vh", background: "linear-gradient(to bottom, #E3F2FD, #80D8FF)", padding: 10 }}>
+     <Snackbar   open={openSnackbar}   autoHideDuration={6000}  onClose={handleCloseSnackbar}    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}  >
+                <Alert   onClose={handleCloseSnackbar}  severity={snackbarSeverity}  sx={{ width: '100%' }}    >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
       <Box sx={{ width: "75%", position: "relative", paddingRight: isSmallScreen ? 0 : 2 }}>
         
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2, px: 2 }}>
@@ -89,7 +149,8 @@ const SocietyPositions = () => {
               {index === 0 && <CakeIcon sx={{ color: "purple" }} />}
               {index === 1 && <VideocamIcon sx={{ color: "blue" }} />}
               {index === 2 && <FavoriteIcon sx={{ color: "red" }} />}
-              
+                            <Button variant="outlined" color="error" onClick={() => deleteLevel(level.id)} sx={{ mt: 1 }}>Delete Level</Button>
+
               {/* Display avatars with toggle for username */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 {level.users.map((user, userIndex) => (
@@ -110,6 +171,9 @@ const SocietyPositions = () => {
             </Box>
           ))}
         </Box>
+         <Button variant="contained" color="success" sx={{ mt: 2 }} onClick={saveChanges}>
+           Save Changes
+         </Button>
       </Box>
       {!isSmallScreen && (
         <Box sx={{ width: "25%", padding: 2, backgroundColor: "#fff", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
@@ -120,6 +184,7 @@ const SocietyPositions = () => {
           <Typography variant="body2" sx={{ mt: 4 }}>Stay tuned for updates!</Typography>
         </Box>
       )}
+     
     </Box>
   );
 };
