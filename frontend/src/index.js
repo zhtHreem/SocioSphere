@@ -11,6 +11,7 @@ import Add from './Components/SocietyData/addSociety';
 import Society from './pages/societycataloguePage'
 import Authorization from './pages/authorization';
 import SocietyProfile from './pages/societyProfilePage';
+import AdminPage from './pages/adminpage';
 const router = createBrowserRouter([
  
   {
