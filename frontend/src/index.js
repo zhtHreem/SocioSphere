@@ -12,6 +12,7 @@ import Society from './pages/societycataloguePage'
 import Authorization from './pages/authorization';
 import SocietyProfile from './pages/societyProfilePage';
 import AdminPage from './pages/adminpage';
+import Calender from './Components/Calender/Calender';
 const router = createBrowserRouter([
  
   {
@@ -51,6 +52,9 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: <AdminPage />,
+  },{
+    path: '/c',
+    element: <Calender />,
   },
  
  
