@@ -11,6 +11,7 @@ import Add from './Components/SocietyData/addSociety';
 import Society from './pages/societycataloguePage';
 import Authorization from './pages/authorization';
 import Calender from './Components/Calender/Calender';
+import SocietyProfile from './pages/societyProfilePage';
 // Import the new testerSociety component
 import TesterSociety from './Components/Society/testersociety';
 
@@ -28,20 +29,23 @@ const router = createBrowserRouter([
     element: <Society />,
   },
   {
+    path: '/society/:id',
+    element: <SocietyProfile />,
+  },
+  {
     path: '/user',
     element: <UserProfile />,
+  },{
+    path:"/society/:societyId/create/:id",
+    element:<SocietyForm />
   },
   {
-    path: '/create',
-    element: <SocietyForm />,
+    path:"/society/:societyId/apply/:id",
+    element: <SocietyApply/>
   },
   {
-    path: '/apply',
-    element: <SocietyApply />,
-  },
-  {
-    path: '/position',
-    element: <Positions />,
+     path:"/society/:societyId/position/:id",
+     element: <Positions/>
   },
   {
     path: '/auth',
