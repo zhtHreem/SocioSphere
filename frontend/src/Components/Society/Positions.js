@@ -110,7 +110,7 @@ const SocietyPositions = () => {
       ...prevSociety,
       positions: [...prevSociety.positions, { title: newLabel, users: [] }]
     }));
-    generatePath(society.positions )
+   
     
      handleClose();
   };
