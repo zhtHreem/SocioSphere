@@ -5,6 +5,14 @@ import { createServer } from 'http'; // Import to create HTTP server
 import { Server } from 'socket.io'; // Import Socket.IO
 import societyRoutes from './src/routes/societyRoutes.js';
 import connectDB from './src/config/db.js';
+import societyRoutes from './src/routes/societyRoutes.js';
+import User from './src/routes/user.js'
+import ApplyForm from './src/routes/applyForm.js';
+import applyFormResponse from './src/routes/applyFormResponse.js';
+// Route imports
+//import authRoutes from './routes/authRoutes.js';
+
+
 
 // Load environment variables
 dotenv.config();
@@ -21,6 +29,9 @@ connectDB();
 
 // Routes
 app.use('/api/societies', societyRoutes);
+app.use('/api', User);
+app.use('/api', ApplyForm);
+app.use('/api', applyFormResponse);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

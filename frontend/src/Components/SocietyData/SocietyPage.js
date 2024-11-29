@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Grid, Card, CardMedia, CardContent, Typography, Backdrop, CircularProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SocietyPage = () => {
   const [societies, setSocieties] = useState([]);
   const [filteredSocieties, setFilteredSocieties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
     fetchSocieties();
@@ -32,33 +34,26 @@ const SocietyPage = () => {
     setFilteredSocieties(filtered);
   };
 
+  const handleCardClick = (id) => {
+    navigate(`/society/${id}`); // Navigate to SocietyProfile with ID
+  };
+
   return (
     <Container>
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
 
       {!loading && (
         <>
-          <TextField
-            label="Search Societies"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            onChange={handleSearch}
-          />
+          <TextField label="Search Societies" variant="outlined" fullWidth margin="normal" onChange={handleSearch} sx={{ marginTop: 10 }} />
           <Grid container spacing={3}>
             {filteredSocieties.map((society) => (
               <Grid item xs={12} sm={6} md={4} key={society._id}>
-                <Card
-                  sx={{
-                    transition: 'transform 0.3s, box-shadow 0.3s',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
-                    },
-                  }}
-                >
+                <Card onClick={() => handleCardClick(society._id)} sx={{ cursor: 'pointer' , marginBottom: '10px' }}>
                   <CardMedia
                     component="img"
                     height="140"

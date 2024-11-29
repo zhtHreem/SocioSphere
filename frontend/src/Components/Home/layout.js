@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Container, Paper } from '@mui/material';
 import {  Home as HomeIcon,  NotificationsActive as NotificationsIcon, Info as AboutIcon,  People as SocietiesIcon,ContactMail as ContactIcon,  Person as ProfileIcon,  Login as LoginIcon, Logout as LogoutIcon, Menu as MenuIcon} from '@mui/icons-material';
@@ -11,6 +11,25 @@ const Navbar = () => {
     setMobileOpen(!mobileOpen);
   };
 
+
+
+  // Check if there's a token in localStorage when the component mounts
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Check for the token in localStorage
+    if (token) {
+      setIsLoggedIn(true); // If token exists, user is logged in
+    } else {
+      setIsLoggedIn(false); // If no token, user is not logged in
+    }
+  }, []);
+
+   const handleLogout = () => {
+    // Remove the token from localStorage or sessionStorage
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    setIsLoggedIn(false); // Update isLoggedIn state
+    navigate('/auth'); // Optionally navigate to home or login page
+  };
   const navItems = [
     { name: 'Home', icon: <HomeIcon />, link: '/' },
     { name: 'About', icon: <AboutIcon />, link: '/about' },
@@ -36,7 +55,7 @@ const Navbar = () => {
               <ListItemIcon><ProfileIcon /></ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>
-            <ListItem onClick={() => setIsLoggedIn(false)}>
+            <ListItem onClick={handleLogout}>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
@@ -53,42 +72,42 @@ const Navbar = () => {
 
   return (
     <Box sx={{ display: 'flex',  overflow:"hidden"}}>
-      <AppBar     sx={{   background: 'linear-gradient(135deg, #ff6b6b, #4ecdc4)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden"}} >
+      <AppBar     sx={{   background: 'white',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden",position: 'relative'}} >
         <Toolbar>
           <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' } }} >
 
             <MenuIcon />
           </IconButton>
           
-          <Typography variant="h6"    component="div"  sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+          <Typography variant="h6"    component="div"  sx={{color:"black", flexGrow: 1, fontWeight: 'bold' }}>
             SocioSphere
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button  key={item.name}  color="inherit"   startIcon={item.icon}
-                sx={{   mx: 1, 
+              <Button  key={item.name}    startIcon={item.icon}
+                sx={{   mx: 1, color:"black",
                   '&:hover': { 
                     background: 'rgba(255,255,255,0.2)'   }  }}  >
                 {item.name}
               </Button>
             ))}
             
-            <IconButton color="inherit">
+            <IconButton  sx={{color:"black"}}>
               <NotificationsIcon />
             </IconButton>
 
             {isLoggedIn ? (
               <>
-                <IconButton color="inherit" onClick={() => { navigate("/user") }}>
+                <IconButton  sx={{color:"black"}} onClick={() => { navigate("/user") }}>
                   <ProfileIcon />
                 </IconButton>
-                <Button  color="inherit"   startIcon={<LogoutIcon />} onClick={() => setIsLoggedIn(false)}   >
+                <Button   sx={{color:"black"}}   startIcon={<LogoutIcon />} onClick={handleLogout}   >
                   Logout
                 </Button>
               </>
             ) : (
-              <Button    color="inherit"  startIcon={<LoginIcon />} onClick={() => {navigate("/auth");setIsLoggedIn(true)}} >   Login</Button>
+              <Button   sx={{color:"black"}}    startIcon={<LoginIcon />} onClick={() => {navigate("/auth");setIsLoggedIn(true)}} >   Login</Button>
             )}
           </Box>
         </Toolbar>
@@ -107,7 +126,7 @@ const Navbar = () => {
 
 const Footer = () => {
   return (
-    <Paper   component="footer" square   variant="outlined"   sx={{   background: 'linear-gradient(135deg, #FEC260, #F5F5DC)',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',  py: 3,  px: 2,  marginTop: 'auto', bottom: 0 ,overflow:"hidden",position:"relative",zIndex:5 }} >
+    <Paper   component="footer" square   variant="outlined"   sx={{   background: 'white',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',  py: 3,  px: 2,  marginTop: 'auto', bottom: 0 ,overflow:"hidden",position:"relative",zIndex:5 }} >
       <Container maxWidth="lg">
         <Box   sx={{    display: 'flex',    justifyContent: 'space-between',  alignItems: 'center'   }} >
           <Typography variant="body2" color="text.secondary">

@@ -1,13 +1,63 @@
 import React, { useState } from "react";
-import { Box, TextField, Stack, Paper, FormControl, Select,  MenuItem, Grid, Checkbox, FormControlLabel, Button, RadioGroup, Radio, IconButton, List, ListItem } from "@mui/material";
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { Alert,Box, TextField, Stack, Paper, FormControl, Select,  MenuItem, Grid, Checkbox, FormControlLabel, Button, RadioGroup, Radio, IconButton, List, ListItem } from "@mui/material";
 import { Delete, DragIndicator, FileCopy, Add } from "@mui/icons-material";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
+import Snackbar from '@mui/material/Snackbar';
+import axios from "axios";
 export default function FormBuilder() {
+    const { societyId } = useParams();
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
     const [formTitle, setFormTitle] = useState("Society Name");
     const [formDescription, setFormDescription] = useState("Form Description");
     const [questions, setQuestions] = useState([]);
     const [isPreviewMode, setIsPreviewMode] = useState(false);
+  
+
+
+
+       
+    const handleCreateForm = async () => {
+    try {
+        const formData = {
+            title: formTitle,
+            description: formDescription,
+            position:[],
+            questions: questions
+        };
+       // const societyId="67471c5f0207dccfc85f7281" ;
+       console.log("lla",societyId)
+        const response = await axios.post(`http://localhost:5000/api/forms/${societyId}`,formData, {
+            
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem('token')
+            },
+            
+        });
+
+        if (response.status === 201) {
+             setSnackbarMessage('Form created successfully!');
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);
+           
+        }
+    } catch (err) {
+        console.error(err);
+        setSnackbarMessage(err.response?.data?.message || 'Error creating form');
+        setSnackbarSeverity('error');
+        setOpenSnackbar(true);
+    }
+};
+ const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
 
     const handleDragEnd = (result) => {
         if (!result.destination) return;
@@ -119,6 +169,11 @@ export default function FormBuilder() {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+         <Snackbar   open={openSnackbar}   autoHideDuration={6000}  onClose={handleCloseSnackbar}    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}  >
+                <Alert   onClose={handleCloseSnackbar}  severity={snackbarSeverity}  sx={{ width: '100%' }}    >
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
             <Box p={4} sx={{ backgroundColor: "#f0f0f0", width: '100%', mb: 4 }}>
                 <Stack px={4} direction="row" justifyContent="space-between" alignItems="center">
                     <TextField value={formTitle} onChange={(e) => setFormTitle(e.target.value)} variant="standard" fullWidth placeholder="Form Title" InputProps={{ readOnly: isPreviewMode }} />
@@ -133,6 +188,7 @@ export default function FormBuilder() {
                 <Paper elevation={3} sx={{ width: "50%", padding: 3, mb: 2 }}>
                     <TextField value={formDescription} onChange={(e) => setFormDescription(e.target.value)} label="Form Description" variant="standard" fullWidth InputProps={{ readOnly: isPreviewMode }} />
                 </Paper>
+
 
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="questions-list">
@@ -177,7 +233,7 @@ export default function FormBuilder() {
                         )}
                     </Droppable>
                 </DragDropContext>
-                                <Button variant="contained" size="large" sx={{ backgroundColor: "#3A6351", mt: 4, mb: 4, '&:hover': { backgroundColor: "#2C4F3B" } }} >Create</Button>
+                                <Button variant="contained" size="large" onClick={handleCreateForm}sx={{ backgroundColor: "#3A6351", mt: 4, mb: 4, '&:hover': { backgroundColor: "#2C4F3B" } }} >Create</Button>
 
             </Box>
         </Box>
