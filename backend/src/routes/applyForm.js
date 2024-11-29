@@ -9,13 +9,18 @@ const router = express.Router();
 
 
 // Create a new form
-router.post('/forms', authMiddleware, async (req, res) => {
+router.post('/forms/:societyId', authMiddleware, async (req, res) => {
     try {
+        console.log(req.params.societyId)
         const { title, description,position, questions } = req.body;
+        const society=req.params.societyId
+                console.log(society)
+
         console.log(req.body)
         console.log("user",req.user.id)
         // Create new form with the userId from the JWT
         const form = new ApplyForm({
+            societyId:society,
             title,
             description,
             position,
@@ -38,7 +43,9 @@ router.get('/forms/:id', authMiddleware, async (req, res) => {
         console.log('Request Parameters:', req.params);
     console.log('Authenticated User:', req.user);
         console.log("lalal")
-        const form = await ApplyForm.findById(req.params.id);
+       const  id  = req.params.id; // Society ID
+
+        const form = await ApplyForm.findOne({ societyId: id }).sort({ createdAt: -1 });
         console.log('form', form);
         if (!form) {
             return res.status(404).json({ message: "Form not found" });

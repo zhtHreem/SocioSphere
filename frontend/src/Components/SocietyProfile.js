@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, Box } from '@mui/material';
 import axios from 'axios';
 import EventCreationDialog from './EventCreation';
 
 const SocietyProfile = () => {
+  const navigate=useNavigate()
   const { id } = useParams();
   const [society, setSociety] = useState({});
   const [events, setEvents] = useState([]);
@@ -59,11 +61,14 @@ const SocietyProfile = () => {
             {society.description}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginTop: 3 }}>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={()=>navigate(`apply/${id}`)}>
               Apply for Membership
             </Button>
-            <Button variant="outlined" color="secondary">
-              RSVP for Events
+            <Button variant="outlined" color="secondary" onClick={()=>navigate(`create/${id}`)}>
+              Create Apply Form
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={()=>navigate(`position/${id}`)}>
+              Positions
             </Button>
         <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
           Create Event

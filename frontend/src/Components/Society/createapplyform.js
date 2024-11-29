@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Alert,Box, TextField, Stack, Paper, FormControl, Select,  InputLabel,  MenuItem, Grid, Checkbox, FormControlLabel, Button, RadioGroup, Radio, IconButton, List, ListItem } from "@mui/material";
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { Alert,Box, TextField, Stack, Paper, FormControl, Select,  MenuItem, Grid, Checkbox, FormControlLabel, Button, RadioGroup, Radio, IconButton, List, ListItem } from "@mui/material";
 import { Delete, DragIndicator, FileCopy, Add } from "@mui/icons-material";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import axios from "axios";
 export default function FormBuilder() {
+    const { societyId } = useParams();
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -12,7 +15,7 @@ export default function FormBuilder() {
     const [formDescription, setFormDescription] = useState("Form Description");
     const [questions, setQuestions] = useState([]);
     const [isPreviewMode, setIsPreviewMode] = useState(false);
-    const [position, setPosition] = useState("");
+  
 
 
 
@@ -22,11 +25,12 @@ export default function FormBuilder() {
         const formData = {
             title: formTitle,
             description: formDescription,
-            position,
+            position:[],
             questions: questions
         };
-        const societyId="67471c5f0207dccfc85f7281" ;
-        const response = await axios.post(`http://localhost:5000/api/forms`,formData, {
+       // const societyId="67471c5f0207dccfc85f7281" ;
+       console.log("lla",societyId)
+        const response = await axios.post(`http://localhost:5000/api/forms/${societyId}`,formData, {
             
             headers: {
                 'Content-Type': 'application/json',
@@ -185,16 +189,6 @@ export default function FormBuilder() {
                     <TextField value={formDescription} onChange={(e) => setFormDescription(e.target.value)} label="Form Description" variant="standard" fullWidth InputProps={{ readOnly: isPreviewMode }} />
                 </Paper>
 
-                <FormControl style={{ marginTop: 0, marginBottom: 0 }} fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Position</InputLabel>
-                <Select label="Position" value={position} onChange={(e) => setPosition(e.target.value)}>
-                  <MenuItem value="Finance Department">Finance Department</MenuItem>
-                  <MenuItem value="Operational Department">Operational Department</MenuItem>
-                  <MenuItem value="Marketing Department">Marketing Department</MenuItem>
-                  <MenuItem value="HR Department">HR Department</MenuItem>
-                  <MenuItem value="IT Department">IT Department</MenuItem>
-                </Select>
-              </FormControl>
 
                 <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="questions-list">
