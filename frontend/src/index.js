@@ -28,15 +28,15 @@ const router = createBrowserRouter([
     element:<UserProfile/>
   },
   {
-    path:"/create",
+    path:"/society/:societyId/create/:id",
     element:<SocietyForm />
   },
   {
-    path:"/apply",
+    path:"/society/:societyId/apply/:id",
     element:<SocietyApply/>
   },
   {
-     path:"/position",
+     path:"/society/:societyId/position/:id",
      element:<Positions/>
   },
   
@@ -46,6 +46,10 @@ const router = createBrowserRouter([
   },{
     path: '/society/:id',
     element: <SocietyProfile />,
+  },
+  {
+    path: '/admin',
+    element: <AdminPage />,
   },
  
  

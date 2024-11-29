@@ -9,9 +9,15 @@ const questionSchema = new mongoose.Schema({
 });
 
 const formSchema = new mongoose.Schema({
+    societyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Society',required: true  }, // Reference to Event model
     title: String,
     description: String,
-    position: { type: String, default: "" },
+    positions: [
+    {
+      title: { type: String, required: true }, // Position name (e.g., "President", "Officer")
+      users: [{type:String}]// type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Array of users holding the position
+    },
+  ],
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },  // Reference to the user
     questions: [questionSchema],
     createdAt: { type: Date, default: Date.now },
