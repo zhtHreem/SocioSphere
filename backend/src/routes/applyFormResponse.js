@@ -6,12 +6,14 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // Submit a form response
-router.post('/responses', authMiddleware, async (req, res) => {
+router.post('/responses/:societyId', authMiddleware, async (req, res) => {
     try {
-        const { formId,position, responses } = req.body;
+        const id=req.params.societyId
+        const { position, responses } = req.body;
 
         // Validate that the form exists
-        const form = await ApplyForm.findById(formId);
+         const form = await ApplyForm.findOne({ societyId: id }).sort({ createdAt: -1 });
+         console.log("S",form)
         if (!form) {
             return res.status(404).json({ message: "Form not found" });
         }
@@ -55,7 +57,8 @@ router.post('/responses', authMiddleware, async (req, res) => {
 
         // Create new form response
         const formResponse = new FormResponse({
-            formId,
+            formId: form._id,
+            societyId:id,
             position,
             userId: req.user.id,
             responses: validatedResponses

@@ -6,6 +6,8 @@ const responseSchema = new mongoose.Schema({
         ref: 'ApplyForm', 
         required: true 
     },
+    societyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Society',required: true  }, // Reference to Event model
+
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User', 
