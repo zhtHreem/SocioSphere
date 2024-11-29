@@ -1,27 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, TextField, Button, DialogActions, Snackbar } from '@mui/material';
 import axios from 'axios';
 
-const EventCreation = ({ open, onClose, societyId, onEventCreated }) => {
+const EventCreation = ({ open, onClose, societyId, eventToEdit, onEventUpdated }) => {
   const [formData, setFormData] = useState({ title: '', date: '', description: '', image: '' });
   const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  // Pre-fill form when editing an event
+  useEffect(() => {
+    if (eventToEdit) {
+      setFormData({
+        title: eventToEdit.title || '',
+        date: eventToEdit.date || '',
+        description: eventToEdit.description || '',
+        image: eventToEdit.image || '',
+      });
+    } else {
+      setFormData({ title: '', date: '', description: '', image: '' });
+    }
+  }, [eventToEdit]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCreateEvent = async (e) => {
+  const handleSubmit = async () => {
     try {
-      e.preventDefault();
-      const response = await axios.post(`http://localhost:5000/api/societies/${societyId}/events`, formData);
-      onEventCreated(response.data);
+      if (eventToEdit) {
+        // Update existing event
+        await axios.put(`http://localhost:5000/api/societies/${societyId}/events/${eventToEdit._id}`, formData);
+        onEventUpdated(formData);
+      } else {
+        // Create new event
+        const data = new FormData();
+        data.append('title', formData.title);
+        data.append('date', formData.date);
+        data.append('description', formData.description);
+        data.append('image', formData.image);
 
-      // Reset form and show success snackbar
-      setFormData({ title: '', date: '', description: '', image: '' });
+        const response = await axios.post(`http://localhost:5000/api/societies/${societyId}/events`, data);
+        onEventUpdated(response.data);
+      }
+
       setOpenSnackbar(true);
+      setFormData({ title: '', date: '', description: '', image: '' });
       onClose();
     } catch (error) {
-      console.error('Error creating event:', error.response?.data || error.message);
+      console.error('Error saving event:', error.response?.data || error.message);
     }
   };
 
@@ -33,7 +58,7 @@ const EventCreation = ({ open, onClose, societyId, onEventCreated }) => {
   return (
     <>
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>Create Event</DialogTitle>
+        <DialogTitle>{eventToEdit ? 'Edit Event' : 'Create Event'}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -75,8 +100,8 @@ const EventCreation = ({ open, onClose, societyId, onEventCreated }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Cancel</Button>
-          <Button onClick={handleCreateEvent} variant="contained" color="primary">
-            Create
+          <Button onClick={handleSubmit} variant="contained" color="primary">
+            {eventToEdit ? 'Update' : 'Create'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -86,7 +111,7 @@ const EventCreation = ({ open, onClose, societyId, onEventCreated }) => {
         open={openSnackbar}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        message="Event created successfully!"
+        message={eventToEdit ? 'Event updated successfully!' : 'Event created successfully!'}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       />
     </>

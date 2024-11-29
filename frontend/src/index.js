@@ -7,10 +7,10 @@ import { UserProfile } from './pages/userprofile';
 import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
-import Add from './Components/addSociety';
-import Society from './Components/SocietyPage'
+import Add from './Components/SocietyData/addSociety';
+import Society from './pages/societycataloguePage'
 import Authorization from './pages/authorization';
-import SocietyProfile from './Components/SocietyProfile';
+import SocietyProfile from './pages/societyProfilePage';
 const router = createBrowserRouter([
  
   {

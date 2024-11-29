@@ -67,4 +67,22 @@ router.get('/:id/events', async (req, res) => {
     res.status(500).json({ message: 'Error fetching events', error });
   }
 });
+router.put('/:id/events/:eventId', async (req, res) => {
+  const { title, date, description, image } = req.body;
+  try {
+    const event = await Event.findByIdAndUpdate(
+      req.params.eventId,
+      { title, date, description, image },
+      { new: true } // Return the updated document
+    );
+    
+    if (!event) return res.status(404).json({ message: 'Event not found' });
+
+    res.status(200).json(event);
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({ message: 'Error updating event', error });
+  }
+});
+
 export default router;

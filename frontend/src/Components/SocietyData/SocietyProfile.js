@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, Box } from '@mui/material';
+import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, Box, CardActions } from '@mui/material';
 import axios from 'axios';
 import EventCreationDialog from './EventCreation';
 
@@ -9,6 +9,7 @@ const SocietyProfile = () => {
   const [society, setSociety] = useState({});
   const [events, setEvents] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null); // Track the event being edited
 
   useEffect(() => {
     console.log('Society ID from URL:', id);
@@ -36,20 +37,38 @@ const SocietyProfile = () => {
     }
   };
 
+  // Handle opening the dialog for creating or editing an event
+  const handleOpenDialog = (event = null) => {
+    setSelectedEvent(event);
+    setDialogOpen(true);
+  };
+
+  // Handle closing the dialog
+  const handleCloseDialog = () => {
+    setSelectedEvent(null);
+    setDialogOpen(false);
+  };
+  
+
+  // Handle event creation or update
   const handleEventCreated = (newEvent) => {
     setEvents((prevEvents) => [...prevEvents, newEvent]); // Add the new event to the list
   };
+
+  const handleEventUpdated = (updatedEvent) => {
+    setEvents((prevEvents) =>
+      prevEvents.map((event) => (event._id === updatedEvent._id ? updatedEvent : event))
+    );
+  };
+  
+
 
   return (
     <Container>
       {/* Society Header */}
       <Grid container spacing={3} alignItems="center" sx={{ marginTop: 4 }}>
         <Grid item xs={12} sm={3} display="flex" justifyContent="center">
-          <Avatar
-            alt={society.name}
-            src={society.image}
-            sx={{ width: 150, height: 150 }}
-          />
+          <Avatar alt={society.name} src={society.image} sx={{ width: 150, height: 150 }} />
         </Grid>
         <Grid item xs={12} sm={9}>
           <Typography variant="h4" gutterBottom sx={{ marginTop: 6, textAlign: 'center' }}>
@@ -65,36 +84,34 @@ const SocietyProfile = () => {
             <Button variant="outlined" color="secondary">
               RSVP for Events
             </Button>
-        <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
-          Create Event
-        </Button>
-        </Box>
+            <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
+              Create Event
+            </Button>
+          </Box>
         </Grid>
-        </Grid>
+      </Grid>
 
+      {/* Event Creation/Edit Dialog */}
       <EventCreationDialog
         open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
+        onClose={handleCloseDialog}
         societyId={id}
+        eventToEdit={selectedEvent} // Pass the selected event for editing
         onEventCreated={handleEventCreated}
+        onEventUpdated={handleEventUpdated}
       />
 
       {/* Events Section */}
       <Typography variant="h5" sx={{ textAlign: 'center', marginTop: '40px' }}>
         Upcoming Events
       </Typography>
-      
-      <Grid container spacing={4} sx={{ marginTop: '20px' }}>
+
+      <Grid container spacing={4} sx={{ marginTop: '15px', marginBottom: '15px'}}>
         {events.length ? (
           events.map((event) => (
             <Grid item key={event._id} xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={event.image}
-                  alt={event.title}
-                />
+                <CardMedia component="img" height="140" image={event.image} alt={event.title} />
                 <CardContent>
                   <Typography gutterBottom variant="h6" component="div">
                     {event.title}
@@ -106,6 +123,11 @@ const SocietyProfile = () => {
                     {event.description}
                   </Typography>
                 </CardContent>
+                <CardActions>
+                  <Button size="small" color="primary" onClick={() => handleOpenDialog(event)}>
+                    Edit
+                  </Button>
+                </CardActions>
               </Card>
             </Grid>
           ))

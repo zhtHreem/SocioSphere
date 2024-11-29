@@ -49,17 +49,11 @@ const SocietyPage = () => {
 
       {!loading && (
         <>
-          <TextField
-            label="Search Societies"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            onChange={handleSearch}
-          />
+          <TextField label="Search Societies" variant="outlined" fullWidth margin="normal" onChange={handleSearch} sx={{ marginTop: 10 }} />
           <Grid container spacing={3}>
             {filteredSocieties.map((society) => (
               <Grid item xs={12} sm={6} md={4} key={society._id}>
-                <Card onClick={() => handleCardClick(society._id)} sx={{ cursor: 'pointer' }}>
+                <Card onClick={() => handleCardClick(society._id)} sx={{ cursor: 'pointer' , marginBottom: '10px' }}>
                   <CardMedia
                     component="img"
                     height="140"
