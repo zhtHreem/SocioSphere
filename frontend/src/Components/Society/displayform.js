@@ -100,11 +100,15 @@ const FormDetailsModal = ({
             Applicant: {formData.userId?.username || 'Unknown User'}
           </Typography>
           <Typography variant="body2">
+            Position: {formData.position || 'Unknown position'}
+          </Typography>
+          <Typography variant="body2">
             Submitted on: {new Date(formData.submittedAt).toLocaleString()}
           </Typography>
           <Typography variant="body2">
             Current Status: {status}
           </Typography>
+           
         </Box>
 
         {/* Form Responses */}
