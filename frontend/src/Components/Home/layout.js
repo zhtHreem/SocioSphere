@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Container, Paper } from '@mui/material';
 import {  Home as HomeIcon,  NotificationsActive as NotificationsIcon, Info as AboutIcon,  People as SocietiesIcon,ContactMail as ContactIcon,  Person as ProfileIcon,  Login as LoginIcon, Logout as LogoutIcon, Menu as MenuIcon} from '@mui/icons-material';
@@ -11,6 +11,25 @@ const Navbar = () => {
     setMobileOpen(!mobileOpen);
   };
 
+
+
+  // Check if there's a token in localStorage when the component mounts
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Check for the token in localStorage
+    if (token) {
+      setIsLoggedIn(true); // If token exists, user is logged in
+    } else {
+      setIsLoggedIn(false); // If no token, user is not logged in
+    }
+  }, []);
+
+   const handleLogout = () => {
+    // Remove the token from localStorage or sessionStorage
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    setIsLoggedIn(false); // Update isLoggedIn state
+    navigate('/auth'); // Optionally navigate to home or login page
+  };
   const navItems = [
     { name: 'Home', icon: <HomeIcon />, link: '/' },
     { name: 'About', icon: <AboutIcon />, link: '/about' },
@@ -36,7 +55,7 @@ const Navbar = () => {
               <ListItemIcon><ProfileIcon /></ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>
-            <ListItem onClick={() => setIsLoggedIn(false)}>
+            <ListItem onClick={handleLogout}>
               <ListItemIcon><LogoutIcon /></ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
@@ -53,7 +72,7 @@ const Navbar = () => {
 
   return (
     <Box sx={{ display: 'flex',  overflow:"hidden"}}>
-      <AppBar     sx={{   background: 'white',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden"}} >
+      <AppBar     sx={{   background: 'white',    boxShadow: '0 4px 6px rgba(0,0,0,0.1)' ,overflow:"hidden",position: 'relative'}} >
         <Toolbar>
           <IconButton color="inherit" aria-label="open drawer" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { sm: 'none' } }} >
 
@@ -83,7 +102,7 @@ const Navbar = () => {
                 <IconButton  sx={{color:"black"}} onClick={() => { navigate("/user") }}>
                   <ProfileIcon />
                 </IconButton>
-                <Button   sx={{color:"black"}}   startIcon={<LogoutIcon />} onClick={() => setIsLoggedIn(false)}   >
+                <Button   sx={{color:"black"}}   startIcon={<LogoutIcon />} onClick={handleLogout}   >
                   Logout
                 </Button>
               </>

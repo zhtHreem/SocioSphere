@@ -21,7 +21,12 @@ function Admin() {
     useEffect(() => {
         const fetchSocieties = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/societies/allsocietyresponses');
+                const response = await axios.get('http://localhost:5000/api/societies/allsocietyresponses', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('token') // Get the token from local storage
+        }
+      });
                 
                 if (response.data.length > 0) {
                     console.log("Fetched Societies:", response.data);
