@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider ,createBrowserRouter} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import { UserProfile } from './pages/userprofile';
@@ -8,57 +8,52 @@ import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
 import Add from './Components/addSociety';
-import Society from './Components/SocietyPage'
+import Society from './Components/SocietyPage';
 import Authorization from './pages/authorization';
+
+// Import the new testerSociety component
+import TesterSociety from './Components/Society/testersociety';
+
 const router = createBrowserRouter([
- 
   {
-    path:"/",
-    element:<App/>
-  },{
-    path:"/add",
-    element:<Add/>
-  },{
-    path:"/society",
-    element:<Society/>
+    path: '/', // Default route
+    element: <TesterSociety />, // Set TesterSociety as the landing page
   },
   {
-    path:"/user",
-    element:<UserProfile/>
+    path: '/add',
+    element: <Add />,
   },
   {
-    path:"/create",
-    element:<SocietyForm />
+    path: '/society',
+    element: <Society />,
   },
   {
-    path:"/apply",
-    element:<SocietyApply/>
+    path: '/user',
+    element: <UserProfile />,
   },
   {
-     path:"/position",
-     element:<Positions/>
+    path: '/create',
+    element: <SocietyForm />,
   },
-  
   {
-     path:"/auth",
-     element:<Authorization/>
-  }
- 
- 
-
-
-
-])
-
-
-
-
+    path: '/apply',
+    element: <SocietyApply />,
+  },
+  {
+    path: '/position',
+    element: <Positions />,
+  },
+  {
+    path: '/auth',
+    element: <Authorization />,
+  },
+  {
+    path: '/tester-society', // Explicit path for TesterSociety
+    element: <TesterSociety />,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
-   
-    <RouterProvider router={router}/>
- 
-  
+  <RouterProvider router={router} />
 );

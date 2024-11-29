@@ -26,6 +26,7 @@
     "react-toastify": "^10.0.6",
     "redux": "^5.0.1",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.14.5",
     "swiper": "^11.1.15",
     "three": "^0.170.0",
