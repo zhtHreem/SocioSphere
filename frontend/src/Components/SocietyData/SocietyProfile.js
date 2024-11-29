@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, Box } from '@mui/material';
+import { Container, Typography, Button, Avatar, Grid, Card, CardContent,CardActions, CardMedia, Box } from '@mui/material';
 import axios from 'axios';
 import EventCreationDialog from './EventCreation';
 
