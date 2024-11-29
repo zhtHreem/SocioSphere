@@ -13,7 +13,6 @@ import Authorization from './pages/authorization';
 import Calender from './Components/Calender/Calender';
 // Import the new testerSociety component
 import TesterSociety from './Components/Society/testersociety';
-import Calender from './Components/Calender/Calender';
 
 const router = createBrowserRouter([
   {
