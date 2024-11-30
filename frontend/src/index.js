@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider ,createBrowserRouter} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import { UserProfile } from './pages/userprofile';
@@ -8,66 +8,60 @@ import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
 import Add from './Components/SocietyData/addSociety';
-import Society from './pages/societycataloguePage'
+import Society from './pages/societycataloguePage';
 import Authorization from './pages/authorization';
+import Calender from './Components/Calender/Calender';
 import SocietyProfile from './pages/societyProfilePage';
-import AdminPage from './pages/adminpage';
+// Import the new testerSociety component
+import TesterSociety from './Components/Society/testersociety';
+
 const router = createBrowserRouter([
- 
   {
-    path:"/",
-    element:<App/>
-  },{
-    path:"/add",
-    element:<Add/>
-  },{
-    path:"/society",
-    element:<Society/>
+    path: '/', // Default route
+    element: <TesterSociety />, // Set TesterSociety as the landing page
   },
   {
-    path:"/user",
-    element:<UserProfile/>
+    path: '/add',
+    element: <Add />,
   },
   {
+    path: '/society',
+    element: <Society />,
+  },
+  {
+    path: '/society/:id',
+    element: <SocietyProfile />,
+  },
+  {
+    path: '/user',
+    element: <UserProfile />,
+  },{
     path:"/society/:societyId/create/:id",
     element:<SocietyForm />
   },
   {
     path:"/society/:societyId/apply/:id",
-    element:<SocietyApply/>
+    element: <SocietyApply/>
   },
   {
      path:"/society/:societyId/position/:id",
-     element:<Positions/>
-  },
-  
-  {
-     path:"/auth",
-     element:<Authorization/>
-  },{
-    path: '/society/:id',
-    element: <SocietyProfile />,
+     element: <Positions/>
   },
   {
-    path: '/admin',
-    element: <AdminPage />,
+    path: '/auth',
+    element: <Authorization />,
   },
- 
- 
-
-
-
-])
-
-
-
-
+  {
+    path: '/c',
+    element: <Calender />,
+  },
+  {
+    path: '/tester-society', // Explicit path for TesterSociety
+    element: <TesterSociety />,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
-   
-    <RouterProvider router={router}/>
- 
-  
+  <RouterProvider router={router} />
 );
