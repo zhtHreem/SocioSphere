@@ -12,13 +12,12 @@ import Society from './pages/societycataloguePage';
 import Authorization from './pages/authorization';
 import Calender from './Components/Calender/Calender';
 import SocietyProfile from './pages/societyProfilePage';
-// Import the new testerSociety component
 import TesterSociety from './Components/Society/testersociety';
-
+import AdminPage from './pages/adminpage';
 const router = createBrowserRouter([
   {
-    path: '/', // Default route
-    element: <TesterSociety />, // Set TesterSociety as the landing page
+    path: '/', 
+    element: <App />, 
   },
   {
     path: '/add',
@@ -56,8 +55,8 @@ const router = createBrowserRouter([
     element: <Calender />,
   },
   {
-    path: '/tester-society', // Explicit path for TesterSociety
-    element: <TesterSociety />,
+    path: '/admin', // Explicit path for TesterSociety
+    element: <AdminPage />,
   },
 ]);
 
