@@ -118,29 +118,40 @@ router.get('/responses/:responseId', authMiddleware, async (req, res) => {
     }
 });
 
-// Update response status (e.g., accept/reject) - for form creator
-router.patch('/responses/:responseId/status', authMiddleware, async (req, res) => {
-    try {
-        const { status } = req.body;
 
-        const response = await FormResponse.findById(req.params.responseId);
-        if (!response) {
-            return res.status(404).json({ message: "Response not found" });
-        }
+// Update positions for a specific society
+router.put('/forms/disapprove/:id', authMiddleware, async (req, res) => {
+  const { id } = req.params; // Form ID
+  const { societyId, userId, status, position } = req.body; 
+  
+  try {
 
-        // Verify that the requester is the form creator
-        const form = await ApplyForm.findById(response.formId);
-        if (form.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: "Access denied" });
-        }
+    
 
-        response.status = status;
-        await response.save();
 
-        res.status(200).json(response);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+      // Find and update the form in formResponses
+    const formToUpdate = await FormResponse.findById(id);
+    if (!formToUpdate) {
+      return res.status(404).json({ error: 'Form not found' });
     }
+
+    // Update the status of the form
+    formToUpdate.status = status ; 
+    await formToUpdate.save();
+     console.log(formToUpdate)
+    
+   
+    
+    res.status(200).json({formToUpdate, message: 'Form is dissapproved' });
+
+  } catch (error) {
+    res.status(500).json({ 
+      error: 'Failed to dissapproved', 
+      message: 'Failed to dissapproved', 
+
+      details: error.message 
+    });
+  }
 });
 
 export default router;

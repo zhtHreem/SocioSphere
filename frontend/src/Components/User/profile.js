@@ -198,7 +198,17 @@ function User(){
                                                     {form.userId?.username || 'Unknown User'}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary">
-                                                    Status: {form.status}
+                                                    Status: {""}
+                                                    <span
+                                                  style={{
+                                                          color: (() => {
+                                                          if (form.status === "Accepted") return "green";
+                                                          if (form.status === "Rejected") return "red";
+                                                          if (form.status === "Under Review" || form.status === "Submitted") return "orange";
+                                                           return "inherit"; // Default color
+                                                             })(), }}>
+                                                 {form.status === "Submitted" ? "Under Review" : form.status}
+                                                     </span>
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary">
                                                     Date: {new Date(form.submittedAt).toLocaleDateString()}

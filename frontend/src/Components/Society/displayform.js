@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { 
   Dialog, 
   DialogTitle, 
@@ -17,13 +17,16 @@ const FormDetailsModal = ({
   formData, 
   societyId, 
   userId ,
-  positions 
+  positions ,
 }) => {
   const [status, setStatus] = useState(formData.status);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
+    useEffect(() => {
+    setStatus(formData.status); // Update the status if formData changes
+  }, [formData.status]);
   const handleApprove = async () => {
     try {
      const response = await axios.put(
@@ -31,7 +34,7 @@ const FormDetailsModal = ({
         {
           societyId,
           userId,
-          status: 'Approved',
+          status: 'Accepted',
           position: positions,
         },
         {
@@ -42,7 +45,7 @@ const FormDetailsModal = ({
         }
     );
 
-      setStatus('Approved');
+      setStatus('Accepted');
       // Optional: show success message
        if (response.status === 200 || response.status === 201) {
              setSnackbarMessage('User added successfully!');
@@ -56,19 +59,30 @@ const FormDetailsModal = ({
         setSnackbarSeverity('error');
         setOpenSnackbar(true);
       // Optional: show error message
-    }
+    }       
+
   };
 
   const handleDisapprove = async () => {
     try {
-      // Update form status to disapproved
-      const response = await axios.put(`http://localhost:5000/api/forms/${formData._id}/disapprove`, {
-        societyId,
-        userId: userId._id,
-        status: 'Disapproved'
-      });
+     const response = await axios.put(
+        `http://localhost:5000/api/forms/disapprove/${formData._id}`,
+        {
+          societyId,
+          userId,
+          status: 'Rejected',
+          position: positions,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('token'), // Ensure this is correctly placed
+          },
+        }
+    );
 
-      setStatus('Disapproved');
+
+      setStatus('Rejected');
       // Optional: show success message
       console.log('Form disapproved:', response.data);
     } catch (error) {
@@ -106,7 +120,17 @@ const FormDetailsModal = ({
             Submitted on: {new Date(formData.submittedAt).toLocaleString()}
           </Typography>
           <Typography variant="body2">
-            Current Status: {status}
+            Current Status:
+           <span
+                style={{
+                     color: (() => {
+                        if (status === "Accepted") return "green";
+                        if (status === "Rejected") return "red";
+                        if (status === "Under Review" || status === "Submitted") return "orange";
+                         return "inherit"; // Default color
+                      })(), }}>
+                {status === "Submitted" ? "Under Review" : status}
+             </span>
           </Typography>
            
         </Box>

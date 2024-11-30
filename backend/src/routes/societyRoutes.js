@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 });
 
 // Fetch all societies (GET request)
-router.get('/allsocietyresponses', async (req, res) => {
+router.get('/allsocietyresponses',authMiddleware, async (req, res) => {
   try {
     // Step 1: Fetch all societies
     const societies = await Society.find();
@@ -119,6 +119,16 @@ router.put('/forms/approve/:id', authMiddleware, async (req, res) => {
     }
 
 
+      // Find and update the form in formResponses
+    const formToUpdate = await FormResponse.findById(id);
+    if (!formToUpdate) {
+      return res.status(404).json({ error: 'Form not found' });
+    }
+
+    // Update the status of the form
+    formToUpdate.status = status ; // Default to 'Under Review' if no status provided
+    await formToUpdate.save();
+     console.log(formToUpdate)
     // Save the updated society
     await society.save();
    
