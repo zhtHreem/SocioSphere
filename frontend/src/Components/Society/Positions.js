@@ -3,13 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Avatar,Alert, Box, Typography, Chip,Modal,  Button, useMediaQuery ,TextField} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import CakeIcon from "@mui/icons-material/Cake";
+import DiamondIcon from '@mui/icons-material/Diamond';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonIcon from '@mui/icons-material/Person';
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
+import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
-
+import { Star } from "@mui/icons-material";
 
 
 const SocietyPositions = () => {
@@ -28,14 +31,14 @@ const SocietyPositions = () => {
     { id: 5, label: "Officer", users: [{ name: "Aisha" }, { name: "Bilal" }] },
   ]);
 
+  const token = localStorage.getItem('token');
+  const { role } = jwtDecode(token);
+    console.log("role",role)
+
   // State to track which avatars are showing their names
   const [revealedUsers, setRevealedUsers] = useState({});
 
   const isSmallScreen = useMediaQuery("(max-width:600px)");
-
-
-
-
 
 
   // Fetch society and positions
@@ -172,14 +175,11 @@ if (!society || !society.positions) {
 
 
 
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2, px: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><FavoriteIcon color="error" /><Typography>35</Typography></Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><Typography>68 / 100</Typography></Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}><MonetizationOnIcon color="primary" /><Typography>$2.5M</Typography></Box>
-        </Box>
-        <Button variant="contained" color="primary" sx={{ mb: 2, zIndex: 10 }} onClick={handleOpen}>Add New Level</Button>
+        
+       {role === "admin" && ( <Button variant="contained" color="primary" sx={{ mb: 2, zIndex: 10 }} onClick={handleOpen}>Add New Level</Button>)}
+        
          <Modal open={open} onClose={handleClose}>
-        <Box   sx={{  position: "absolute", top: "50%", left: "50%",  transform: "translate(-50%, -50%)",  width: 300,  bgcolor: "background.paper",     boxShadow: 24,p: 4,  borderRadius: 2, }} >
+         <Box   sx={{  position: "absolute", top: "50%", left: "50%",  transform: "translate(-50%, -50%)",  width: 300,  bgcolor: "background.paper",     boxShadow: 24,p: 4,  borderRadius: 2, }} >
           <h2>Add a New Position</h2>
           <TextField label="Level Name"  value={newLabel} onChange={(e) => setNewLabel(e.target.value)} fullWidth  margin="normal"   />
           <Button  variant="contained"color="success"  onClick={addLevel} fullWidth>  Add </Button>
@@ -193,21 +193,23 @@ if (!society || !society.positions) {
           {society?.positions?.map((position, index) => (
             <Box   key={position._id} sx={{   position: "absolute",  top: `${index * 150}px`,   left: `${Math.sin(index) * (isSmallScreen ? 50 : 150) + 140}px`, display: "flex",   alignItems: "center",  gap: 2   }} >
               <Chip label={position.title} size="small" color="secondary" />
-              {index === 0 && <CakeIcon sx={{ color: "purple" }} />}
-              {index === 1 && <VideocamIcon sx={{ color: "blue" }} />}
-              {index === 2 && <FavoriteIcon sx={{ color: "red" }} />}
-                            <Button variant="outlined" color="error" onClick={() => deleteLevel(position._id)} sx={{ mt: 1 }}>Delete Level</Button>
+              {index === 0 && <DiamondIcon sx={{ color: "purple" }} />}
+              {index === 1 && <WorkspacePremiumIcon sx={{ color: "orange" }} />}
+              {index === 2 && <Star sx={{ color: "blue" }} />}
+              {index === 3 && <StarHalfIcon sx={{ color: "red" }} />}
+              
+                          {role === "admin" && (  <Button variant="outlined" color="error" onClick={() => deleteLevel(position._id)} sx={{ mt: 1 }}>Delete Level</Button>)}
 
               {/* Display avatars with toggle for username */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 {position.users.map((user, userIndex) => (
                   <Box  key={userIndex} sx={{  display: "flex",  flexDirection: "column",  alignItems: "center",     position: "relative"   }} >
-                    <Avatar  alt={user}  src={<PersonIcon/>} 
-                      sx={{  width: 30, height: 30, cursor: "pointer"  }} 
-                      onClick={() => toggleUserNameVisibility(position._id, user)}
-                      onMouseEnter={() => toggleUserNameVisibility(position._id, user)}
-                      onMouseLeave={() => toggleUserNameVisibility(position._id, user)}  />
-                    {revealedUsers[`${index}-${user}`] && (
+                  <Avatar sx={{  width: 30, height: 30,  cursor: "pointer",  bgcolor: "primary.main",  }}
+                      onClick={() => toggleUserNameVisibility(position._id, user)} onMouseEnter={() => toggleUserNameVisibility(position._id, user)} onMouseLeave={() => toggleUserNameVisibility(position._id, user)}>
+                      <PersonIcon style={{ color: "white" }} /> {/* Adjust icon color if needed */}
+                  </Avatar>
+
+                    {revealedUsers[`${index}-${user }`] && (
                       <Typography variant="body2" sx={{    position: "absolute",  top: "-25px",  backgroundColor: "rgba(0,0,0,0.7)",    color: "white",  padding: "2px 5px",  borderRadius: "4px",  fontSize: "0.7rem"  }}   >
                         {user}
                       </Typography>
@@ -218,9 +220,9 @@ if (!society || !society.positions) {
             </Box>
           ))}
         </Box>
-         <Button variant="contained" color="success" sx={{ mt: 2 }} onClick={saveChanges}>
+         {role === "admin" && (<Button variant="contained" color="success" sx={{ mt: 2 }} onClick={saveChanges}>
            Save Changes
-         </Button>
+         </Button>)}
       </Box>
       {!isSmallScreen && (
         <Box sx={{ width: "25%", padding: 2, backgroundColor: "#fff", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
