@@ -105,7 +105,7 @@ function User(){
     dots: true, // Show dots for navigation
     infinite: true, // Infinite scrolling
     speed: 500, // Speed of transition
-    slidesToShow: 4, // Number of items to show at once 
+    slidesToShow: 3, // Number of items to show at once 
     slidesToScroll: 1, // Number of items to scroll at once
     centerMode: true,
     centerPadding: '60px',
@@ -153,22 +153,17 @@ function User(){
 
                      
                      <AccordionDetails sx={{backgroundColor:"#393646",p:5}}>
-                     <Slider {...settings}> 
-                      {userSocieties.map((society,index)=>(
-                         <div key={index}>
-                                <Card elevation={20} >
-                                     <CardHeader>
-
-                                     </CardHeader>
-                                     <CardContent>
-                                           <Typography gutterBottom variant="h5" component="div">{society.societyName} </Typography>
-                                           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{society.positionTitle} </Typography>
-      
-                                     </CardContent>
-                                </Card>
-                         </div>
-                      ))}       
-
+                     <Slider {...settings}>
+                      {userSocieties.map((society, index) => (
+                      <div key={index} style={{ padding: '0 10px' }}> {/* Add horizontal padding to create space */}
+                      <Card elevation={20} sx={{ margin: 2 }}> {/* Add margin for spacing between cards */}
+                      <CardContent>
+                      <Typography gutterBottom variant="h5" component="div"> {society.societyName} </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}> {society.positionTitle} </Typography>
+                      </CardContent>
+                      </Card>
+                     </div>
+                    ))}
                     </Slider>
                     </AccordionDetails>
                     </Accordion>
