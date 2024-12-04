@@ -41,22 +41,25 @@ router.post('/login', async (req, res) => {
 });
 
 // Get user profile
-router.post('/profile',authMiddleware,async (req, res) => {
+router.post('/user/profile',authMiddleware,async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password'); // Exclude password
     if (!user) return res.status(404).json({ message: 'User not found.' });
 
     res.status(200).json({ user });
+    
+
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
 });
 
+
 // Fetch user details and their position in societies
 router.get('/user/allsociety',authMiddleware, async (req, res) => {
   try {
         const userId = req.user.id; 
-    console.log("HAREEM",userId)
+        //console.log("HAREEM",userId)
     // Step 1: Fetch user details
     const user = await User.findById(userId);
     if (!user) {
@@ -74,7 +77,7 @@ router.get('/user/allsociety',authMiddleware, async (req, res) => {
           position.users.some((user) => user.toString() === userId)
         );
          
-        console.log("matc",matchedPosition)
+       // console.log("matc",matchedPosition)
         if (matchedPosition) {
           return {
             societyName: society.name, // Assuming society has a `name` field
@@ -84,8 +87,8 @@ router.get('/user/allsociety',authMiddleware, async (req, res) => {
         return null;
       })
       .filter(Boolean); // Remove null values
-            console.log("usersociety",userSocieties)
-console.log("user",user.username,user.email)
+           // console.log("usersociety",userSocieties)
+           //console.log("user",user.username,user.email)
     // Step 4: Respond with user details and positions
     res.status(200).json({
       user: {
