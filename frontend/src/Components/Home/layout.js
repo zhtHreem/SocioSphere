@@ -30,11 +30,16 @@ const Navbar = () => {
     setIsLoggedIn(false); // Update isLoggedIn state
     navigate('/auth'); // Optionally navigate to home or login page
   };
+
+  const handleNavigation = (link) => {
+    navigate(link); // Navigate to the specified link
+  };
+  
   const navItems = [
     { name: 'Home', icon: <HomeIcon />, link: '/' },
     { name: 'About', icon: <AboutIcon />, link: '/about' },
     { name: 'Contact', icon: <ContactIcon />, link: '/contact' },
-    { name: 'Societies', icon: <SocietiesIcon />, link: '/societies' },
+    { name: 'societies', icon: <SocietiesIcon />, link: '/society' },
   ];
 
   const drawer = (
@@ -84,14 +89,16 @@ const Navbar = () => {
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button  key={item.name}    startIcon={item.icon}
-                sx={{   mx: 1, color:"black",
-                  '&:hover': { 
-                    background: 'rgba(255,255,255,0.2)'   }  }}  >
-                {item.name}
-              </Button>
-            ))}
+            {navItems.map((item, index) => (
+           <Button key={index} startIcon={item.icon} onClick={() => navigate(item.link)} // Handle navigation
+                sx={{ mx: 1, color: 'black',
+                '&:hover': { background: 'rgba(255,255,255,0.2)',
+        },
+      }}
+    >
+      {item.name}
+    </Button>
+  ))}
             
             <IconButton  sx={{color:"black"}}>
               <NotificationsIcon />
