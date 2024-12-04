@@ -14,10 +14,14 @@ const AddSocietyForm = () => {
     e.preventDefault();
     try {
       await axios.post('http://localhost:5000/api/societies/add', formData);
-      setOpenSnackbar(true);
+      setOpenSnackbar({ open: true, message: 'Society added successfully!' });
       setFormData({ name: '', description: '', image: '' });
     } catch (error) {
-      console.error('Error adding society:', error);
+      if (error.response && error.response.status === 400) {
+        setOpenSnackbar({ open: true, message: error.response.data.message });
+      } else {
+        console.error('Error adding society:', error);
+      }
     }
   };
 
