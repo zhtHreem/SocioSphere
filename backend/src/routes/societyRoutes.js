@@ -11,6 +11,11 @@ const router = express.Router();
 router.post('/add', async (req, res) => {
   const { name, description, image } = req.body;
   try {
+    const existingSociety = await Society.findOne({ name });
+
+    if (existingSociety) {
+      return res.status(400).json({ message: 'Society with this name already exists' });
+    }
     const newSociety = new Society({ name, description, image ,positions: [],});
     await newSociety.save();
     res.status(201).json(newSociety);
