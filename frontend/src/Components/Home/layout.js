@@ -41,9 +41,6 @@ const Navbar = () => {
     navigate('/auth'); // Optionally navigate to home or login page
   };
 
-  const handleNavigation = (link) => {
-    navigate(link); // Navigate to the specified link
-  };
   
   const navItems = [
     { name: 'Home', icon: <HomeIcon />, link: '/' },
