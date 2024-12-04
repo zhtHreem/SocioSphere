@@ -103,9 +103,9 @@ function User(){
     
     const settings = {
     dots: true, // Show dots for navigation
-    infinite: true, // Infinite scrolling
+    infinite: userSocieties.length > 5, // Infinite scrolling
     speed: 500, // Speed of transition
-    slidesToShow: 3, // Number of items to show at once 
+    slidesToShow: 5, // Number of items to show at once 
     slidesToScroll: 1, // Number of items to scroll at once
     centerMode: true,
     centerPadding: '60px',
