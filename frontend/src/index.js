@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import './index.css';
 import App from './App';
 import { UserProfile } from './pages/userprofile';
@@ -14,6 +15,7 @@ import Calender from './Components/Calender/Calender';
 import SocietyProfile from './pages/societyProfilePage';
 import TesterSociety from './Components/Society/testersociety';
 import AdminPage from './pages/adminpage';
+import PrivateRoute from './Components/Authorization/privateRoute';
 const router = createBrowserRouter([
   {
     path: '/', 
@@ -33,7 +35,9 @@ const router = createBrowserRouter([
   },
   {
     path: '/user',
-    element: <UserProfile />,
+    element: <PrivateRoute allowedRoles={['user']}>
+               <UserProfile/>
+                </PrivateRoute>,
   },{
     path:"/society/:societyId/create/:id",
     element:<SocietyForm />
@@ -55,12 +59,18 @@ const router = createBrowserRouter([
     element: <Calender />,
   },
   {
-    path: '/admin', // Explicit path for TesterSociety
-    element: <AdminPage />,
+    
+    path: '/admin', 
+    element: ( <PrivateRoute allowedRoles={[ 'admin']}>
+               <AdminPage/>
+                </PrivateRoute>),
+              
   },
+ 
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+ 
   <RouterProvider router={router} />
 );
