@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
-  const token = localStorage.getItem('token'); // Adjust based on your storage mechanism
+  const token = localStorage.getItem('token'); 
 
   if (!token) {
     return <Navigate to="/auth" replace />;

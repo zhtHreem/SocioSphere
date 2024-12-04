@@ -2,6 +2,7 @@ import React, { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Container, Paper } from '@mui/material';
 import {  Home as HomeIcon,  NotificationsActive as NotificationsIcon, Info as AboutIcon,  People as SocietiesIcon,ContactMail as ContactIcon,  Person as ProfileIcon,  Login as LoginIcon, Logout as LogoutIcon, Menu as MenuIcon} from '@mui/icons-material';
+import { jwtDecode } from 'jwt-decode';
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -10,8 +11,17 @@ const Navbar = () => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const token = localStorage.getItem('token'); // Adjust based on your storage mechanism
+    let role = null;
+  try {
+    if (typeof token === "string" && token.trim() !== "") {
+      role = jwtDecode(token)?.role; // Decode token and get role
+    }
+  } catch (error) {
+    console.error("Error decoding token:", error);
+  }
 
-
+  const path = role === "admin" ? "/admin" : "/user"; // Default path if no role
 
   // Check if there's a token in localStorage when the component mounts
   useEffect(() => {
@@ -56,7 +66,7 @@ const Navbar = () => {
         ))}
         {isLoggedIn ? (
           <>
-            <ListItem button onClick={() => { navigate("/user") }}>
+            <ListItem button onClick={() => { navigate(path) }}>
               <ListItemIcon><ProfileIcon /></ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>
@@ -106,7 +116,7 @@ const Navbar = () => {
 
             {isLoggedIn ? (
               <>
-                <IconButton  sx={{color:"black"}} onClick={() => { navigate("/user") }}>
+                <IconButton  sx={{color:"black"}} onClick={() => { navigate(path) }}>
                   <ProfileIcon />
                 </IconButton>
                 <Button   sx={{color:"black"}}   startIcon={<LogoutIcon />} onClick={handleLogout}   >
