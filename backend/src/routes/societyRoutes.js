@@ -7,6 +7,14 @@ import FormResponse from '../models/applyFormResponse.js';
 import User from '../models/user.js';
 const router = express.Router();
 
+const adminMiddleware = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Access denied. Admins only.' });
+  }
+  next();
+};
+
+
 // Create a new society (POST request)
 router.post('/add', async (req, res) => {
   const { name, description, image } = req.body;
@@ -245,7 +253,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/:id/events', async (req, res) => {
+// Create an event (Admin Only)
+router.post('/:id/events', authMiddleware, adminMiddleware, async (req, res) => {
   const { title, date, description, image } = req.body;
   try {
     const society = await Society.findById(req.params.id);
@@ -261,10 +270,10 @@ router.post('/:id/events', async (req, res) => {
 
     res.status(201).json(newEvent);
   } catch (error) {
-    //console.error('Error creating event:', error);
     res.status(500).json({ message: 'Error creating event', error });
   }
 });
+
 // Get events for a specific society
 router.get('/:id/events', async (req, res) => {
   try {
