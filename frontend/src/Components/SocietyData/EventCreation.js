@@ -38,7 +38,7 @@ const EventCreation = ({ open, onClose, societyId, eventToEdit, onEventUpdated }
         data.append('description', formData.description);
         data.append('image', formData.image);
 
-        const response = await axios.post(`http://localhost:5000/api/societies/${societyId}/events`, data);
+        const response = await axios.post(`http://localhost:5000/api/societies/${societyId}/events`, formData);
         onEventUpdated(response.data);
       }
 

@@ -3,7 +3,7 @@ import User from "../models/user.js";
 import ApplyForm from "../models/applyForm.js";
 import { generateToken } from "../utils/jwtUtils.js";
 import authMiddleware from "../middleware/authMiddleware.js";
-
+import Society from "../models/Society.js";
 const router = express.Router();
 
 
@@ -45,12 +45,30 @@ router.get('/forms/:id', authMiddleware, async (req, res) => {
         console.log("lalal")
        const  id  = req.params.id; // Society ID
 
+        // Step 1: Get the form with the societyId
         const form = await ApplyForm.findOne({ societyId: id }).sort({ createdAt: -1 });
         console.log('form', form);
         if (!form) {
             return res.status(404).json({ message: "Form not found" });
         }
+
         
+
+
+        // Check if form.positions is empty and populate it with society positions if it is
+        if (!form.positions || form.positions.length === 0) {
+            const society = await Society.findById(form.societyId);
+
+            if (!society) {
+                return res.status(404).json({ message: "Society not found" });
+            }
+
+            // Use society positions if form positions are empty
+            form.positions = society.positions || [];
+            console.log('Populated form positions:', form.positions); // Check populated positions
+        }
+        // Save the updated form with positions from society if necessary
+        await form.save();
         res.status(200).json(form);
     } catch (err) {
         res.status(400).json({ message: err.message });

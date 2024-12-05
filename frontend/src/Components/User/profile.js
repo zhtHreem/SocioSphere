@@ -4,16 +4,14 @@ import Grid from '@mui/material/Grid2';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import FormDetailsModal from "../Society/displayform";
 import PersonIcon from '@mui/icons-material/Person';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { BackgroundIcons } from "../Authorization/auth";
-import ContactPageIcon from '@mui/icons-material/ContactPage';
 import axios from "axios";
-
+import ApplicationTracker from "../SocietyData/ApplicationTracker";
 
 
 function User(){
@@ -38,13 +36,19 @@ function User(){
         }
       });
                 
+
+               
                 if (response.data.length > 0) {
                     console.log("Fetched Societies:", response.data);
-                    setSocieties(response.data);
-                    
+                     const filteredSocieties = response.data.filter(society =>
+                    userSocieties.some(userSociety => userSociety.societyName === society.name)
+                );
+                console.log("Fetched Socieaaaties:", filteredSocieties);
+                 //   setSocieties(response.data);
+                     setSocieties(filteredSocieties);
                     // Set default selected society and tab
-                    setSelectedTab(response.data[0].name);
-                    setSelectedSociety(response.data[0]);
+                    setSelectedTab(filteredSocieties[0].name);
+                    setSelectedSociety(filteredSocieties[0]);
                 }
             } catch (error) {
                 console.error("Error fetching societies", error);
@@ -52,22 +56,22 @@ function User(){
         };
 
         fetchSocieties();
-    }, []);
+    },  [userSocieties]);
 
 
      useEffect(() => {
         const fetchUser = async () => {
             try {
-                const responsed = await axios.get('http://localhost:5000/api/user/allsociety',{headers: {
+                const response = await axios.get('http://localhost:5000/api/user/allsociety',{headers: {
                 'Content-Type': 'application/json',
                 'Authorization': localStorage.getItem('token')
             }}
             );
                 
-             console.log("Fetched User Data:", responsed.data);
-      if (responsed.data) {
-        setUser(responsed.data.user); // Update user details
-        setUserSocieties(responsed.data.societies)
+             console.log("Fetched User Data:", response.data);
+      if (response.data) {
+        setUser(response.data.user); // Update user details
+        setUserSocieties(response.data.societies)
       }
             } catch (error) {
                 console.error("Error fetching societies", error);
@@ -80,6 +84,9 @@ function User(){
     useEffect(() => {
         console.log("Updated Societies:", societies);
     }, [societies]);
+
+    
+    
      const handleTabChange = (event,newValue) => {
   //  setValue(newValue);
     const selectedSoc = societies.find(society => society.name === newValue);
@@ -96,9 +103,9 @@ function User(){
     
     const settings = {
     dots: true, // Show dots for navigation
-    infinite: true, // Infinite scrolling
+    infinite: userSocieties.length > 5, // Infinite scrolling
     speed: 500, // Speed of transition
-    slidesToShow: 4, // Number of items to show at once 
+    slidesToShow: 5, // Number of items to show at once 
     slidesToScroll: 1, // Number of items to scroll at once
     centerMode: true,
     centerPadding: '60px',
@@ -137,35 +144,26 @@ function User(){
 
 
                                   <Box sx={{ }}>  
-                     <Accordion defaultExpanded sx={{position: 'relative', zIndex: 5}}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-          
-        >
+                <Accordion defaultExpanded sx={{position: 'relative', zIndex: 5}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3-content"  id="panel3-header"  >
         
           <Typography variant="h6" >My Societies</Typography>
            </AccordionSummary>
 
                      
                      <AccordionDetails sx={{backgroundColor:"#393646",p:5}}>
-                     <Slider {...settings}> 
-                      {userSocieties.map((society,index)=>(
-                         <div key={index}>
-                                <Card elevation={20} >
-                                     <CardHeader>
-
-                                     </CardHeader>
-                                     <CardContent>
-                                           <Typography gutterBottom variant="h5" component="div">{society.societyName} </Typography>
-                                           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{society.positionTitle} </Typography>
-      
-                                     </CardContent>
-                                </Card>
-                         </div>
-                      ))}       
-
+                     <Slider {...settings}>
+                      {userSocieties.map((society, index) => (
+                      <div key={index} style={{ padding: '0 10px' }}> {/* Add horizontal padding to create space */}
+                      <Card elevation={20} sx={{ margin: 2 }}> {/* Add margin for spacing between cards */}
+                      <CardContent>
+                      <Typography gutterBottom variant="h5" component="div"> {society.societyName} </Typography>
+                      <Typography variant="body2" sx={{ color: 'text.secondary' }}> {society.positionTitle} </Typography>
+                      </CardContent>
+                      </Card>
+                     </div>
+                    ))}
                     </Slider>
                     </AccordionDetails>
                     </Accordion>
@@ -173,58 +171,16 @@ function User(){
              
 
                     
-                    <Box sx={{ width: '100%',marginTop:10,position: 'relative', zIndex: 5 }}>
-                    <Typography variant="h3" sx={{textAlign:"center"}}>Application Tracker</Typography>
-               
-               
-                         {/* Tabs for Societies */}
-                        <Tabs    value={selectedTab}    onChange={handleTabChange} textColor="secondary"    indicatorColor="secondary"    aria-label="societies tabs"    sx={{position: 'relative', zIndex: 5}}>
-                            {societies.map((society) => (
-                                <Tab key={society._id} value={society.name} label={society.name} />
-                            ))}
-                        </Tabs>
-                    
-  {/* Applications for Selected Society */}
-                        {selectedSociety && selectedSociety.forms && (
-                            <Grid container p={5} gap={5} sx={{background:"white", border:"2px solid #42032C"}}>
-                                {selectedSociety.forms.map((form, index) => (
-                                    <Grid item key={index} xs={6} md={4}  onClick={() => handleFormSelect(form)} sx={{position: 'relative', zIndex: 5}}>
-                                        <Card elevation={20}>
-                                            <CardMedia sx={{  display: 'flex',  justifyContent: 'center',   alignItems: 'center',    height: 120,       backgroundColor: "#FBA834",  }}>
-                                                <ContactPageIcon fontSize="large" sx={{ color: "#FFFFFF" }} />
-                                            </CardMedia> 
-                                            <CardContent>
-                                                <Typography variant="h6" color="text.secondary">
-                                                    {form.userId?.username || 'Unknown User'}
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    Status: {form.status}
-                                                </Typography>
-                                                <Typography variant="body2" color="text.secondary">
-                                                    Date: {new Date(form.submittedAt).toLocaleDateString()}
-                                                </Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        )}
-
-
-
-                               {/* Form Details Modal */}
-                {selectedForm && (
-                    <FormDetailsModal
-                        open={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                        formData={selectedForm}
-                        societyId={selectedSociety._id}
-                        userId={selectedForm.userId}
-                        positions={selectedForm.position}
-                    />
-                )}
-                    </Box> 
-                   
+                 <ApplicationTracker
+                     societies={societies}
+                     selectedTab={selectedTab}
+                     handleTabChange={handleTabChange}
+                     selectedSociety={selectedSociety}
+                     handleFormSelect={handleFormSelect}
+                     selectedForm={selectedForm}
+                     isModalOpen={isModalOpen}
+                     setIsModalOpen={setIsModalOpen}
+                   />
                  </Grid>
 
 

@@ -49,7 +49,7 @@ const SocietyPage = () => {
 
       {!loading && (
         <>
-          <TextField label="Search Societies" variant="outlined" fullWidth margin="normal" onChange={handleSearch} sx={{ marginTop: 10 }} />
+          <TextField label="Search Societies" variant="outlined" fullWidth margin="normal" onChange={handleSearch} />
           <Grid container spacing={3}>
             {filteredSocieties.map((society) => (
               <Grid item xs={12} sm={6} md={4} key={society._id}>

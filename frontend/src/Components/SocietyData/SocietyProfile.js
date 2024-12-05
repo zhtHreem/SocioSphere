@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Container, Typography, Button, Avatar, Grid, Card, CardContent,CardActions, CardMedia, Box } from '@mui/material';
+import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, CardActions ,Box } from '@mui/material';
 import axios from 'axios';
 import EventCreationDialog from './EventCreation';
 
@@ -11,12 +11,14 @@ const SocietyProfile = () => {
   const [society, setSociety] = useState({});
   const [events, setEvents] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null); // Track the event being edited
+  const [selectedEvent, setSelectedEvent] = useState(null); 
+  const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
     console.log('Society ID from URL:', id);
     fetchSocietyDetails();
     fetchSocietyEvents(); // Fetch events
+    fetchUserRole();
   }, [id]);
 
   // Fetch society details (name, description, image)
@@ -36,6 +38,19 @@ const SocietyProfile = () => {
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
+    }
+  };
+
+  const fetchUserRole = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/user/profile', {}, {
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      });
+      setUserRole(response.data.user.role); // Assuming the response contains the role
+    } catch (error) {
+      console.error('Error fetching user role:', error);
     }
   };
 
@@ -89,9 +104,11 @@ const SocietyProfile = () => {
             <Button variant="outlined" color="secondary" onClick={()=>navigate(`position/${id}`)}>
               Positions
             </Button>
-            <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
-              Create Event
-            </Button>
+            {userRole === 'admin' && ( // Only render if the user is an admin
+              <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
+                Create Event
+              </Button>
+            )}
           </Box>
         </Grid>
       </Grid>
