@@ -1,24 +1,24 @@
 import express from 'express';
-import Chat from './models/Chat.js';
+import Chat from '../models/chat.js';
 
 const router = express.Router();
 
-// Fetch messages for a session
-router.get('/:session', async (req, res) => {
-  const { session } = req.params;
+// Fetch messages for a specific society
+router.get('/:societyId', async (req, res) => {
+  const { societyId } = req.params;
   try {
-    const messages = await Chat.find({ session }).sort({ timestamp: 1 });
+    const messages = await Chat.find({ society: societyId }).sort({ timestamp: 1 });
     res.json(messages);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch messages' });
   }
 });
 
-// Send a message
+// Send a message (optional for REST-based testing)
 router.post('/', async (req, res) => {
-  const { sender, content, session } = req.body;
+  const { sender, society, message } = req.body;
   try {
-    const newMessage = new Chat({ sender, content, session });
+    const newMessage = new Chat({ sender, society, message });
     await newMessage.save();
     res.status(201).json(newMessage);
   } catch (error) {

@@ -1,58 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { io } from 'socket.io-client';
+import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
+import "./chat.css";
 
-const socket = io('http://localhost:5000'); // Adjust if hosted
+// Connect to the Socket.IO server
+const socket = io("http://localhost:5000"); // Replace with your backend URL
 
-const Chat = ({ sessionId, userId }) => {
+const Chat = () => {
+  // Hardcoded userId and societyId
+  const userId = "635a6c4e9123b4f4d5e1f2a1"; // Replace with a valid ObjectId
+  const societyId = "635a6c4e9123b4f4d5e1f2a2"; // Replace with a valid ObjectId
+
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
+  const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
-    // Fetch messages
-    axios.get(`/api/chat/${sessionId}`).then((response) => {
-      setMessages(response.data);
-    });
+    if (societyId) {
+      console.log("Hardcoded Society ID:", societyId);
+      console.log("Hardcoded User ID:", userId);
 
-    // Listen for real-time messages
-    socket.on('message', (msg) => {
-      setMessages((prevMessages) => [...prevMessages, msg]);
-    });
+      // Join the society room
+      socket.emit("joinSociety", societyId);
+
+      // Fetch previous messages
+      socket.on("previousMessages", (previousMessages) => {
+        setMessages(previousMessages);
+      });
+
+      // Listen for new messages
+      socket.on("newMessage", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
+    }
 
     return () => {
-      socket.off('message');
+      socket.disconnect();
     };
-  }, [sessionId]);
+  }, [societyId]);
 
-  const sendMessage = async () => {
-    if (input.trim()) {
-      const newMessage = { sender: userId, content: input, session: sessionId };
-      try {
-        await axios.post('/api/chat', newMessage);
-        socket.emit('message', newMessage);
-        setInput('');
-      } catch (error) {
-        console.error('Error sending message:', error);
-      }
+  const sendMessage = () => {
+    if (newMessage.trim()) {
+      const payload = {
+        sender: userId, // Hardcoded userId
+        society: societyId, // Hardcoded societyId
+        message: newMessage,
+      };
+      console.log("Sending message payload:", payload); // Debugging
+      socket.emit("sendMessage", payload);
+      setNewMessage(""); // Clear the input field
     }
   };
 
   return (
-    <div>
-      <div>
-        {messages.map((msg, index) => (
-          <div key={index}>
-            <strong>{msg.sender}: </strong>{msg.content}
+    <div className="chat-container">
+      <div className="chat-header">
+        <h2>Society Chat</h2>
+        <p>Chatting in society ID: {societyId}</p>
+      </div>
+      <div className="chat-messages">
+        {messages.map((msg, idx) => (
+          <div
+            key={idx}
+            className={`chat-message ${msg.sender === userId ? "self" : "other"}`}
+          >
+            <div className="message-content">
+              <strong>{msg.sender === userId ? "You" : `User ${msg.sender}`}:</strong>
+              <p>{msg.message}</p>
+            </div>
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-      />
-      <button onClick={sendMessage}>Send</button>
+      <div className="chat-input">
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+        <button onClick={sendMessage}>Send</button>
+      </div>
     </div>
   );
 };
