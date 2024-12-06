@@ -11,8 +11,7 @@ import chatRoutes from './src/routes/chatRoutes.js'; // Import chat routes
 import User from './src/routes/user.js';
 import ApplyForm from './src/routes/applyForm.js';
 import applyFormResponse from './src/routes/applyFormResponse.js';
-import notificationRoutes from './src/routes/notificationRoutes.js'; // Import notification routes
-
+import notificationRoutes from './src/routes/notificationRoutes.js';
 // Load environment variables
 dotenv.config();
 
@@ -74,37 +73,31 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Handle sending a new message
   socket.on("sendMessage", async (data) => {
     console.log("Message data received:", data);
-
-    // Validate the data received
+  
     if (!data.sender || !data.society || !data.message) {
       console.error("Invalid message data:", data);
       socket.emit("error", { message: "Invalid message data. All fields are required." });
       return;
     }
-
-    // Log detailed message payload for debugging
-    console.log(`Processing message from sender: ${data.sender}, society: ${data.society}`);
-
+  
     try {
-      // Save the message to the database
       const newMessage = await Chat.create({
-        sender: mongoose.Types.ObjectId(data.sender), // Ensure sender is an ObjectId
-        society: mongoose.Types.ObjectId(data.society), // Ensure society is an ObjectId
+        sender: data.sender,
+        society: data.society,
         message: data.message,
       });
-
       console.log("Message saved to DB:", newMessage);
-
-      // Broadcast the new message to all users in the society
-      io.to(data.society).emit("newMessage", newMessage);
+  
+      io.to(data.society).emit("newMessage", newMessage); // Broadcast to room
     } catch (error) {
       console.error("Error saving message to DB:", error);
-      socket.emit("error", { message: "Failed to send message. Please try again." });
+      socket.emit("error", { message: "Failed to send message." });
     }
   });
+  
+  
 
   // Handle user disconnection
   socket.on("disconnect", () => {

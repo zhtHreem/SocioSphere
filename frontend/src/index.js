@@ -8,25 +8,24 @@ import { UserProfile } from './pages/userprofile';
 import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
-import Add from './Components/SocietyData/addSociety';
-import Add from './pages/addSocietyInfo';
+import AddSocietyData from './Components/SocietyData/addSociety';
+import AddSocietyInfo from './pages/addSocietyInfo';
 import Society from './pages/societycataloguePage';
 import Authorization from './pages/authorization';
 import Calender from './pages/calender';
 import SocietyProfile from './pages/societyProfilePage';
-import TesterSociety from './Components/Society/testersociety';
 import AdminPage from './pages/adminpage';
 import Chat from './Components/Chat/chat'; // Import the Chat component
-import NotificationsPage from './Components/Notification/NotificationsPage'; // Import NotificationsPage
+//import Notification from './Components/Notification/Notification';
 import PrivateRoute from './Components/Authorization/privateRoute';
 const router = createBrowserRouter([
   {
-    path: '/', 
-    element: <App />, 
+    path: '/',
+    element: <App />,
   },
   {
     path: '/add',
-    element: <Add />,
+    element: <AddSocietyData />,
   },
   {
     path: '/society',
@@ -73,10 +72,10 @@ const router = createBrowserRouter([
     path: '/chat', // Optional dedicated route for Chat
     element: <Chat />, // Render the Chat component
   },
-  {
-    path: '/notifications', // Route for NotificationsPage
-    element: <NotificationsPage />, // Render the NotificationsPage component
-  },
+  //{
+    //path: '/notifications', // Route for NotificationsPage
+    //element: <Notifications />, // Render the NotificationsPage component
+ // },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

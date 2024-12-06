@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, CardActions ,Box } from '@mui/material';
+import { Container, Typography, Button, Avatar, Grid, Card, CardContent, CardMedia, CardActions, Box } from '@mui/material';
 import axios from 'axios';
 import EventCreationDialog from './EventCreation';
+import Chat from '../Chat/chat'; // Import the Chat component
 
 const SocietyProfile = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const [society, setSociety] = useState({});
   const [events, setEvents] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null); 
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const [userRole, setUserRole] = useState('');
+  const [chatOpen, setChatOpen] = useState(false); // State to control chatbox visibility
 
   useEffect(() => {
     console.log('Society ID from URL:', id);
@@ -21,7 +22,6 @@ const SocietyProfile = () => {
     fetchUserRole();
   }, [id]);
 
-  // Fetch society details (name, description, image)
   const fetchSocietyDetails = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/societies/${id}`);
@@ -31,7 +31,6 @@ const SocietyProfile = () => {
     }
   };
 
-  // Fetch events for the society
   const fetchSocietyEvents = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/societies/${id}/events`);
@@ -54,20 +53,16 @@ const SocietyProfile = () => {
     }
   };
 
-  // Handle opening the dialog for creating or editing an event
   const handleOpenDialog = (event = null) => {
     setSelectedEvent(event);
     setDialogOpen(true);
   };
 
-  // Handle closing the dialog
   const handleCloseDialog = () => {
     setSelectedEvent(null);
     setDialogOpen(false);
   };
-  
 
-  // Handle event creation or update
   const handleEventCreated = (newEvent) => {
     setEvents((prevEvents) => [...prevEvents, newEvent]); // Add the new event to the list
   };
@@ -77,8 +72,10 @@ const SocietyProfile = () => {
       prevEvents.map((event) => (event._id === updatedEvent._id ? updatedEvent : event))
     );
   };
-  
 
+  const toggleChat = () => {
+    setChatOpen((prevChatOpen) => !prevChatOpen); // Toggle chatbox visibility
+  };
 
   return (
     <Container>
@@ -95,16 +92,16 @@ const SocietyProfile = () => {
             {society.description}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, marginTop: 3 }}>
-            <Button variant="contained" color="primary" onClick={()=>navigate(`apply/${id}`)}>
+            <Button variant="contained" color="primary" onClick={() => navigate(`apply/${id}`)}>
               Apply for Membership
             </Button>
-            <Button variant="outlined" color="secondary" onClick={()=>navigate(`create/${id}`)}>
+            <Button variant="outlined" color="secondary" onClick={() => navigate(`create/${id}`)}>
               Create Apply Form
             </Button>
-            <Button variant="outlined" color="secondary" onClick={()=>navigate(`position/${id}`)}>
+            <Button variant="outlined" color="secondary" onClick={() => navigate(`position/${id}`)}>
               Positions
             </Button>
-            {userRole === 'admin' && ( // Only render if the user is an admin
+            {userRole === 'admin' && (
               <Button variant="contained" color="primary" onClick={() => handleOpenDialog()}>
                 Create Event
               </Button>
@@ -118,7 +115,7 @@ const SocietyProfile = () => {
         open={dialogOpen}
         onClose={handleCloseDialog}
         societyId={id}
-        eventToEdit={selectedEvent} // Pass the selected event for editing
+        eventToEdit={selectedEvent}
         onEventCreated={handleEventCreated}
         onEventUpdated={handleEventUpdated}
       />
@@ -128,7 +125,7 @@ const SocietyProfile = () => {
         Upcoming Events
       </Typography>
 
-      <Grid container spacing={4} sx={{ marginTop: '15px', marginBottom: '15px'}}>
+      <Grid container spacing={4} sx={{ marginTop: '15px', marginBottom: '15px' }}>
         {events.length ? (
           events.map((event) => (
             <Grid item key={event._id} xs={12} sm={6} md={4}>
@@ -159,6 +156,36 @@ const SocietyProfile = () => {
           </Typography>
         )}
       </Grid>
+
+      {/* Chat Button */}
+      <Box sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={toggleChat}
+        >
+          {chatOpen ? 'Close Chat' : 'Open Chat'}
+        </Button>
+      </Box>
+
+      {/* Chat Section */}
+      {chatOpen && (
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: 80,
+            right: 16,
+            width: '350px',
+            height: '400px',
+            backgroundColor: 'white',
+            boxShadow: 3,
+            borderRadius: 2,
+            overflow: 'hidden',
+          }}
+        >
+          <Chat societyId={id} />
+        </Box>
+      )}
     </Container>
   );
 };
