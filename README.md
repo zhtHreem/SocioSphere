@@ -7,37 +7,20 @@
 ---
 
 ## Features  
-- **Unique Event Calendar**:
- A centralized calendar with upcoming events.
-
-- **Real-Time Chatrooms**:  
- Society-dedicated spaces for discussions and collaborations.
-
-- **Membership Application Tracker**:  
- End-to-end tracking for society applications.
-
-- **Personal Dashboard**:  
-  Showcases memberships and society details
-
-- **Search Functionality**:  
-  Easy-to-use search for societies, events, and fellow students.
-
-- **User Notifications**:  
-  Alerts for important updates and changes.
+- **Society Management**: Admins can create societies, define hierarchical positions, and organize events.
+- **JWT Authentication**: Secure authentication with role-based access control ensures that only authorized users can perform specific actions.
+- **Unique Event Calendar**: A centralized calendar with upcoming events.
+- **Real-Time Chatrooms**:   Society-dedicated spaces for discussions and collaborations.
+- **Membership Application Tracker**:   Users can submit applications, which are processed by higher-level members in the hierarchy.
+- **Search Functionality**:  Easy-to-use search for societies and events.
+- **User Notifications**:  Alerts for important updates and changes.
 
 ## How to Use  
 
-- **Register/Log In**:  
-  Register or log in as a university student or society administrator.  
-
-- **Explore**:  
-  Browse societies, events, and positions based on your interests.
-  
-- **Engage**
-  Join societies, track membership applications, and access event details
-
-- **Collaborate**
-  Use real-time chat for discussions and manage profiles via a personal dashboard.
+- **Register/Log In**:  Register or log in as a university student or society administrator.  
+- **Explore**:  Browse societies, events, and positions based on your interests.
+- **Engage**: Join societies, track membership applications, and access event details
+- **Collaborate**: Use real-time chat for discussions .
 
 ---
 ## Installation & Setup
@@ -49,21 +32,32 @@
 ### Steps:
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/Afifam042/SocioSphere.git
+   git clone https://github.com/zhtHreem/SocioSphere.git
    cd SocioSphere
-
-2.To run **Backend** 
+   ```
+2.Navigate to **Backend** directory: 
    ```bash
      cd backend
-	Create a .env file and add the following:
-	makefile
-	JWT_TOKEN=<your_secret_jwt_token>
-
-     	nodemon server.js
    ```
-3.To run **Frontend** open new terminal
+3.Create a .env file in the backend folder and add the following environment variables:
+   ```bash
+     JWT_TOKEN=<your_secret_jwt_token>
+     DB_URI=<your_mongo_database_url>
+   ```
+4.Install backend dependencies:
+   ```bash
+     npm install
+   ```
+4.Start the **backend** server:
+   ```bash
+     nodemon server.js
+
+   ```
+
+5.To run **Frontend** open new terminal
    ```bash
      cd frontend
+     npm install
      npm start
    ```
 
