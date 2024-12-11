@@ -42,7 +42,7 @@
 3.Create a .env file in the backend folder and add the following environment variables:
    ```bash
      JWT_TOKEN=<your_secret_jwt_token>
-     DB_URI=<your_mongo_database_url>
+     MONGO_URI =<your_mongo_database_url>
    ```
 4.Install backend dependencies:
    ```bash
