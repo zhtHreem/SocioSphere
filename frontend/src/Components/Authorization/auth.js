@@ -50,6 +50,24 @@ const AuthPage = () => {
     // Separate state for login and signup
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
+  // Add validation states
+  const [errors, setErrors] = useState({
+    loginEmail: '',
+    loginPassword: '',
+    signupEmail: '',
+    signupPassword: '',
+    signupConfirmPassword: ''
+  });
+  // Email validation function
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return regex.test(email);
+  };
+
+  // Password validation function
+  const validatePassword = (password) => {
+    return password.length >= 8;
+  };
 
 
    const handleCloseSnackbar = (event, reason) => {
@@ -64,12 +82,27 @@ const AuthPage = () => {
   };
   const handleSignupChange = (e) => {
     const { name, value } = e.target;
-   // console.log(`Changing ${name} to ${value}`);
-    setSignupData(prevData => ({ 
-    ...prevData, 
-    [name]: value 
-  }));
-   console.log(signupData)
+    setSignupData(prevData => ({ ...prevData, [name]: value }));
+    
+    // Validate on change
+    if (name === 'email') {
+      setErrors(prev => ({
+        ...prev,
+        signupEmail: !validateEmail(value) ? 'Please enter a valid email address' : ''
+      }));
+    }
+    if (name === 'password') {
+      setErrors(prev => ({
+        ...prev,
+        signupPassword: !validatePassword(value) ? 'Password must be at least 8 characters long' : ''
+      }));
+    }
+    if (name === 'confirmPassword') {
+      setErrors(prev => ({
+        ...prev,
+        signupConfirmPassword: value !== signupData.password ? 'Passwords do not match' : ''
+      }));
+    }
   };
 
 
@@ -157,8 +190,8 @@ const AuthPage = () => {
           ) : (
             <Box component="form" sx={{ width: '100%' }}>
               <TextField {...commonTextFieldProps} id="signup-username" label="Username" name="username" value={signupData.username} onChange={handleSignupChange} />
-              <TextField {...commonTextFieldProps} id="signup-email" label="Email Address" name="email" autoComplete="email" value={signupData.email}  onChange={handleSignupChange} />
-              <TextField {...commonTextFieldProps} value={signupData.password} onChange={handleSignupChange} name="password" label="Password" type={showPassword ? 'text' : 'password'} id="signup-password" autoComplete="new-password" 
+              <TextField {...commonTextFieldProps} id="signup-email" label="Email Address" name="email" autoComplete="email" value={signupData.email}  onChange={handleSignupChange} error={!!errors.signupEmail}   helperText={errors.signupEmail}/>
+              <TextField {...commonTextFieldProps} value={signupData.password} onChange={handleSignupChange} name="password" label="Password" type={showPassword ? 'text' : 'password'} id="signup-password" autoComplete="new-password" error={!!errors.signupPassword}                helperText={errors.signupPassword}
                 InputProps={{ endAdornment: (<IconButton onClick={() => setShowPassword(!showPassword)} edge="end">{showPassword ? <VisibilityOff /> : <Visibility />}</IconButton>) }} 
               />
               <TextField {...commonTextFieldProps} value={signupData.confirmPassword} onChange={handleSignupChange} name="confirmPassword" label="Confirm Password" type={showPassword ? 'text' : 'password'} id="signup-confirm-password" />
