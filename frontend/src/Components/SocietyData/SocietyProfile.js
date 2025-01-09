@@ -18,6 +18,14 @@ const SocietyProfile = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [userRole, setUserRole] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
+ const [isChatAllowed, setIsChatAllowed] = useState(false); // Determines if chat is enabled
+
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    setIsChatAllowed(true); // Allow chat only if token exists
+  }
+}, []);
 
   useEffect(() => {
     fetchSocietyDetails();
@@ -77,7 +85,9 @@ const SocietyProfile = () => {
   };
 
   const toggleChat = () => {
+    if (isChatAllowed) {
     setChatOpen((prev) => !prev);
+  }
   };
 
   return (
@@ -180,9 +190,11 @@ const SocietyProfile = () => {
       </Fade>
 
       <Box sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+      {isChatAllowed && (
         <Button variant="contained" color="primary" startIcon={<ChatIcon />} onClick={toggleChat} sx={{ borderRadius: '28px', px: 3, py: 1.5, boxShadow: theme.shadows[4] }} >
           {chatOpen ? 'Close Chat' : 'Open Chat'}
         </Button>
+      )}
       </Box>
     </Container>
   );
