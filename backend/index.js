@@ -53,7 +53,7 @@ const httpServer = createServer(app);
 // Attach Socket.IO to the server
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000", // Replace with your frontend's URL
+    origin: "https://socio-sphere-five.vercel.app", // Replace with your frontend's URL
     methods: ["GET", "POST"],
   },
 });
