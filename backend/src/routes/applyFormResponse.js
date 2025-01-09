@@ -10,7 +10,19 @@ router.post('/responses/:societyId', authMiddleware, async (req, res) => {
     try {
         const id=req.params.societyId
         const { position, responses } = req.body;
+        
 
+        // Check for existing submission first
+        const existingSubmission = await FormResponse.findOne({
+            societyId: id,
+            userId: req.user.id
+        });
+
+        if (existingSubmission) {
+            return res.status(400).json({ 
+                message: "You have already submitted an application to this society" 
+            });
+        }
         // Validate that the form exists
          const form = await ApplyForm.findOne({ societyId: id }).sort({ createdAt: -1 });
          console.log("S",form)
