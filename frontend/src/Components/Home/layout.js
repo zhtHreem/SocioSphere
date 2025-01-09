@@ -1,22 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Box,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Container,
-  Paper,
-  Menu,
-  MenuItem,
-} from '@mui/material';
+import {AppBar,Toolbar,Typography,Button,Box,IconButton,Drawer,List, ListItem, ListItemIcon,ListItemText, Container,Paper, Menu,MenuItem,} from '@mui/material';
 import {
   Home as HomeIcon,
   NotificationsActive as NotificationsIcon,
@@ -30,12 +14,12 @@ import {
 } from '@mui/icons-material';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode';
-
+import Notifications from '../Home/notifications';
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [notifications, setNotifications] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null); // For notification dropdown
+   
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
@@ -71,22 +55,11 @@ const Navbar = () => {
     navigate('/auth');
   };
 
-  const fetchNotifications = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/notifications/user/notifications', {
-        headers: {
-          Authorization: token,
-        },
-      });
-      setNotifications(response.data);
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
+  
 
   const handleNotificationClick = (event) => {
     setAnchorEl(event.currentTarget);
-    fetchNotifications();
+   
   };
 
   const handleNotificationClose = () => {
@@ -141,96 +114,45 @@ const Navbar = () => {
 
   return (
     <Box sx={{ display: 'flex', overflow: 'hidden' }}>
-      <AppBar
-        sx={{
-          background: 'white',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
+      <AppBar sx={{   background: 'white',   boxShadow: '0 4px 6px rgba(0,0,0,0.1)', overflow: 'hidden',  position: 'relative',  }}  >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
+          <IconButton  color="inherit"  aria-label="open drawer"  edge="start" onClick={handleDrawerToggle} sx={{color:"black", mr: 2, display: { sm: 'none' } }}>
             <MenuIcon />
           </IconButton>
 
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ color: 'black', flexGrow: 1, fontWeight: 'bold' }}
-          >
+          <Typography variant="h6"  component="div" sx={{ color: 'black', flexGrow: 1, fontWeight: 'bold' }} >
             SocioSphere
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item, index) => (
-              <Button
-                key={index}
-                startIcon={item.icon}
-                onClick={() => navigate(item.link)}
-                sx={{
-                  mx: 1,
-                  color: 'black',
-                  '&:hover': { background: 'rgba(255,255,255,0.2)' },
-                }}
-              >
+              <Button key={index} startIcon={item.icon} onClick={() => navigate(item.link)} sx={{  mx: 1, color: 'black',   '&:hover': { background: 'rgba(255,255,255,0.2)' },  }}  >
                 {item.name}
               </Button>
             ))}
 
             {/* Notification Bell */}
-            <IconButton
-              sx={{ color: 'black' }}
-              onClick={handleNotificationClick}
-            >
+            {(isLoggedIn &&(
+            <IconButton  sx={{ color: 'black' }} onClick={handleNotificationClick} >
               <NotificationsIcon />
             </IconButton>
+            ))}
 
-            {/* Notification Dropdown */}
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleNotificationClose}
-            >
-              {notifications.length === 0 ? (
-                <MenuItem disabled>No notifications</MenuItem>
-              ) : (
-                notifications.map((notification) => (
-                  <MenuItem key={notification._id}>
-                    {notification.message}
-                  </MenuItem>
-                ))
-              )}
-            </Menu>
+            {/* Notifications Dropdown */}
+            <Notifications anchorEl={anchorEl} onClose={handleNotificationClose} />
+
 
             {isLoggedIn ? (
               <>
-                <IconButton
-                  sx={{ color: 'black' }}
-                  onClick={() => navigate(path)}
-                >
+                <IconButton    sx={{ color: 'black' }} onClick={() => navigate(path)} >
                   <ProfileIcon />
                 </IconButton>
-                <Button
-                  sx={{ color: 'black' }}
-                  startIcon={<LogoutIcon />}
-                  onClick={handleLogout}
-                >
+                <Button sx={{ color: 'black' }} startIcon={<LogoutIcon />} onClick={handleLogout}>
                   Logout
                 </Button>
               </>
             ) : (
-              <Button
-                sx={{ color: 'black' }}
-                startIcon={<LoginIcon />}
-                onClick={() => navigate('/auth')}
-              >
+              <Button sx={{ color: 'black' }} startIcon={<LoginIcon />} onClick={() => navigate('/auth')} >
                 Login
               </Button>
             )}
@@ -238,18 +160,7 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
 
-      <Drawer
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
-        sx={{
-          display: { xs: 'block', sm: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
-        }}
-      >
+      <Drawer variant="temporary" open={mobileOpen} onClose={handleDrawerToggle} ModalProps={{  keepMounted: true,  }} sx={{color:"black" ,display: { xs: 'block', sm: 'none' },  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 }, }}>
         {drawer}
       </Drawer>
     </Box>
@@ -262,26 +173,9 @@ const Footer = () => {
       component="footer"
       square
       variant="outlined"
-      sx={{
-        background: 'white',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        py: 3,
-        px: 2,
-        marginTop: 'auto',
-        bottom: 0,
-        overflow: 'hidden',
-        position: 'relative',
-        zIndex: 5,
-      }}
-    >
+      sx={{  background: 'white',  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',mt:10,  py: 3, px: 2,bottom: 0, overflow: 'hidden', zIndex: 0,        }}>
       <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
+        <Box sx={{  display: 'flex', justifyContent: 'space-between',   alignItems: 'center', }} >
           <Typography variant="body2" color="text.secondary">
             © {new Date().getFullYear()} My App. All rights reserved.
           </Typography>
