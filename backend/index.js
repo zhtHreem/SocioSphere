@@ -54,57 +54,32 @@ const io = new Server(httpServer, {
 });
 
 // Socket.IO connection logic
+// Socket.IO connection logic
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
 
   // Handle joining a specific society room
   socket.on("joinSociety", async (societyId) => {
-    console.log(`User ${socket.id} requested to join society room: ${societyId}`);
     socket.join(societyId);
     console.log(`User joined society room: ${societyId}`);
-
-    // Send previous messages to the user who just joined
-    try {
-      const previousMessages = await Chat.find({ society: societyId }).sort({ timestamp: 1 });
-      socket.emit("previousMessages", previousMessages);
-    } catch (error) {
-      console.error("Error fetching previous messages:", error);
-      socket.emit("error", { message: "Failed to load previous messages." });
-    }
   });
 
   socket.on("sendMessage", async (data) => {
-    console.log("Message data received:", data);
-  
-    if (!data.sender || !data.society || !data.message) {
-      console.error("Invalid message data:", data);
-      socket.emit("error", { message: "Invalid message data. All fields are required." });
+    console.log("Message received:", data);
+    
+    if (!data.society) {
+      console.error("Invalid message data - missing society ID:", data);
       return;
     }
-  
-    try {
-      const newMessage = await Chat.create({
-        sender: data.sender,
-        society: data.society,
-        message: data.message,
-      });
-      console.log("Message saved to DB:", newMessage);
-  
-      io.to(data.society).emit("newMessage", newMessage); // Broadcast to room
-    } catch (error) {
-      console.error("Error saving message to DB:", error);
-      socket.emit("error", { message: "Failed to send message." });
-    }
-  });
-  
-  
 
-  // Handle user disconnection
+    // Just broadcast the message since it's already saved via HTTP API
+    io.to(data.society).emit("newMessage", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("A user disconnected:", socket.id);
   });
 });
-
 // Graceful shutdown
 process.on("SIGINT", async () => {
   console.log("Shutting down server...");
