@@ -21,7 +21,7 @@ const app = express();
 // Middleware
 //app.use(cors());
 app.use(cors({
-  origin: "https://fam-feast-frontend.vercel.app",
+  origin: "https://socio-sphere-five.vercel.app",
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true
 }));
