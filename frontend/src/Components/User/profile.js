@@ -1,53 +1,40 @@
-import React, { useState,useEffect } from "react";
-import { Box,Avatar, Typography, Stack, Card, CardHeader, CardContent,Tabs,Tab, CardMedia } from    "@mui/material";
-import Grid from '@mui/material/Grid2';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React, { useState, useEffect } from "react";
+import { Box, Avatar, Typography, Stack, Card, CardHeader, CardContent, Badge, Container, Grid as MuiGrid, IconButton, Tooltip, Divider, CardMedia, CardActionArea, Chip, LinearProgress } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { BackgroundIcons } from "../Authorization/auth";
+import GroupIcon from '@mui/icons-material/Group';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import EmailIcon from '@mui/icons-material/Email';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import axios from "axios";
 import ApplicationTracker from "../SocietyData/ApplicationTracker";
+import Groups2Icon from '@mui/icons-material/Groups2';
 
-
-function User(){
-    const [user,setUser]=useState([])
-   // const [value, setValue] = React.useState('one');
+function User() {
+  const [user, setUser] = useState([])
     const [societies, setSocieties] = useState([]);
-    const [userSocieties,setUserSocieties]=useState([]);
+    const [userSocieties, setUserSocieties] = useState([]);
     const [selectedTab, setSelectedTab] = useState('one');
-     const [selectedSociety, setSelectedSociety] = useState(null);
-
-             // New state for modal
+    const [selectedSociety, setSelectedSociety] = useState(null);
     const [selectedForm, setSelectedForm] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // Fetch societies on component mount
+
     useEffect(() => {
         const fetchSocieties = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/api/societies/allsocietyresponses', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('token') // Get the token from local storage
-        }
-      });
-                
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
 
-               
                 if (response.data.length > 0) {
-                    console.log("Fetched Societies:", response.data);
-                     const filteredSocieties = response.data.filter(society =>
-                    userSocieties.some(userSociety => userSociety.societyName === society.name)
-                );
-                console.log("Fetched Socieaaaties:", filteredSocieties);
-                 //   setSocieties(response.data);
-                     setSocieties(filteredSocieties);
-                    // Set default selected society and tab
-                    setSelectedTab(filteredSocieties[0].name);
+                    const filteredSocieties = response.data.filter(society =>
+                        userSocieties.some(userSociety => userSociety.societyName === society.name)
+                    );
+
+                    setSocieties(filteredSocieties);
+                    setSelectedTab(filteredSocieties[0]?.name);
                     setSelectedSociety(filteredSocieties[0]);
                 }
             } catch (error) {
@@ -56,23 +43,22 @@ function User(){
         };
 
         fetchSocieties();
-    },  [userSocieties]);
+    }, [userSocieties]);
 
-
-     useEffect(() => {
+    useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/user/allsociety',{headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem('token')
-            }}
-            );
-                
-             console.log("Fetched User Data:", response.data);
-      if (response.data) {
-        setUser(response.data.user); // Update user details
-        setUserSocieties(response.data.societies)
-      }
+                const response = await axios.get('http://localhost:5000/api/user/allsociety', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('token')
+                    }
+                });
+
+                if (response.data) {
+                    setUser(response.data.user);
+                    setUserSocieties(response.data.societies)
+                }
             } catch (error) {
                 console.error("Error fetching societies", error);
             }
@@ -81,112 +67,151 @@ function User(){
         fetchUser();
     }, []);
 
-    useEffect(() => {
-        console.log("Updated Societies:", societies);
-    }, [societies]);
+    const handleTabChange = (event, newValue) => {
+        const selectedSoc = societies.find(society => society.name === newValue);
+        setSelectedTab(newValue);
+        setSelectedSociety(selectedSoc);
+    };
 
-    
-    
-     const handleTabChange = (event,newValue) => {
-  //  setValue(newValue);
-    const selectedSoc = societies.find(society => society.name === newValue);
-    setSelectedTab(newValue);
-    setSelectedSociety(selectedSoc);
-
-    
-  };
-    // New function to handle form selection
     const handleFormSelect = (form) => {
         setSelectedForm(form);
         setIsModalOpen(true);
     };
-    
-    const settings = {
-    dots: true, // Show dots for navigation
-    infinite: userSocieties.length > 5, // Infinite scrolling
-    speed: 500, // Speed of transition
-    slidesToShow: 5, // Number of items to show at once 
-    slidesToScroll: 1, // Number of items to scroll at once
-    centerMode: true,
-    centerPadding: '60px',
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1, // Show 1 item for smaller screens
-        },
-      },
-    ],
-  };
-    return(
-        <Box mt={6}>
-          < BackgroundIcons/>
+    const getRandomPastelColor = () => {
+        const hue = Math.floor(Math.random() * 360);
+        return `hsl(${hue}, 70%, 85%)`;
+    };
 
-           <Grid container direction={"column"} >
-                <Grid item   sx={{background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)',display: "flex",flexDirection:"column", height:"40vh",justifyContent:"center",alignItems:"center", zIndex:5,transition: 'height 0.3s ease','&:hover': { height: '50vh'}}}>
-                    <Avatar  sx={{ backgroundColor:"#FBA834",width: 150, height: 150  }}>
-                        <PersonIcon fontSize="large"/>
-                    </Avatar>
-                    
-                    <Typography variant="h5" color="white">{user.name}</Typography>
-                    <Typography variant="body2" color="white">{user.Joiningdate}</Typography>
-                  
-                 </Grid>
-                 <Grid item  padding={10} sx={{backgroundColor:"#F2F2F2",width: '100%',overflow: 'hidden'}}>
-                         
-
-
-                                  <Box sx={{ }}>  
-                <Accordion defaultExpanded sx={{position: 'relative', zIndex: 5}}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"  id="panel3-header"  >
+    // Function to get membership duration
+    const getMembershipDuration = (joinDate) => {
+        const joined = new Date(joinDate);
+        const now = new Date();
+        const diffYears = now.getFullYear() - joined.getFullYear();
+        const diffMonths = now.getMonth() - joined.getMonth();
         
-          <Typography variant="h6" >My Societies</Typography>
-           </AccordionSummary>
+        if (diffYears > 0) return `${diffYears} ${diffYears === 1 ? 'year' : 'years'}`;
+        if (diffMonths > 0) return `${diffMonths} ${diffMonths === 1 ? 'month' : 'months'}`;
+        return 'Less than a month';
+    };
 
-                     
-                     <AccordionDetails sx={{backgroundColor:"#393646",p:5}}>
-                     <Slider {...settings}>
-                      {userSocieties.map((society, index) => (
-                      <div key={index} style={{ padding: '0 10px' }}> {/* Add horizontal padding to create space */}
-                      <Card elevation={20} sx={{ margin: 2 }}> {/* Add margin for spacing between cards */}
-                      <CardContent>
-                      <Typography gutterBottom variant="h5" component="div"> {society.societyName} </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary' }}> {society.positionTitle} </Typography>
-                      </CardContent>
-                      </Card>
-                     </div>
-                    ))}
-                    </Slider>
-                    </AccordionDetails>
-                    </Accordion>
-                    </Box> 
-             
+    return (
+        <Box sx={{ bgcolor: '#f5f5f5', minHeight: '100vh' }}>
+            {/* Enhanced Profile Header Section */}
+            <Box sx={{
+                background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)', pt: 8,pb: 20,  marginTop: '-20px', position: 'relative', '&::after': {   content: '""',position: 'absolute', bottom: 0,  left: 0, right: 0,      height: '100px',     background: 'linear-gradient(to top left, #f5f5f5 50%, transparent 51%)'    } }}>
+                <Container maxWidth="lg">
+                    <Stack spacing={4}>
+                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3} alignItems="center">
+                            <Badge
+                                overlap="circular"
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                badgeContent={
+                                    <Tooltip title={`Member of ${userSocieties.length} societies`}>
+                                        <Avatar  sx={{  width: 40,  height: 40,  bgcolor: '#FBA834', border: '2px solid white' }} >
+                                            <GroupIcon />
+                                        </Avatar>
+                                    </Tooltip>
+                                }     >
+                                <Avatar  sx={{ width: 120, height: 120,  bgcolor: '#FBA834', border: '4px solid rgba(255,255,255,0.2)',  transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }} >
+                                    <PersonIcon sx={{ fontSize: 60 }} />
+                                </Avatar>
+                            </Badge>
+                            <Box sx={{ color: 'white', textAlign: { xs: 'center', sm: 'left' } }}>
+                                <Typography variant="h4" fontWeight="bold" gutterBottom>
+                                    {user.name}
+                                </Typography>
+                                <Stack direction="row" spacing={3} flexWrap="wrap" justifyContent={{ xs: 'center', sm: 'flex-start' }}>
+                                    <Stack direction="row" spacing={1} alignItems="center">
+                                        <CalendarTodayIcon sx={{ fontSize: 18 }} />
+                                        <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                                            Member for {getMembershipDuration(user.Joiningdate)}
+                                        </Typography>
+                                    </Stack>
+                                    {user.email && (
+                                        <Stack direction="row" spacing={1} alignItems="center">
+                                            <EmailIcon sx={{ fontSize: 18 }} />
+                                            <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                                                {user.email}
+                                            </Typography>
+                                        </Stack>
+                                    )}
+                                </Stack>
+                            </Box>
+                        </Stack>
 
-                    
-                 <ApplicationTracker
-                     societies={societies}
-                     selectedTab={selectedTab}
-                     handleTabChange={handleTabChange}
-                     selectedSociety={selectedSociety}
-                     handleFormSelect={handleFormSelect}
-                     selectedForm={selectedForm}
-                     isModalOpen={isModalOpen}
-                     setIsModalOpen={setIsModalOpen}
-                   />
-                 </Grid>
+                        {/* Society Stats */}
+                        <Box sx={{ width: '100%', mt: 4 }}>
+                            <LinearProgress variant="determinate"   value={(userSocieties.length / 10) * 100}  sx={{   height: 10,  borderRadius: 5,backgroundColor: 'rgba(255,255,255,0.1)', '& .MuiLinearProgress-bar': { backgroundColor: '#FBA834'}  }}  />
+                            <Typography variant="caption" sx={{ color: 'white', mt: 1, display: 'block' }}>
+                                {userSocieties.length}/10 Societies Joined
+                            </Typography>
+                        </Box>
+                    </Stack>
+                </Container>
+            </Box>
 
+            {/* Enhanced Societies Grid Section */}
+            <Container maxWidth="lg" sx={{ mt: -10, position: 'relative', zIndex: 1 }}>
+                <Card elevation={3} sx={{ mb: 4, borderRadius: 2, overflow: 'hidden' }}>
+                    <CardHeader   
+                       title={
+                            <Stack direction="row" spacing={2} alignItems="center">
+                                <Groups2Icon  color="primary" />
+                                <Typography variant="h6">My Societies</Typography>
+                                <Chip   size="small" label={`${userSocieties.length} Active`} color="primary"  sx={{ ml: 2 }} />
+                            </Stack>  }
+                        sx={{ background: 'linear-gradient(to right, #f5f5f5, white)' }} />
+                    <Divider />
+                    <CardContent sx={{ p: 3 }}>
+                        {userSocieties.length === 0 ? (
+                            <Box textAlign="center" py={6}>
+                                <Groups2Icon  sx={{ fontSize: 60, color: 'text.disabled', mb: 2 }} />
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    No Societies Joined Yet
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Join societies to collect badges and showcase your involvement
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <MuiGrid container spacing={3}>
+                                {userSocieties.map((society, index) => (
+                                    <MuiGrid item xs={12} sm={6} md={4} key={index}>
+                                        <Card elevation={2} sx={{  borderRadius: 3, transition: 'all 0.3s ease', '&:hover': { transform: 'translateY(-4px)',boxShadow: '0 8px 24px rgba(0,0,0,0.1)'  }  }} >
+                                            <Box sx={{ p: 3, background: `linear-gradient(45deg, ${getRandomPastelColor()}, ${getRandomPastelColor()})`, display: 'flex',alignItems: 'center',   gap: 2 }} >
+                                                <Avatar sx={{ bgcolor: 'white',color: 'primary.main', width: 56,height: 56}} />
+                                                   
+                                                
+                                                <Box>
+                                                    <Typography variant="h6" gutterBottom>
+                                                        {society.societyName}
+                                                    </Typography>
+                                                    <Typography   variant="body2"sx={{  color: 'text.secondary',   bgcolor: 'rgba(255,255,255,0.8)', px: 1,py: 0.5, borderRadius: 1,  display: 'inline-block'  }}  >
+                                                        {society.positionTitle}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                        </Card>
+                                    </MuiGrid>
+                                ))}
+                            </MuiGrid>
+                        )}
+                    </CardContent>
+                </Card>
 
-            </Grid>
+                <ApplicationTracker
+                    societies={societies}
+                    selectedTab={selectedTab}
+                    handleTabChange={handleTabChange}
+                    selectedSociety={selectedSociety}
+                    handleFormSelect={handleFormSelect}
+                    selectedForm={selectedForm}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                />
+            </Container>
         </Box>
-    )
+    );
 }
 
 export default User;
