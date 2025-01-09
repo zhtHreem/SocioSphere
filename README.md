@@ -17,10 +17,21 @@
 
 ## How to Use  
 
-- **Register/Log In**:  Register or log in as a university student or society administrator.  
-- **Explore**:  Browse societies, events, and positions based on your interests.
-- **Engage**: Join societies, track membership applications, and access event details
-- **Collaborate**: Use real-time chat for discussions .
+
+  ### For Students
+- **Register/Log In**: Create an account to join societies and participate in events.  
+- **Explore Societies**: Browse societies, events, and open positions based on your interests.  
+- **Apply for Positions**: Submit applications for open positions in societies through the society's page.  
+-  **Approve/Reject Applications**: Review and process membership applications hierarchically.
+- **Group Chat**: Access society-specific group chats if you're a member.  
+- **Notifications**: Get notified when new messages are posted in society group chats.
+
+### For Administrators
+- **Admin Account**: Log in using email `admin@gmail.com` and password `Admin12345`.  
+- **Create Societies and Events**: Add new societies and their corresponding events.  
+- **Manage Positions**: Create and manage open positions for societies.  
+- **Approve/Reject Applications**: Review and process membership applications hierarchically.  
+- **Access All Group Chats**: Monitor all society group chats.
 
 ---
 ## Installation & Setup
