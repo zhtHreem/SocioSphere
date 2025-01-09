@@ -2,7 +2,7 @@ import express from 'express';
 import Chat from '../models/chat.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 import Society from '../models/Society.js';
-import Notification from '../models/Notification.js';
+import Notification from '../models/notification.js';
 const router = express.Router();
 
 router.get('/:societyId', authMiddleware, async (req, res) => {
