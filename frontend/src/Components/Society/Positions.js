@@ -17,13 +17,15 @@ import { Star } from "@mui/icons-material";
 
 const SocietyPositions = () => {
     const { societyId } = useParams();
-      const [society, setSociety] = useState(null); // For fetching society details
+    const [society, setSociety] = useState(null); // For fetching society details
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [open, setOpen] = useState(false);
-  const [newLabel, setNewLabel] = useState("");
-  const [levels, setLevels] = useState([
+    const [open, setOpen] = useState(false);
+    const [newLabel, setNewLabel] = useState("");
+    const [userRole, setUserRole] = useState(null);
+
+    const [levels, setLevels] = useState([
     { id: 1, label: "President", users: [{ name: "Hareem" }, { name: "Ali" }] },
     { id: 2, label: "Senior Exe", users: [{ name: "Fatima" }, { name: "Ahmed" }] },
     { id: 3, label: "Head", users: [{ name: "Sara" }, { name: "Hamza" },{ name: "Hareem" }, { name: "Ali" }] },
@@ -31,9 +33,26 @@ const SocietyPositions = () => {
     { id: 5, label: "Officer", users: [{ name: "Aisha" }, { name: "Bilal" }] },
   ]);
 
-  const token = localStorage.getItem('token');
-  const { role } = jwtDecode(token);
-    console.log("role",role)
+   // Function to safely get user role from token
+    const getUserRole = () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const decoded = jwtDecode(token);
+                return decoded.role;
+            }
+            return null;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+            return null;
+        }
+    };
+
+    // Set user role on component mount
+    useEffect(() => {
+        const role = getUserRole();
+        setUserRole(role);
+    }, []);
 
   // State to track which avatars are showing their names
   const [revealedUsers, setRevealedUsers] = useState({});
@@ -70,12 +89,6 @@ const SocietyPositions = () => {
           title: position.title,
            users: position.users ? position.users.map(user => user) : [],// users: position.users.map(user => user), // Assuming each user has an _id
         })),
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('token') // Get the token from local storage
-        }
       }
     );
     
@@ -176,7 +189,7 @@ if (!society || !society.positions) {
 
 
         
-       {role === "admin" && ( <Button variant="contained" color="primary" sx={{ mb: 2, zIndex: 10 }} onClick={handleOpen}>Add New Level</Button>)}
+       {userRole === "admin" && ( <Button variant="contained" color="primary" sx={{ mb: 2, zIndex: 10 }} onClick={handleOpen}>Add New Level</Button>)}
         
          <Modal open={open} onClose={handleClose}>
          <Box   sx={{  position: "absolute", top: "50%", left: "50%",  transform: "translate(-50%, -50%)",  width: 300,  bgcolor: "background.paper",     boxShadow: 24,p: 4,  borderRadius: 2, }} >
@@ -198,7 +211,7 @@ if (!society || !society.positions) {
               {index === 2 && <Star sx={{ color: "blue" }} />}
               {index === 3 && <StarHalfIcon sx={{ color: "red" }} />}
               
-                          {role === "admin" && (  <Button variant="outlined" color="error" onClick={() => deleteLevel(position._id)} sx={{ mt: 1 }}>Delete Level</Button>)}
+                          {userRole === "admin" && (  <Button variant="outlined" color="error" onClick={() => deleteLevel(position._id)} sx={{ mt: 1 }}>Delete Level</Button>)}
 
               {/* Display avatars with toggle for username */}
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -220,7 +233,7 @@ if (!society || !society.positions) {
             </Box>
           ))}
         </Box>
-         {role === "admin" && (<Button variant="contained" color="success" sx={{ mt: 2 }} onClick={saveChanges}>
+         {userRole === "admin" && (<Button variant="contained" color="success" sx={{ mt: 2 }} onClick={saveChanges}>
            Save Changes
          </Button>)}
       </Box>
