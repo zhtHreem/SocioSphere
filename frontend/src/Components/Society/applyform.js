@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Stack, Paper,Alert, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, Button, RadioGroup, Radio, Typography } from "@mui/material";
+import { Box, TextField, Stack, Paper,Alert, FormControl,AlertTitle, InputLabel,   Dialog,Select, MenuItem, Checkbox, FormControlLabel, Button, RadioGroup, Radio, Typography } from "@mui/material";
 import { useNavigate, useParams } from 'react-router-dom';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import axios from "axios";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function ApplyForm() {
+
+    const navigate = useNavigate();
     const { societyId } = useParams();
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -15,26 +18,13 @@ export default function ApplyForm() {
     const [positionOption, setPositionOption] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [formResponses, setFormResponses] = useState({});
-     const id="6748d84723ece2f1e9dc31e8"      ////form id
+        const [showAuthDialog, setShowAuthDialog] = useState(false);
+
     // Fetch form and questions from backend
     useEffect(() => {
-        // Make sure you have the correct token for authentication
         const fetchForm = async () => {
             try {
-
-             const token = localStorage.getItem('token');
-
-                if (!token) {
-            console.error("No authentication token found");
-            // Redirect to login or show error message
-            return;
-        }
-                const response = await axios.get(`http://localhost:5000/api/forms/${societyId}`, {
-                     headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem('token')
-            },
-                });// Replace with your actual API endpoint
+                const response = await axios.get(`http://localhost:5000/api/forms/${societyId}`);// Replace with your actual API endpoint
               
                 const formData = response.data; // Assuming you are getting the form details
                 setFormTitle(formData.title);
@@ -54,8 +44,9 @@ export default function ApplyForm() {
         e.preventDefault();
         const token = localStorage.getItem("token");
 
-        if (!token) {
-            console.error("No authentication token found");
+          if (!token) {
+            setShowAuthDialog(true);
+            // Redirect to login or show error message
             return;
         }
 
@@ -107,6 +98,9 @@ export default function ApplyForm() {
             : value // Directly set value for other types like "Short answer"
     }));
 };
+const handleClose = () => {
+        setShowAuthDialog(false);
+    };
     
     const renderFormInput = (question) => {
     const currentResponse = formResponses[question._id];
@@ -189,10 +183,31 @@ export default function ApplyForm() {
                             </Paper>
                         ))}
                         
-                        <Button type="submit" variant="contained" onClick={handleSubmit} sx={{backgroundColor:"#FF6500"}}>Submit</Button>
+                     <Button type="submit" variant="contained" onClick={handleSubmit} sx={{backgroundColor:"#526E48"}}>Submit</Button>
                     </Stack>
                 </form>
             </Paper>
+
+            {/* Authentication Dialog */}
+              <Dialog    open={showAuthDialog}  onClose={handleClose} maxWidth="xs"  fullWidth >
+                <Box sx={{ p: 4, textAlign: 'center' }}>
+                    <AccountCircleIcon  sx={{ fontSize: 80,      color: '#50727B',  mb: 2  }}  />
+                    
+                    <Alert    severity="info" variant="outlined"  sx={{ mb: 3 }}  >
+                        <AlertTitle>Authentication Required</AlertTitle>
+                        Please log in to submit your application
+                    </Alert>
+
+                    <Stack spacing={2} direction="row" justifyContent="center">
+                        <Button   variant="outlined"  onClick={handleClose}   >
+                            Cancel
+                        </Button>
+                        <Button     variant="contained"  onClick={() => navigate('/auth')} sx={{ backgroundColor: '#50727B', '&:hover': {      backgroundColor: '#2C021F' }  }}  >
+                            Login Now
+                        </Button>
+                    </Stack>
+                </Box>
+            </Dialog>
         </Box>
     );
 }
