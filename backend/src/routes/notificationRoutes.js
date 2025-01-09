@@ -1,7 +1,6 @@
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware.js';
 import Notification from '../models/notification.js';
-
 const router = express.Router();
 
 // Fetch notifications for the logged-in user
