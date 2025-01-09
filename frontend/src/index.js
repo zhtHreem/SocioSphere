@@ -8,16 +8,15 @@ import { UserProfile } from './pages/userprofile';
 import { SocietyForm } from './pages/createapplyformpage';
 import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
-import AddSocietyData from './Components/SocietyData/addSociety';
 import AddSocietyInfo from './pages/addSocietyInfo';
 import Society from './pages/societycataloguePage';
 import Authorization from './pages/authorization';
 import Calender from './pages/calender';
 import SocietyProfile from './pages/societyProfilePage';
 import AdminPage from './pages/adminpage';
-import Chat from './Components/Chat/chat'; // Import the Chat component
-//import Notification from './Components/Notification/Notification';
 import PrivateRoute from './Components/Authorization/privateRoute';
+import AboutPage from './Components/Home/about';
+import Contact from './pages/contactpage';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/add',
-    element: <AddSocietyData />,
+    element: <AddSocietyInfo  />,
   },
   {
     path: '/society',
@@ -69,13 +68,13 @@ const router = createBrowserRouter([
               
   },
   {
-    path: '/chat', // Optional dedicated route for Chat
-    element: <Chat />, // Render the Chat component
-  },
-  //{
-    //path: '/notifications', // Route for NotificationsPage
-    //element: <Notifications />, // Render the NotificationsPage component
- // },
+    path: '/about', 
+    element: <AboutPage />, 
+  },{
+    path: '/contact', 
+    element: <Contact />,
+  }
+  
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
