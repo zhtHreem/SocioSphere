@@ -21,10 +21,14 @@ const app = express();
 // Middleware
 //app.use(cors());
 app.use(cors({
-  origin: "https://socio-sphere-five.vercel.app",
+  origin: "https://socio-sphere-mu.vercel.app",
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true
 }));
+
+// Handle preflight requests
+app.options('*', cors());
+
 app.use(express.json());
 
 // Connect to Database
@@ -53,7 +57,7 @@ const httpServer = createServer(app);
 // Attach Socket.IO to the server
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://socio-sphere-five.vercel.app", // Replace with your frontend's URL
+    origin: "https://socio-sphere-mu.vercel.app", 
     methods: ["GET", "POST"],
   },
 });
