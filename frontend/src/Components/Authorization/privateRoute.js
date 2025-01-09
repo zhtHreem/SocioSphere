@@ -11,7 +11,6 @@ const PrivateRoute = ({ children, allowedRoles }) => {
 
   try {
     const { role } = jwtDecode(token);
-    console.log("role",role)
 
     if (allowedRoles.includes(role)) {
       return children;

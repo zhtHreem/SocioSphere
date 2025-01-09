@@ -56,7 +56,7 @@ const Chat = ({ societyId }) => {
   }, []);
 
   useEffect(() => {
-    socket = io("http://localhost:5000", {
+    socket = io("https://socio-sphere-api-sooty.vercel.app", {
       reconnection: true,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
@@ -83,7 +83,7 @@ const Chat = ({ societyId }) => {
     const fetchMessages = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(`http://localhost:5000/api/chats/${societyId}`, {
+        const response = await axios.get(`https://socio-sphere-api-sooty.vercel.app/api/chats/${societyId}`, {
           headers: { Authorization: token },
         });
         setMessages(response.data);
@@ -123,7 +123,7 @@ const Chat = ({ societyId }) => {
   const payload = { society: societyId, message: newMessage };
 
   try {
-    const response = await axios.post("http://localhost:5000/api/chats", payload, {
+    const response = await axios.post("https://socio-sphere-api-sooty.vercel.app/api/chats", payload, {
       headers: { Authorization: token },
     });
 

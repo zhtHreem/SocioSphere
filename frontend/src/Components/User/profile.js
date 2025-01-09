@@ -21,7 +21,7 @@ function User() {
     useEffect(() => {
         const fetchSocieties = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/societies/allsocietyresponses', {
+                const response = await axios.get('https://socio-sphere-api-sooty.vercel.app/api/societies/allsocietyresponses', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': localStorage.getItem('token')
@@ -48,7 +48,7 @@ function User() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/user/allsociety', {
+                const response = await axios.get('https://socio-sphere-api-sooty.vercel.app/api/user/allsociety', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': localStorage.getItem('token')

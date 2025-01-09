@@ -110,7 +110,7 @@ const AuthPage = () => {
     
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/login", loginData);
+      const response = await axios.post("https://socio-sphere-api-sooty.vercel.app/api/login", loginData);
       // Save JWT Token (Consider using HttpOnly cookies for better security)
       localStorage.setItem("token", response.data.token);
           setSnackbarMessage('Login successfully!');
@@ -134,7 +134,7 @@ const AuthPage = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/register", {
+      const response = await axios.post("https://socio-sphere-api-sooty.vercel.app/api/register", {
         username: signupData.username,
         email: signupData.email,
         password: signupData.password,

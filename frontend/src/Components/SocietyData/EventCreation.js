@@ -28,7 +28,7 @@ const EventCreation = ({ open, onClose, societyId, eventToEdit, onEventUpdated }
     try {
       if (eventToEdit) {
         // Update existing event
-        await axios.put(`http://localhost:5000/api/societies/${societyId}/events/${eventToEdit._id}`, formData);
+        await axios.put(`https://socio-sphere-api-sooty.vercel.app/api/societies/${societyId}/events/${eventToEdit._id}`, formData);
         onEventUpdated(formData);
       } else {
         // Create new event
@@ -38,7 +38,7 @@ const EventCreation = ({ open, onClose, societyId, eventToEdit, onEventUpdated }
         data.append('description', formData.description);
         data.append('image', formData.image);
 
-        const response = await axios.post(`http://localhost:5000/api/societies/${societyId}/events`, formData);
+        const response = await axios.post(`https://socio-sphere-api-sooty.vercel.app/api/societies/${societyId}/events`, formData);
         onEventUpdated(response.data);
       }
 

@@ -16,7 +16,7 @@ const SocietyPage = () => {
   const fetchSocieties = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/societies');
+      const response = await axios.get('https://socio-sphere-api-sooty.vercel.app/api/societies');
       setSocieties(response.data);
       setFilteredSocieties(response.data);
     } catch (error) {

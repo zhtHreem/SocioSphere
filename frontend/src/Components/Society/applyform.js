@@ -24,7 +24,7 @@ export default function ApplyForm() {
     useEffect(() => {
         const fetchForm = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/forms/${societyId}`);// Replace with your actual API endpoint
+                const response = await axios.get(`https://socio-sphere-api-sooty.vercel.app/api/forms/${societyId}`);// Replace with your actual API endpoint
               
                 const formData = response.data; // Assuming you are getting the form details
                 setFormTitle(formData.title);
@@ -59,7 +59,7 @@ export default function ApplyForm() {
         };
 
         try {
-            const response = await axios.post(`http://localhost:5000/api/responses/${societyId}`, responsePayload, {
+            const response = await axios.post(`https://socio-sphere-api-sooty.vercel.app/api/responses/${societyId}`, responsePayload, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: token,

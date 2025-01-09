@@ -13,7 +13,7 @@ const AddSocietyForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/societies/add', formData);
+      await axios.post('https://socio-sphere-api-sooty.vercel.app/api/societies/add', formData);
       setOpenSnackbar({ open: true, message: 'Society added successfully!' });
       setFormData({ name: '', description: '', image: '' });
     } catch (error) {
