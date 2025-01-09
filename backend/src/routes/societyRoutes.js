@@ -159,7 +159,7 @@ router.get('/allsocietyresponses', authMiddleware, async (req, res) => {
 
 
 // updates position in apply form and society for Positions page
-router.put('/:id/positions',authMiddleware, async (req, res) => {
+router.put('/:id/positions', async (req, res) => {
   const { id } = req.params; // Society ID
   const { positions } = req.body; // Updated positions data
  // console.log("id",id)
