@@ -38,11 +38,11 @@ router.post('/forms/:societyId', authMiddleware, async (req, res) => {
 
 
 // Get a single form by its ID
-router.get('/forms/:id', authMiddleware, async (req, res) => {
+router.get('/forms/:id',  async (req, res) => {
     try {
-        console.log('Request Parameters:', req.params);
-    console.log('Authenticated User:', req.user);
-        console.log("lalal")
+     //   console.log('Request Parameters:', req.params);
+   // console.log('Authenticated User:', req.user);
+   //   console.log("lalal")
        const  id  = req.params.id; // Society ID
 
         // Step 1: Get the form with the societyId
