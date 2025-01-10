@@ -30,7 +30,13 @@ app.use(cors({
 
 
 // Handle preflight requests
-app.options('*', cors());
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');  // Change '*' to the allowed origins
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.status(200).end();
+});
+
 
 app.use(express.json());
 
