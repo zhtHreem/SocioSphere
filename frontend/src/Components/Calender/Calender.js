@@ -14,7 +14,7 @@ const UnifiedEventCalendar = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('https://socio-sphere-api-sooty.vercel.app/api/societies/events/all');
+      const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/societies/events/all`);
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error.toJSON());

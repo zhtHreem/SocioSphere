@@ -114,7 +114,7 @@ const Navbar = () => {
 
   return (
     <Box sx={{ display: 'flex', overflow: 'hidden' }}>
-      <AppBar sx={{   background: 'white',   boxShadow: '0 4px 6px rgba(0,0,0,0.1)', overflow: 'hidden',  position: 'relative',  }}  >
+      <AppBar sx={{   background: 'white',     borderBottom: '2px solid rgba(0, 0, 0, 0.1)', boxShadow: '0 8px 40px rgba(0,0,0,0.2)', overflow: 'hidden',  position: 'relative',  }}  >
         <Toolbar>
           <IconButton  color="inherit"  aria-label="open drawer"  edge="start" onClick={handleDrawerToggle} sx={{color:"black", mr: 2, display: { sm: 'none' } }}>
             <MenuIcon />

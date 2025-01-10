@@ -22,12 +22,12 @@ const app = express();
 //app.use(cors());
 app.use(cors({
   origin: [
-    "https://socio-sphere-zhthreem-hareems-projects-e19e488b.vercel.app",  // Development URL
-    "https://socio-sphere-mu.vercel.app"  // Production URL
+    process.env.REACT_APP_HOST_URL,  // Development URL
   ],
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true
 }));
+
 
 // Handle preflight requests
 app.options('*', cors());
@@ -60,7 +60,7 @@ const httpServer = createServer(app);
 // Attach Socket.IO to the server
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://socio-sphere-mu.vercel.app", 
+    origin: process.env.REACT_APP_HOST_URL, 
     methods: ["GET", "POST"],
   },
 });

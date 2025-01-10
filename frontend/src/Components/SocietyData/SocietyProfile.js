@@ -35,7 +35,7 @@ const SocietyProfile = () => {
 
     const fetchSocietyDetails = async () => {
     try {
-      const response = await axios.get(`https://socio-sphere-api-sooty.vercel.app/api/societies/${id}`);
+      const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/societies/${id}`);
       setSociety(response.data);
     } catch (error) {
       console.error('Error fetching society details:', error);
@@ -44,7 +44,7 @@ const SocietyProfile = () => {
 
   const fetchSocietyEvents = async () => {
     try {
-      const response = await axios.get(`https://socio-sphere-api-sooty.vercel.app/api/societies/${id}/events`);
+      const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/societies/${id}/events`);
       setEvents(response.data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -53,7 +53,7 @@ const SocietyProfile = () => {
 
   const fetchUserRole = async () => {
     try {
-      const response = await axios.post('https://socio-sphere-api-sooty.vercel.app/api/user/profile', {}, {
+      const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/user/profile`, {}, {
         headers: {
           Authorization: localStorage.getItem('token'),
         },

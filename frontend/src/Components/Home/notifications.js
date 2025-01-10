@@ -32,7 +32,7 @@ const Notifications = ({ anchorEl, onClose }) => {
     const fetchNotifications = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('https://socio-sphere-api-sooty.vercel.app/api/notifications/user/notifications', {
+        const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/notifications/user/notifications`, {
           headers: {
             Authorization: token,
           },

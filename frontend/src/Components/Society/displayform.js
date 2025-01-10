@@ -30,7 +30,7 @@ const FormDetailsModal = ({
   const handleApprove = async () => {
     try {
      const response = await axios.put(
-        `https://socio-sphere-api-sooty.vercel.app/api/societies/forms/approve/${formData._id}`,
+        `${process.env.REACT_APP_HOST_URL}/api/societies/forms/approve/${formData._id}`,
         {
           societyId,
           userId,
@@ -66,7 +66,7 @@ const FormDetailsModal = ({
   const handleDisapprove = async () => {
     try {
      const response = await axios.put(
-        `https://socio-sphere-api-sooty.vercel.app/api/forms/disapprove/${formData._id}`,
+        `${process.env.REACT_APP_HOST_URL}/api/forms/disapprove/${formData._id}`,
         {
           societyId,
           userId,

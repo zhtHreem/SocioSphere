@@ -30,7 +30,7 @@ export default function FormBuilder() {
         };
        // const societyId="67471c5f0207dccfc85f7281" ;
        console.log("lla",societyId)
-        const response = await axios.post(`https://socio-sphere-api-sooty.vercel.app/api/forms/${societyId}`,formData, {
+        const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/forms/${societyId}`,formData, {
             
             headers: {
                 'Content-Type': 'application/json',

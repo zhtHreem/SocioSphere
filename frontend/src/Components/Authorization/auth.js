@@ -51,6 +51,7 @@ const AuthPage = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
   // Add validation states
+
   const [errors, setErrors] = useState({
     loginEmail: '',
     loginPassword: '',
@@ -110,7 +111,7 @@ const AuthPage = () => {
     
     e.preventDefault();
     try {
-      const response = await axios.post("https://socio-sphere-api-sooty.vercel.app/api/login", loginData);
+      const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/login`, loginData);
       // Save JWT Token (Consider using HttpOnly cookies for better security)
       localStorage.setItem("token", response.data.token);
           setSnackbarMessage('Login successfully!');
@@ -134,7 +135,7 @@ const AuthPage = () => {
     }
 
     try {
-      const response = await axios.post("https://socio-sphere-api-sooty.vercel.app/api/register", {
+      const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/register`, {
         username: signupData.username,
         email: signupData.email,
         password: signupData.password,

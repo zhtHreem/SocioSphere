@@ -64,7 +64,7 @@ const SocietyPositions = () => {
   useEffect(() => {
     const fetchSociety = async () => {
       try {
-        const response = await axios.get(`https://socio-sphere-api-sooty.vercel.app/api/societies/${societyId}`);
+        const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/societies/${societyId}`);
         setSociety(response.data);
         console.log(response.data)
         setLevels(response.data.positions || []);
@@ -83,7 +83,7 @@ const SocietyPositions = () => {
   try {
     // Send PUT request to update positions
     const response = await axios.put(
-      `https://socio-sphere-api-sooty.vercel.app/api/societies/${societyId}/positions`,
+      `${process.env.REACT_APP_HOST_URL}/api/societies/${societyId}/positions`,
       {
         positions: society.positions.map(position => ({
           title: position.title,
