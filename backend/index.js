@@ -22,7 +22,7 @@ const app = express();
 //app.use(cors());
 app.use(cors({
   origin: [
-    process.env.REACT_APP_HOST_URL,  // Development URL
+    process.env.REACT_APP_API_URL,  // Development URL
   ],
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true
@@ -60,7 +60,7 @@ const httpServer = createServer(app);
 // Attach Socket.IO to the server
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.REACT_APP_HOST_URL, 
+    origin: process.env.REACT_APP_API_URL, 
     methods: ["GET", "POST"],
   },
 });
