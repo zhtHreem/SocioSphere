@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { Avatar, Box, TextField, Typography, Paper, IconButton } from "@mui/material";
+import { Avatar, Box, TextField, Typography, Paper, IconButton, CircularProgress } from "@mui/material";
 import { Send as SendIcon, EmojiEmotions as EmojiIcon } from "@mui/icons-material";
 import { styled } from "@mui/system";
 
@@ -31,6 +31,7 @@ const Chat = ({ societyId }) => {
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [loading, setLoading] = useState(false);  // State to track loading status
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -81,6 +82,7 @@ const Chat = ({ societyId }) => {
     if (!societyId || !isConnected) return;
 
     const fetchMessages = async () => {
+      setLoading(true);  // Set loading to true before fetching data
       const token = localStorage.getItem("token");
       try {
         const response = await axios.get(`${process.env.REACT_APP_HOST_URL}/api/chats/${societyId}`, {
@@ -89,6 +91,8 @@ const Chat = ({ societyId }) => {
         setMessages(response.data);
       } catch (error) {
         console.error("Failed to fetch messages:", error);
+      } finally {
+        setLoading(false);  // Set loading to false after data is fetched
       }
     };
 
@@ -115,25 +119,25 @@ const Chat = ({ societyId }) => {
   }, [societyId, isConnected]);
 
   const sendMessage = async (e) => {
-  e?.preventDefault();
-  
-  if (!newMessage.trim() || !userId) return;
+    e?.preventDefault();
+    
+    if (!newMessage.trim() || !userId) return;
 
-  const token = localStorage.getItem("token");
-  const payload = { society: societyId, message: newMessage };
+    const token = localStorage.getItem("token");
+    const payload = { society: societyId, message: newMessage };
 
-  try {
-    const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/chats`, payload, {
-      headers: { Authorization: token },
-    });
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/chats`, payload, {
+        headers: { Authorization: token },
+      });
 
-    socket.emit("sendMessage", { ...response.data, sender: { _id: userId, username, profilePic } });
+      socket.emit("sendMessage", { ...response.data, sender: { _id: userId, username, profilePic } });
 
-    setNewMessage(""); // Clear the input field
-  } catch (error) {
-    console.error("Error sending message:", error);
-  }
-};
+      setNewMessage(""); // Clear the input field
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
 
   const formatTimestamp = (date) => {
     return new Date(date).toLocaleTimeString([], { 
@@ -154,27 +158,33 @@ const Chat = ({ societyId }) => {
       </Box>
 
       <Box sx={{ flexGrow: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', p: 2, '&::-webkit-scrollbar': { width: '6px' }, '&::-webkit-scrollbar-track': { background: 'transparent' }, '&::-webkit-scrollbar-thumb': { background: 'rgba(0,0,0,0.1)', borderRadius: '10px' }}}>
-        {messages.map((msg, idx) => {
-          const isCurrentUser = msg.sender._id === userId;
-          return (
-            <Box key={idx} sx={{ display: 'flex', flexDirection: 'column', alignItems: isCurrentUser ? 'flex-end' : 'flex-start' }}>
-              <StyledMessageBox isCurrentUser={isCurrentUser}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
-                  <Avatar src={msg.sender.profilePic || "default-profile-pic-url"} sx={{ width: 20, height: 20, mr: 1, border: isCurrentUser ? '2px solid rgba(255,255,255,0.8)' : '2px solid #6366f1' }} />
-                  <Typography variant="caption" sx={{ fontWeight: 600, color: isCurrentUser ? 'rgba(255,255,255,0.9)' : '#6366f1' }}>
-                    {isCurrentUser ? 'You' : msg.sender.username}
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress color="primary" />
+          </Box>
+        ) : (
+          messages.map((msg, idx) => {
+            const isCurrentUser = msg.sender._id === userId;
+            return (
+              <Box key={idx} sx={{ display: 'flex', flexDirection: 'column', alignItems: isCurrentUser ? 'flex-end' : 'flex-start' }}>
+                <StyledMessageBox isCurrentUser={isCurrentUser}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
+                    <Avatar src={msg.sender.profilePic || "default-profile-pic-url"} sx={{ width: 20, height: 20, mr: 1, border: isCurrentUser ? '2px solid rgba(255,255,255,0.8)' : '2px solid #6366f1' }} />
+                    <Typography variant="caption" sx={{ fontWeight: 600, color: isCurrentUser ? 'rgba(255,255,255,0.9)' : '#6366f1' }}>
+                      {isCurrentUser ? 'You' : msg.sender.username}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" sx={{ lineHeight: 1.4 }}>
+                    {msg.message}
                   </Typography>
-                </Box>
-                <Typography variant="body2" sx={{ lineHeight: 1.4 }}>
-                  {msg.message}
-                </Typography>
-                <Typography variant="caption" sx={{ display: 'block', mt: 0.5, textAlign: 'right', opacity: isCurrentUser ? 0.8 : 0.6, fontSize: '0.7rem' }}>
-                  {formatTimestamp(msg.timestamp)}
-                </Typography>
-              </StyledMessageBox>
-            </Box>
-          );
-        })}
+                  <Typography variant="caption" sx={{ display: 'block', mt: 0.5, textAlign: 'right', opacity: isCurrentUser ? 0.8 : 0.6, fontSize: '0.7rem' }}>
+                    {formatTimestamp(msg.timestamp)}
+                  </Typography>
+                </StyledMessageBox>
+              </Box>
+            );
+          })
+        )}
         <div ref={messagesEndRef} />
       </Box>
 
@@ -183,8 +193,8 @@ const Chat = ({ societyId }) => {
           <IconButton size="small" sx={{ color: '#94a3b8' }}>
             <EmojiIcon />
           </IconButton>
-          <TextField    fullWidth   variant="standard"  value={newMessage}  onChange={(e) => setNewMessage(e.target.value)}  placeholder="Type a message..."  InputProps={{ disableUnderline: true }}   sx={{ '& .MuiInputBase-root': { padding: '4px 8px' } }}  />
-          <IconButton  color="primary"  onClick={sendMessage}  disabled={!newMessage.trim()}   size="small"  sx={{  backgroundColor: '#6366f1',    color: 'white',   '&:hover': { backgroundColor: '#4f46e5' },    '&.Mui-disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' } }} >
+          <TextField fullWidth variant="standard" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type a message..." InputProps={{ disableUnderline: true }} sx={{ '& .MuiInputBase-root': { padding: '4px 8px' } }} />
+          <IconButton color="primary" onClick={sendMessage} disabled={!newMessage.trim()} size="small" sx={{ backgroundColor: '#6366f1', color: 'white', '&:hover': { backgroundColor: '#4f46e5' }, '&.Mui-disabled': { backgroundColor: '#e2e8f0', color: '#94a3b8' } }}>
             <SendIcon fontSize="small" />
           </IconButton>
         </Box>
