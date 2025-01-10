@@ -21,7 +21,10 @@ const app = express();
 // Middleware
 //app.use(cors());
 app.use(cors({
-  origin: "https://socio-sphere-mu.vercel.app",
+  origin: [
+    "https://socio-sphere-zhthreem-hareems-projects-e19e488b.vercel.app",  // Development URL
+    "https://socio-sphere-mu.vercel.app"  // Production URL
+  ],
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true
 }));
