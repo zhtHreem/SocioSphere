@@ -69,6 +69,8 @@ const io = new Server(httpServer, {
     origin: process.env.REACT_APP_API_URL, 
     methods: ["GET", "POST"],
   },
+  transports: ['websocket', 'polling'], 
+   withCredentials: true, 
 });
 
 // Socket.IO connection logic
