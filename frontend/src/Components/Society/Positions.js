@@ -89,7 +89,8 @@ const SocietyPositions = () => {
           title: position.title,
            users: position.users ? position.users.map(user => user) : [],// users: position.users.map(user => user), // Assuming each user has an _id
         })),
-      }
+      },
+      { headers: { Authorization: localStorage.getItem('token') } }
     );
     
 
