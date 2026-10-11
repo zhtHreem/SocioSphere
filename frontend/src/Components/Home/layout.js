@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 import { jwtDecode } from 'jwt-decode';
 import Notifications from '../Home/notifications';
 import { Aurora } from './ui';
+import LogoMark from './LogoMark';
 
 const NAV_ITEMS = [
   { name: 'Home', link: '/' },
@@ -21,22 +22,12 @@ const NAV_ITEMS = [
   { name: 'Contact', link: '/contact' },
 ];
 
+// Mark plus a wordmark set in two weights: "Socio" heavy, "Sphere" regular.
 export const Logo = ({ light = true, size = 36 }) => (
-  <Box component={Link} to="/" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.2, textDecoration: 'none', color: light ? '#fff' : 'var(--ink)' }}>
-    <Box sx={{ position: 'relative', width: size, height: size, flexShrink: 0, '@keyframes ss-orbit': { to: { transform: 'rotate(360deg)' } } }}>
-      {/* logo image fitted inside a round white badge */}
-      <Box sx={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#fff', display: 'grid', placeItems: 'center', overflow: 'hidden', boxShadow: '0 6px 18px -4px rgba(61,90,254,.6)' }}>
-        <Box component="img" src="/logo.png" alt="SocioSphere logo" sx={{ width: '82%', height: '82%', objectFit: 'contain' }} />
-      </Box>
-      {/* two dots roaming around the badge */}
-      {[{ c: '#19E3B1', d: '5s', s: 0 }, { c: '#FF3D8B', d: '5s', s: -2.5 }].map((o) => (
-        <Box key={o.c} sx={{ position: 'absolute', inset: -5, animation: `ss-orbit ${o.d} linear ${o.s}s infinite` }}>
-          <Box sx={{ position: 'absolute', top: 0, left: '50%', width: 7, height: 7, ml: '-3.5px', borderRadius: '50%', background: o.c, boxShadow: `0 0 8px ${o.c}` }} />
-        </Box>
-      ))}
-    </Box>
-    <Box component="span" sx={{ fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: size * 0.62, letterSpacing: '-0.03em' }}>
-      Socio<Box component="span" sx={{ color: '#19E3B1' }}>Sphere</Box>
+  <Box component={Link} to="/" aria-label="SocioSphere home" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.1, textDecoration: 'none', color: light ? '#fff' : 'var(--ink)' }}>
+    <LogoMark size={size} />
+    <Box component="span" sx={{ fontFamily: '"Bricolage Grotesque", sans-serif', fontSize: size * 0.66, letterSpacing: '-0.035em', lineHeight: 1 }}>
+      <Box component="span" sx={{ fontWeight: 800 }}>Socio</Box><Box component="span" sx={{ fontWeight: 400 }}>Sphere</Box>
     </Box>
   </Box>
 );

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="SocioSphere">
+  <defs>
+    <linearGradient id="a" x1="10" y1="4" x2="50" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3D5AFE"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="b" x1="50" y1="4" x2="92" y2="96" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF8AB8"/>
+      <stop offset="1" stop-color="#FF3D8B"/>
+    </linearGradient>
+    <clipPath id="c"><circle cx="50" cy="50" r="47"/></clipPath>
+    <mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+      <rect width="100" height="100" fill="#fff"/>
+      <path d="M50 0C12 16 16 44 50 50S88 84 50 100" fill="none" stroke="#000" stroke-width="7.5"/>
+    </mask>
+  </defs>
+  <g clip-path="url(#c)" mask="url(#m)">
+    <path d="M50 0C12 16 16 44 50 50S88 84 50 100H0V0Z" fill="url(#a)"/>
+    <path d="M50 0C12 16 16 44 50 50S88 84 50 100H100V0Z" fill="url(#b)"/>
+  </g>
+</svg>
