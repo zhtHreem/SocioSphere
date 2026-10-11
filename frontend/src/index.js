@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, Navigate, useParams } from 'react-router-dom';
 
 import './index.css';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from './theme';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './lib/api';
 import App from './App';
 import { UserProfile } from './pages/userprofile';
 import { SocietyForm } from './pages/createapplyformpage';
@@ -17,6 +22,12 @@ import AdminPage from './pages/adminpage';
 import PrivateRoute from './Components/Authorization/privateRoute';
 import AboutPage from './Components/Home/about';
 import Contact from './pages/contactpage';
+import Community from './pages/communityPage';
+import Event from './pages/eventPage';
+import TeamPage from './pages/teamPage';
+
+// the old ranks screen now lives at /society/:id/team
+const OldPositions = () => { const { societyId } = useParams(); return <Navigate to={`/society/${societyId}/team`} replace />; };
 const router = createBrowserRouter([
   {
     path: '/',
@@ -35,6 +46,18 @@ const router = createBrowserRouter([
     element: <SocietyProfile />,
   },
   {
+    path: '/society/:id/community',
+    element: <Community />,
+  },
+  {
+    path: '/society/:id/team',
+    element: <TeamPage />,
+  },
+  {
+    path: '/event/:id',
+    element: <Event />,
+  },
+  {
     path: '/user',
     element: <PrivateRoute allowedRoles={['user']}>
                <UserProfile/>
@@ -49,11 +72,15 @@ const router = createBrowserRouter([
   },
   {
      path:"/society/:societyId/position/:id",
-     element: <Positions/>
+     element: <OldPositions />
   },
   {
     path: '/auth',
     element: <Authorization />,
+  },
+  {
+    path: '/events',
+    element: <Calender />,
   },
   {
     path: '/c',
@@ -80,5 +107,10 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
  
-  <RouterProvider router={router} />
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </ThemeProvider>
 );
