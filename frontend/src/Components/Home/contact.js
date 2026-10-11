@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Container, Typography, Box, Grid, TextField, Button, Card, CardContent, useTheme, Snackbar, Alert, Paper, Divider } from '@mui/material';
+import { Box, TextField, Button, Snackbar, Alert } from '@mui/material';
 import {
   Phone as PhoneIcon,
   Email as EmailIcon,
   LocationOn as LocationIcon,
   Schedule as ScheduleIcon
 } from '@mui/icons-material';
+import { PageHero, Reveal, TiltCard } from './ui';
 
 const ContactPage = () => {
-  const theme = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -41,7 +41,7 @@ const ContactPage = () => {
 
   const contactInfo = [
     {
-      icon: <PhoneIcon color="primary" />,
+      icon: <PhoneIcon />,
       title: "Phone",
       details: [
         "+92 (555) 123-4567",
@@ -49,7 +49,7 @@ const ContactPage = () => {
       ]
     },
     {
-      icon: <EmailIcon color="primary" />,
+      icon: <EmailIcon />,
       title: "Email",
       details: [
         "support@sociosphere.com",
@@ -57,13 +57,14 @@ const ContactPage = () => {
       ]
     },
     {
-      icon: <LocationIcon color="primary" />,
+      icon: <LocationIcon />,
       title: "Location",
       details: [
-        "123 Community Street",      ]
+        "123 Community Street",
+      ]
     },
     {
-      icon: <ScheduleIcon color="primary" />,
+      icon: <ScheduleIcon />,
       title: "Business Hours",
       details: [
         "Monday - Friday: 9:00 AM - 6:00 PM",
@@ -72,145 +73,48 @@ const ContactPage = () => {
     }
   ];
 
+  const colors = ['#3D5AFE', '#FF3D8B', '#0FBF8F', '#8B5CF6'];
+
   return (
     <Box>
-      {/* Hero Section */}
-      <Box 
-        sx={{ 
-          background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main} 90%)`,
-          py: 8,
-          color: 'white'
-        }}
-      >
-        <Container maxWidth="lg">
-          <Typography variant="h2" component="h1" align="center" gutterBottom>
-            Contact Us
-          </Typography>
-          <Typography variant="h5" align="center">
-            We're here to help and answer any questions you might have
-          </Typography>
-        </Container>
+      <PageHero eyebrow="Contact" title={<>Say <span className="grad-text-light">hello</span></>} sub="Questions, ideas, or want your society on SocioSphere? We read every message." />
+
+      <Box sx={{ maxWidth: 1180, mx: 'auto', px: 3, mt: { xs: 6, md: 9 }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.3fr 1fr' }, gap: 4, alignItems: 'start' }}>
+        <Reveal>
+          <Box sx={{ p: { xs: 3, md: 5 }, borderRadius: 7, background: '#fff', border: '1px solid rgba(14,16,48,.07)', boxShadow: '0 30px 60px -36px rgba(14,16,48,.5)' }}>
+            <Box component="h2" sx={{ m: 0, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 34, letterSpacing: '-0.02em' }}>Send us a message</Box>
+            <Box sx={{ color: 'text.secondary', mt: 1, mb: 4 }}>Fill in the form and we'll get back to you as soon as we can.</Box>
+            <form onSubmit={handleSubmit}>
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2.5 }}>
+                <TextField fullWidth label="Your name" name="name" value={formData.name} onChange={handleChange} required />
+                <TextField fullWidth label="Email address" name="email" type="email" value={formData.email} onChange={handleChange} required />
+                <TextField sx={{ gridColumn: { sm: '1 / -1' } }} fullWidth label="Subject" name="subject" value={formData.subject} onChange={handleChange} required />
+                <TextField sx={{ gridColumn: { sm: '1 / -1' } }} fullWidth label="Message" name="message" multiline rows={5} value={formData.message} onChange={handleChange} required />
+                <Button sx={{ gridColumn: { sm: '1 / -1' } }} type="submit" variant="contained" size="large">Send message</Button>
+              </Box>
+            </form>
+          </Box>
+        </Reveal>
+
+        <Box sx={{ display: 'grid', gap: 2.5 }}>
+          {contactInfo.map((info, index) => (
+            <Reveal key={index} delay={index * 0.08}>
+              <TiltCard max={6} sx={{ borderRadius: 6, p: 3, color: '#fff', background: colors[index % colors.length], boxShadow: `0 24px 40px -28px ${colors[index % colors.length]}` }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.2, '& svg': { fontSize: 28 } }}>
+                  {info.icon}
+                  <Box sx={{ fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 22 }}>{info.title}</Box>
+                </Box>
+                {info.details.map((detail, idx) => (
+                  <Box key={idx} sx={{ opacity: 0.92, lineHeight: 1.7 }}>{detail}</Box>
+                ))}
+              </TiltCard>
+            </Reveal>
+          ))}
+        </Box>
       </Box>
 
-      {/* Main Content */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Grid container spacing={6}>
-          {/* Contact Form */}
-          <Grid item xs={12} md={7}>
-            <Paper elevation={3} sx={{ p: 4 }}>
-              <Typography variant="h4" gutterBottom>
-                Send us a Message
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-                Have a question or suggestion? Fill out the form below and we'll get back to you as soon as possible.
-              </Typography>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={3}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Your Name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label="Email Address"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      label="Message"
-                      name="message"
-                      multiline
-                      rows={4}
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button 
-                      type="submit"
-                      variant="contained"
-                      size="large"
-                      fullWidth
-                      sx={{ py: 1.5 }}
-                    >
-                      Send Message
-                    </Button>
-                  </Grid>
-                </Grid>
-              </form>
-            </Paper>
-          </Grid>
-
-          {/* Contact Information */}
-          <Grid item xs={12} md={5}>
-            <Grid container spacing={3}>
-              {contactInfo.map((info, index) => (
-                <Grid item xs={12} key={index}>
-                  <Card>
-                    <CardContent>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        {info.icon}
-                        <Typography variant="h6" sx={{ ml: 1 }}>
-                          {info.title}
-                        </Typography>
-                      </Box>
-                      <Divider sx={{ mb: 2 }} />
-                      {info.details.map((detail, idx) => (
-                        <Typography 
-                          key={idx} 
-                          variant="body1" 
-                          color="text.secondary"
-                          sx={{ mb: 1 }}
-                        >
-                          {detail}
-                        </Typography>
-                      ))}
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Container>
-
-     
-
-      {/* Snackbar for form submission feedback */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
-        <Alert 
-          onClose={() => setSnackbar({ ...snackbar, open: false })} 
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
+      <Snackbar open={snackbar.open} autoHideDuration={6000} onClose={() => setSnackbar({ ...snackbar, open: false })}>
+        <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity} sx={{ width: '100%' }}>
           {snackbar.message}
         </Alert>
       </Snackbar>
