@@ -4,12 +4,13 @@ import ApplyForm from "../models/applyForm.js";
 import { generateToken } from "../utils/jwtUtils.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import Society from "../models/Society.js";
+import { requireRole } from "../middleware/societyAccess.js";
 const router = express.Router();
 
 
 
 // Create a new form
-router.post('/forms/:societyId', authMiddleware, async (req, res) => {
+router.post('/forms/:societyId', authMiddleware, requireRole('leader', (req) => req.params.societyId), async (req, res) => {
     try {
         console.log(req.params.societyId)
         const { title, description,position, questions } = req.body;
@@ -74,14 +75,11 @@ router.get('/forms/:id',  async (req, res) => {
 });
 
 // Update a form (e.g., change title, description, or questions)
-router.put('/forms/:id', authMiddleware, async (req, res) => {
+router.put('/forms/:id', authMiddleware, requireRole('leader', async (req) => (await ApplyForm.findById(req.params.id).select('societyId'))?.societyId), async (req, res) => {
     try {
         const form = await ApplyForm.findById(req.params.id);
         if (!form) {
             return res.status(404).json({ message: "Form not found" });
-        }
-        if (form.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: "Access denied" });
         }
 
         // Update form details
@@ -98,17 +96,14 @@ router.put('/forms/:id', authMiddleware, async (req, res) => {
 });
 
 // Delete a form
-router.delete('/forms/:id', authMiddleware, async (req, res) => {
+router.delete('/forms/:id', authMiddleware, requireRole('leader', async (req) => (await ApplyForm.findById(req.params.id).select('societyId'))?.societyId), async (req, res) => {
     try {
         const form = await ApplyForm.findById(req.params.id);
         if (!form) {
             return res.status(404).json({ message: "Form not found" });
         }
-        if (form.userId.toString() !== req.user.id) {
-            return res.status(403).json({ message: "Access denied" });
-        }
 
-        await form.remove();
+        await ApplyForm.deleteOne({ _id: form._id });
         res.status(200).json({ message: "Form deleted" });
     } catch (err) {
         res.status(400).json({ message: err.message });

@@ -2,6 +2,7 @@ import express from "express";
 import FormResponse from "../models/applyFormResponse.js";
 import ApplyForm from "../models/applyForm.js";
 import authMiddleware from "../middleware/authMiddleware.js";
+import { requireRole } from "../middleware/societyAccess.js";
 
 const router = express.Router();
 
@@ -85,7 +86,7 @@ router.post('/responses/:societyId', authMiddleware, async (req, res) => {
 });
 
 // Get all responses for a specific form (for form creator)
-router.get('/forms/:formId/responses', authMiddleware, async (req, res) => {
+router.get('/forms/:formId/responses', authMiddleware, requireRole('leader', async (req) => (await ApplyForm.findById(req.params.formId).select('societyId'))?.societyId), async (req, res) => {
     try {
         // First, verify that the user owns the form
         const form = await ApplyForm.findById(req.params.formId);
@@ -108,7 +109,7 @@ router.get('/forms/:formId/responses', authMiddleware, async (req, res) => {
 });
 
 // Get a specific response by ID (for form creator)
-router.get('/responses/:responseId', authMiddleware, async (req, res) => {
+router.get('/responses/:responseId', authMiddleware, requireRole('leader', async (req) => (await FormResponse.findById(req.params.responseId || req.params.id).select('societyId'))?.societyId), async (req, res) => {
     try {
         const response = await FormResponse.findById(req.params.responseId)
             .populate('formId', 'title description')
@@ -132,7 +133,7 @@ router.get('/responses/:responseId', authMiddleware, async (req, res) => {
 
 
 // Update positions for a specific society
-router.put('/forms/disapprove/:id', authMiddleware, async (req, res) => {
+router.put('/forms/disapprove/:id', authMiddleware, requireRole('leader', async (req) => (await FormResponse.findById(req.params.responseId || req.params.id).select('societyId'))?.societyId), async (req, res) => {
   const { id } = req.params; // Form ID
   const { societyId, userId, status, position } = req.body; 
   
