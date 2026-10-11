@@ -69,26 +69,4 @@ The frontend must run on the origin set in `REACT_APP_API_URL`, otherwise reques
 
 **Sample data.** `node scripts/seed.js` in `backend/` adds 12 sample societies with events, conversations and a leadership team (all fictional; the sample people have random passwords and cannot log in). Add `--wipe-old` to first remove societies that were created before the seed, and everything attached to them. It writes a JSON backup to `backend/backups/` before deleting anything. The script is safe to re-run.
 
-## Layout
 
-```
-backend/
-  index.js                 server, sockets, route mounting
-  src/models/              Society, Event, Chat, User, forms
-  src/middleware/          auth, per-society roles (societyAccess.js)
-  src/routes/              societies, ranks and approvals, events, chat, uploads, forms
-  scripts/                 seed script and sample content
-frontend/
-  public/images, logos/    photos and society logos served as static files
-  src/lib/api.js           axios instance, query cache and data hooks
-  src/Components/          Home, Society, SocietyData, Events, Chat, User, common
-```
-
-## Notes
-
-- Event times are stored as the venue's local wall-clock time (as UTC) and shown without conversion. A real timezone per event is a planned change.
-- Chat photos are saved to `backend/uploads/` on local disk, and sockets need a long-running server. For a serverless host such as Vercel, move uploads to object storage (S3, Cloudinary) and run the socket server separately.
-- `backend/index.js` points Node at public DNS resolvers (8.8.8.8, 1.1.1.1) because some networks refuse the SRV lookups that `mongodb+srv://` needs.
-- Photos are from [Pexels](https://www.pexels.com) (free licence). The society logos are original SVGs in `frontend/public/logos`.
-
-See [PLAN.md](PLAN.md) for what is done and what is next.
