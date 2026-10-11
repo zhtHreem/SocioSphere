@@ -1,84 +1,94 @@
-# SocioSphere: Bringing University Student Societies on One Platform
+# SocioSphere
 
-## Project Overview
-**SocioSphere** is a MERN-stack-based web application that connects university student societies on a unified platform. It empowers students to explore societies, and positions, and collaborate seamlessly while providing society administrators with tools to manage memberships, events, and feedback effectively.
+A place to find communities and see what they are doing: clubs, societies and groups with a public page, a team, a calendar of events and an open conversation. Browsing needs no account; joining, posting and RSVPing do.
 
+![Home page](docs/home.jpg)
 
----
+| Society page | Community chat |
+| --- | --- |
+| ![Society page](docs/society.jpg) | ![Community chat](docs/community.jpg) |
 
-## Features  
-- **Society Management**: Admins can create societies, define hierarchical positions, and organize events.
-- **JWT Authentication**: Secure authentication with role-based access control ensures that only authorized users can perform specific actions.
-- **Unique Event Calendar**: A centralized calendar with upcoming events.
-- **Real-Time Chatrooms**:   Society-dedicated spaces for discussions and collaborations.
-- **Membership Application Tracker**:   Users can submit applications, which are processed by higher-level members in the hierarchy.
-- **Search Functionality**:  Easy-to-use search for societies and events.
-- **User Notifications**:  Alerts for important updates and changes.
+## What it does
 
-## How to Use  
+- **Societies**: public profile with an about section, what members get, meeting details, team, gallery, FAQ, and upcoming and past events.
+- **Events**: list and calendar views, filters by category and month, an event page with agenda, venue map link, RSVP and "add to calendar" (.ics).
+- **Community chat**: three channels per society. Anyone can read; logged-in users can post text, emoji, stickers and photos, and react to messages. A logged-out visitor can type a draft and is asked to log in when they send it.
+- **Joining**: people apply on the society page; leaders review applications; accepted people start at the lowest rank.
+- **Ranks**: every society has a ladder (President, Vice President, ...). The President promotes, demotes and removes people and renames or adds ranks, effective immediately.
+- **Accounts**: JWT login, a profile with the events you are going to, your societies and applications to review.
 
+## Who can do what
 
-  ### For Students
-- **Register/Log In**: Create an account to join societies and participate in events.  
-- **Explore Societies**: Browse societies, events, and open positions based on your interests.  
-- **Apply for Positions**: Submit applications for open positions in societies through the society's page.  
--  **Approve/Reject Applications**: Review and process membership applications hierarchically.
-- **Group Chat**: Access society-specific group chats if you're a member.  
-- **Notifications**: Get notified when new messages are posted in society group chats.
+| Action | Visitor | Logged in | Member | Vice President | President |
+| --- | :-: | :-: | :-: | :-: | :-: |
+| Browse societies, events, chat | yes | yes | yes | yes | yes |
+| Apply, RSVP, post in chat | | yes | yes | yes | yes |
+| Start a society (becomes President) | | yes | yes | yes | yes |
+| Create and edit that society's events | | | | yes | yes |
+| Edit the application form, accept or reject applicants | | | | yes | yes |
+| Promote, demote, remove people, edit ranks | | | | | yes |
 
-### For Administrators
-- **Admin Account**: Log in using email `admin@gmail.com` and password `Admin12345`.  
-- **Create Societies and Events**: Add new societies and their corresponding events.  
-- **Manage Positions**: Create and manage open positions for societies.  
-- **Approve/Reject Applications**: Review and process membership applications hierarchically.  
-- **Access All Group Chats**: Monitor all society group chats.
+Permissions are per society and enforced on the server (`backend/src/middleware/societyAccess.js`). A user with `role: "admin"` is treated as a President everywhere, for support.
 
----
-## Installation & Setup
+## Stack
 
-### Prerequisites:
-- Node.js and npm installed on your system.
-- MongoDB server running locally or on a cloud platform.
+React 18, MUI, framer-motion, react-three-fiber, TanStack Query, socket.io-client. Node, Express, MongoDB (Mongoose), socket.io, JWT.
 
-### Steps:
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/zhtHreem/SocioSphere.git
-   cd SocioSphere
-   ```
-2.Navigate to **Backend** directory: 
-   ```bash
-     cd backend
-   ```
-3.Create a .env file in the backend folder and add the following environment variables:
-   ```bash
-     JWT_TOKEN=<your_secret_jwt_token>
-     MONGO_URI =<your_mongo_database_url>
-   ```
-4.Install backend dependencies:
-   ```bash
-     npm install
-   ```
-4.Start the **backend** server:
-   ```bash
-     nodemon server.js
+## Run it locally
 
-   ```
+You need Node 18+ and a MongoDB database.
 
-5.To run **Frontend** open new terminal
-   ```bash
-     cd frontend
-     npm install
-     npm start
-   ```
+**Backend** (`backend/.env`):
 
-   
+```
+MONGO_URI=mongodb+srv://...
+JWT_SECRET=<a long random string>
+PORT=5000
+REACT_APP_API_URL=http://localhost:3001   # the frontend's origin, used for CORS
+```
 
-## Tech Stack    
+```
+cd backend
+npm install
+node index.js
+```
 
-- Frontend: React.js
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Authentication: JWT
+**Frontend** (`frontend/.env`):
 
+```
+REACT_APP_HOST_URL=http://localhost:5000
+```
 
+```
+cd frontend
+npm install
+PORT=3001 npm start
+```
+
+The frontend must run on the origin set in `REACT_APP_API_URL`, otherwise requests are blocked by CORS.
+
+**Sample data.** `node scripts/seed.js` in `backend/` adds 12 sample societies with events, conversations and a leadership team (all fictional; the sample people have random passwords and cannot log in). Add `--wipe-old` to first remove societies that were created before the seed, and everything attached to them. It writes a JSON backup to `backend/backups/` before deleting anything. The script is safe to re-run.
+
+## Layout
+
+```
+backend/
+  index.js                 server, sockets, route mounting
+  src/models/              Society, Event, Chat, User, forms
+  src/middleware/          auth, per-society roles (societyAccess.js)
+  src/routes/              societies, ranks and approvals, events, chat, uploads, forms
+  scripts/                 seed script and sample content
+frontend/
+  public/images, logos/    photos and society logos served as static files
+  src/lib/api.js           axios instance, query cache and data hooks
+  src/Components/          Home, Society, SocietyData, Events, Chat, User, common
+```
+
+## Notes
+
+- Event times are stored as the venue's local wall-clock time (as UTC) and shown without conversion. A real timezone per event is a planned change.
+- Chat photos are saved to `backend/uploads/` on local disk, and sockets need a long-running server. For a serverless host such as Vercel, move uploads to object storage (S3, Cloudinary) and run the socket server separately.
+- `backend/index.js` points Node at public DNS resolvers (8.8.8.8, 1.1.1.1) because some networks refuse the SRV lookups that `mongodb+srv://` needs.
+- Photos are from [Pexels](https://www.pexels.com) (free licence). The society logos are original SVGs in `frontend/public/logos`.
+
+See [PLAN.md](PLAN.md) for what is done and what is next.
