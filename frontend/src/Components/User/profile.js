@@ -25,7 +25,7 @@ const Section = ({ title, aside, children }) => (
 );
 
 const Empty = ({ title, text, to, cta }) => (
-    <Box sx={{ p: { xs: 3, md: 4 }, borderRadius: 5, border: '2px dashed rgba(14,16,48,.18)' }}>
+    <Box sx={{ p: { xs: 3, md: 4 }, borderRadius: 5, border: '2px dashed rgba(18,20,24,.18)' }}>
         <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 22 }}>{title}</Box>
         <Box sx={{ color: 'text.secondary', mt: 0.5, mb: 2 }}>{text}</Box>
         <Button component={Link} to={to} variant="contained">{cta}</Button>
@@ -88,7 +88,7 @@ function User() {
                             {userSocieties.map((us, i) => {
                                 const s = byName(us.societyName);
                                 return (
-                                    <Box key={us.societyName + i} sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 2, borderBottom: '1px solid rgba(14,16,48,.1)', flexWrap: 'wrap' }}>
+                                    <Box key={us.societyName + i} sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 2, borderBottom: '1px solid rgba(18,20,24,.1)', flexWrap: 'wrap' }}>
                                         {s?.logo ? <Box component="img" src={s.logo} alt="" sx={{ width: 56, height: 56, borderRadius: 3.5 }} /> : <PersonAvatar name={us.societyName} size={56} />}
                                         <Box sx={{ flex: 1, minWidth: 180 }}>
                                             <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 22, lineHeight: 1.15 }}>{us.societyName}</Box>

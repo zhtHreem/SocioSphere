@@ -106,7 +106,7 @@ export const Magnetic = ({ children, strength = 0.3 }) => {
 export const SectionTitle = ({ eyebrow, children, sub, align = 'center', light = false }) => (
   <Box sx={{ textAlign: align, mb: { xs: 5, md: 7 }, maxWidth: 760, mx: align === 'center' ? 'auto' : 0 }}>
     {eyebrow && (
-      <Box sx={{ display: 'inline-block', px: 1.8, py: 0.6, mb: 2, borderRadius: 999, fontWeight: 800, fontSize: 13, letterSpacing: '.08em', textTransform: 'uppercase', background: light ? 'rgba(255,255,255,.14)' : 'rgba(61,90,254,.1)', color: light ? '#fff' : 'var(--blue)' }}>
+      <Box sx={{ display: 'inline-block', px: 1.8, py: 0.6, mb: 2, borderRadius: 999, fontWeight: 800, fontSize: 13, letterSpacing: '.08em', textTransform: 'uppercase', background: light ? 'rgba(255,255,255,.14)' : 'rgba(47,92,255,.1)', color: light ? '#fff' : 'var(--brand)' }}>
         {eyebrow}
       </Box>
     )}
@@ -143,9 +143,9 @@ export const PageHero = ({ eyebrow, title, sub, children }) => (
 // Slow-drifting colour blobs used behind dark sections
 export const Aurora = () => (
   <Box aria-hidden sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-    <Box sx={{ position: 'absolute', width: '55vw', height: '55vw', maxWidth: 720, maxHeight: 720, left: '-12%', top: '-30%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(61,90,254,.75), transparent 65%)', filter: 'blur(30px)', animation: 'ss-aurora 14s ease-in-out infinite' }} />
-    <Box sx={{ position: 'absolute', width: '45vw', height: '45vw', maxWidth: 620, maxHeight: 620, right: '-10%', top: '-10%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,61,139,.6), transparent 65%)', filter: 'blur(30px)', animation: 'ss-aurora 18s ease-in-out infinite reverse' }} />
-    <Box sx={{ position: 'absolute', width: '40vw', height: '40vw', maxWidth: 560, maxHeight: 560, left: '30%', bottom: '-35%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(25,227,177,.5), transparent 65%)', filter: 'blur(30px)', animation: 'ss-aurora 22s ease-in-out infinite' }} />
+    <Box sx={{ position: 'absolute', width: '55vw', height: '55vw', maxWidth: 720, maxHeight: 720, left: '-12%', top: '-30%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(47,92,255,.75), transparent 65%)', filter: 'blur(30px)', animation: 'ss-aurora 14s ease-in-out infinite' }} />
+    <Box sx={{ position: 'absolute', width: '45vw', height: '45vw', maxWidth: 620, maxHeight: 620, right: '-10%', top: '-10%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(92,141,255,.55), transparent 65%)', filter: 'blur(30px)', animation: 'ss-aurora 18s ease-in-out infinite reverse' }} />
+    <Box sx={{ position: 'absolute', width: '40vw', height: '40vw', maxWidth: 560, maxHeight: 560, left: '30%', bottom: '-35%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,225,77,.5), transparent 65%)', filter: 'blur(30px)', animation: 'ss-aurora 22s ease-in-out infinite' }} />
     <Box sx={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px)', backgroundSize: '26px 26px', maskImage: 'linear-gradient(#000, transparent 85%)', WebkitMaskImage: 'linear-gradient(#000, transparent 85%)' }} />
   </Box>
 );

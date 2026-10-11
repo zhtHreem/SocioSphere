@@ -13,7 +13,7 @@ export const CardGridSkeleton = ({ count = 6, height = 400, columns = { xs: '1fr
 export const EventRowsSkeleton = ({ count = 4 }) => (
   <Box sx={{ display: 'grid', gap: 1.6 }} aria-busy="true" aria-label="Loading events">
     {Array.from({ length: count }).map((_, i) => (
-      <Box key={i} sx={{ display: 'grid', gridTemplateColumns: { xs: '64px 1fr', sm: '78px 1fr 150px' }, gap: 3, alignItems: 'center', p: 2.2, borderRadius: 5, background: '#fff', border: '1px solid rgba(14,16,48,.08)' }}>
+      <Box key={i} sx={{ display: 'grid', gridTemplateColumns: { xs: '64px 1fr', sm: '78px 1fr 150px' }, gap: 3, alignItems: 'center', p: 2.2, borderRadius: 5, background: '#fff', border: '1px solid rgba(18,20,24,.08)' }}>
         <Skeleton variant="rounded" width={56} height={56} sx={R(3)} />
         <Box><Skeleton width="38%" /><Skeleton height={34} width="72%" /><Skeleton width="50%" /></Box>
         <Skeleton variant="rounded" height={92} sx={{ ...R(3), display: { xs: 'none', sm: 'block' } }} />
@@ -25,7 +25,7 @@ export const EventRowsSkeleton = ({ count = 4 }) => (
 export const ListRowsSkeleton = ({ count = 3 }) => (
   <Box aria-busy="true" aria-label="Loading">
     {Array.from({ length: count }).map((_, i) => (
-      <Box key={i} sx={{ display: 'flex', gap: 2, alignItems: 'center', py: 2, borderBottom: '1px solid rgba(14,16,48,.08)' }}>
+      <Box key={i} sx={{ display: 'flex', gap: 2, alignItems: 'center', py: 2, borderBottom: '1px solid rgba(18,20,24,.08)' }}>
         <Skeleton variant="rounded" width={52} height={52} sx={R(3)} />
         <Box sx={{ flex: 1 }}><Skeleton width="45%" height={28} /><Skeleton width="30%" /></Box>
       </Box>

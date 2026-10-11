@@ -86,9 +86,9 @@ const AddSocietyForm = () => {
         <Reveal delay={0.1}>
           <Box sx={{ position: { md: 'sticky' }, top: { md: 110 } }}>
             <Box sx={{ fontSize: 12.5, fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', color: 'text.secondary', mb: 1 }}>How it will look</Box>
-            <Box sx={{ position: 'relative', height: 300, borderRadius: 6, overflow: 'hidden', background: 'linear-gradient(145deg,#3D5AFE,#FF3D8B)', color: '#fff' }}>
+            <Box sx={{ position: 'relative', height: 300, borderRadius: 6, overflow: 'hidden', background: 'linear-gradient(145deg,#2f5cff,#5c8dff)', color: '#fff' }}>
               {form.cover && <Box component="img" src={form.cover} alt="" onError={(e) => { e.currentTarget.style.display = 'none'; }} sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
-              <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(14,16,48,.88))' }} />
+              <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 30%, rgba(18,20,24,.88))' }} />
               <Box sx={{ position: 'absolute', left: 0, right: 0, bottom: 0, p: 3 }}>
                 {form.category && <Box sx={{ display: 'inline-block', px: 1.3, py: 0.3, mb: 1, borderRadius: 999, background: '#fff', color: 'var(--ink)', fontWeight: 800, fontSize: 12 }}>{form.category}</Box>}
                 <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 28, lineHeight: 1.1 }}>{form.name || 'Your society name'}</Box>

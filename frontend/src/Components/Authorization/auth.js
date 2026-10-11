@@ -137,11 +137,11 @@ const AuthPage = () => {
 
   const commonButtonProps = {
     fullWidth: true, variant: "contained", size: "large",
-    sx: { mt: 2, mb: 1, py: 1.5, background: 'var(--ink)', boxShadow: 'none', '&:hover': { background: '#232763', boxShadow: 'none' } }
+    sx: { mt: 2, mb: 1, py: 1.5, background: 'var(--ink)', boxShadow: 'none', '&:hover': { background: '#1c2027', boxShadow: 'none' } }
   };
 
   return (
-    <Box sx={{ width: 'calc(100% - 32px)', maxWidth: 1120, mx: 'auto', my: { xs: 1, md: 3 }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.05fr 1fr' }, borderRadius: { xs: 5, md: 7 }, overflow: 'hidden', background: '#fff', boxShadow: '0 50px 90px -50px rgba(14,16,48,.55)' }}>
+    <Box sx={{ width: 'calc(100% - 32px)', maxWidth: 1120, mx: 'auto', my: { xs: 1, md: 3 }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.05fr 1fr' }, borderRadius: { xs: 5, md: 7 }, overflow: 'hidden', background: '#fff', boxShadow: '0 50px 90px -50px rgba(18,20,24,.55)' }}>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
         <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>{snackbarMessage}</Alert>
       </Snackbar>
@@ -149,7 +149,7 @@ const AuthPage = () => {
       {/* left: a real photo and what is actually happening */}
       <Box sx={{ position: 'relative', display: { xs: 'none', md: 'flex' }, flexDirection: 'column', justifyContent: 'flex-end', minHeight: 680, color: '#fff', background: 'var(--ink)' }}>
         <Box component="img" src={photo(PHOTOS.friends)} alt="" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-        <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,16,48,.15) 0%, rgba(14,16,48,.55) 45%, rgba(14,16,48,.94) 100%)' }} />
+        <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(18,20,24,.15) 0%, rgba(18,20,24,.55) 45%, rgba(18,20,24,.94) 100%)' }} />
         <Box sx={{ position: 'relative', p: 5 }}>
           <Box component="h1" sx={{ m: 0, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.98, fontSize: '3.4rem' }}>
             {activeTab === 0 ? 'Good to see you again.' : 'Your people are already here.'}
@@ -160,7 +160,7 @@ const AuthPage = () => {
               {coming.map((e) => (
                 <Box key={e._id} sx={{ display: 'flex', gap: 2, py: 1.2, borderTop: '1px solid rgba(255,255,255,.22)' }}>
                   <Box sx={{ width: 54, flexShrink: 0, lineHeight: 1.05 }}>
-                    <Box sx={{ fontSize: 12, fontWeight: 800, color: 'var(--mint)' }}>{fmtDate.monthShort(e.date)}</Box>
+                    <Box sx={{ fontSize: 12, fontWeight: 800, color: 'var(--butter)' }}>{fmtDate.monthShort(e.date)}</Box>
                     <Box sx={{ fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 28 }}>{fmtDate.day(e.date)}</Box>
                   </Box>
                   <Box sx={{ minWidth: 0 }}>
@@ -178,7 +178,7 @@ const AuthPage = () => {
       <Box sx={{ p: { xs: 3, sm: 5, md: 7 }, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <Box sx={{ display: 'flex', gap: 3, mb: 4, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 30, letterSpacing: '-0.02em' }}>
           {['Log in', 'Sign up'].map((label, i) => (
-            <Box key={label} component="button" onClick={() => setActiveTab(i)} sx={{ border: 0, background: 'none', cursor: 'pointer', p: 0, pb: 0.6, font: 'inherit', color: activeTab === i ? 'var(--ink)' : 'rgba(14,16,48,.35)', borderBottom: activeTab === i ? '4px solid var(--pink)' : '4px solid transparent', transition: 'color .2s' }}>{label}</Box>
+            <Box key={label} component="button" onClick={() => setActiveTab(i)} sx={{ border: 0, background: 'none', cursor: 'pointer', p: 0, pb: 0.6, font: 'inherit', color: activeTab === i ? 'var(--ink)' : 'rgba(18,20,24,.35)', borderBottom: activeTab === i ? '4px solid var(--rose)' : '4px solid transparent', transition: 'color .2s' }}>{label}</Box>
           ))}
         </Box>
 

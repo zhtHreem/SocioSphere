@@ -8,7 +8,7 @@ import { Avatar, Box, IconButton, Button, Popover, Dialog } from "@mui/material"
 import { Send as SendIcon, LockOutlined as LockIcon, SentimentSatisfiedAlt as EmojiIcon, AddPhotoAlternateOutlined as PhotoIcon, EmojiEmotionsOutlined as StickerIcon, PushPin as PinIcon, AddReactionOutlined as ReactIcon, Close } from "@mui/icons-material";
 
 const display = '"Bricolage Grotesque", sans-serif';
-const AVATAR_COLORS = ['#3D5AFE', '#FF3D8B', '#0FBF8F', '#8B5CF6', '#0EA5E9', '#E11D74'];
+const AVATAR_COLORS = ['#2f5cff', '#e5304a', '#0e9f9a', '#b89800', '#1e88e5', '#c2185b'];
 const colorFor = (s = '') => AVATAR_COLORS[[...s].reduce((a, c) => a + c.charCodeAt(0), 0) % AVATAR_COLORS.length];
 const initials = (n = '') => n.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 
@@ -18,20 +18,20 @@ export const PersonAvatar = ({ name, size = 38 }) => (
 
 // Stickers are a big face on a tilted paper cut-out with a caption
 export const STICKERS = {
-  party: { emoji: '🥳', label: 'Party time', bg: '#FFE1EE' },
-  clap: { emoji: '👏', label: 'Bravo', bg: '#DDE4FF' },
-  fire: { emoji: '🔥', label: 'On fire', bg: '#FFE7D6' },
-  love: { emoji: '😍', label: 'Love it', bg: '#FFE1EE' },
-  wave: { emoji: '👋', label: 'Hello!', bg: '#DFF8EE' },
-  cool: { emoji: '😎', label: 'Too cool', bg: '#DDF3FF' },
-  hype: { emoji: '🙌', label: 'So hyped', bg: '#EBE3FF' },
-  thanks: { emoji: '🙏', label: 'Thank you', bg: '#DFF8EE' },
+  party: { emoji: '🥳', label: 'Party time', bg: '#ffe3e5' },
+  clap: { emoji: '👏', label: 'Bravo', bg: '#e3ebff' },
+  fire: { emoji: '🔥', label: 'On fire', bg: '#fff3b8' },
+  love: { emoji: '😍', label: 'Love it', bg: '#ffe3e5' },
+  wave: { emoji: '👋', label: 'Hello!', bg: '#e0f3f2' },
+  cool: { emoji: '😎', label: 'Too cool', bg: '#dbe8ff' },
+  hype: { emoji: '🙌', label: 'So hyped', bg: '#fff3b8' },
+  thanks: { emoji: '🙏', label: 'Thank you', bg: '#e0f3f2' },
 };
 const Sticker = ({ id }) => {
   const s = STICKERS[id];
   if (!s) return null;
   return (
-    <Box sx={{ display: 'inline-block', transform: 'rotate(-4deg)', p: 1, background: '#fff', borderRadius: 4, boxShadow: '0 6px 16px -6px rgba(14,16,48,.35)' }}>
+    <Box sx={{ display: 'inline-block', transform: 'rotate(-4deg)', p: 1, background: '#fff', borderRadius: 4, boxShadow: '0 6px 16px -6px rgba(18,20,24,.35)' }}>
       <Box sx={{ width: 108, height: 108, borderRadius: 3, display: 'grid', placeItems: 'center', fontSize: 62, background: s.bg }}>{s.emoji}</Box>
       <Box sx={{ textAlign: 'center', fontFamily: display, fontWeight: 800, fontSize: 15, pt: 0.6 }}>{s.label}</Box>
     </Box>
@@ -171,10 +171,10 @@ const Chat = ({ societyId, channel = 'general', placeholderName = 'the community
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#fff', minHeight: 0 }}>
       {pinned && (
-        <Box sx={{ display: 'flex', gap: 1.2, alignItems: 'flex-start', px: 2.5, py: 1.4, background: 'rgba(255,61,139,.07)', borderBottom: '1px solid rgba(255,61,139,.2)' }}>
-          <PinIcon sx={{ fontSize: 18, color: 'var(--pink)', mt: '2px' }} />
+        <Box sx={{ display: 'flex', gap: 1.2, alignItems: 'flex-start', px: 2.5, py: 1.4, background: 'rgba(255,77,94,.07)', borderBottom: '1px solid rgba(255,77,94,.2)' }}>
+          <PinIcon sx={{ fontSize: 18, color: 'var(--rose)', mt: '2px' }} />
           <Box sx={{ minWidth: 0 }}>
-            <Box sx={{ fontSize: 12, fontWeight: 800, color: 'var(--pink)', letterSpacing: '.06em', textTransform: 'uppercase' }}>Pinned by {pinned.sender?.username || 'the team'}</Box>
+            <Box sx={{ fontSize: 12, fontWeight: 800, color: 'var(--rose)', letterSpacing: '.06em', textTransform: 'uppercase' }}>Pinned by {pinned.sender?.username || 'the team'}</Box>
             <Box sx={{ fontSize: 14.5, lineHeight: 1.45, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{pinned.message}</Box>
           </Box>
         </Box>
@@ -193,10 +193,10 @@ const Chat = ({ societyId, channel = 'general', placeholderName = 'the community
             <React.Fragment key={m._id}>
               {newDay && (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: 2, color: 'text.secondary', fontSize: 12.5, fontWeight: 800 }}>
-                  <Box sx={{ flex: 1, height: '1px', background: 'rgba(14,16,48,.1)' }} />{dayLabel(m.timestamp)}<Box sx={{ flex: 1, height: '1px', background: 'rgba(14,16,48,.1)' }} />
+                  <Box sx={{ flex: 1, height: '1px', background: 'rgba(18,20,24,.1)' }} />{dayLabel(m.timestamp)}<Box sx={{ flex: 1, height: '1px', background: 'rgba(18,20,24,.1)' }} />
                 </Box>
               )}
-              <Box sx={{ display: 'flex', gap: 1.6, px: 1, py: grouped ? 0.2 : 0.9, borderRadius: 3, position: 'relative', '&:hover': { background: 'rgba(14,16,48,.035)' }, '&:hover .react-btn': { opacity: 1 } }}>
+              <Box sx={{ display: 'flex', gap: 1.6, px: 1, py: grouped ? 0.2 : 0.9, borderRadius: 3, position: 'relative', '&:hover': { background: 'rgba(18,20,24,.035)' }, '&:hover .react-btn': { opacity: 1 } }}>
                 <Box sx={{ width: 38, flexShrink: 0 }}>{!grouped && <PersonAvatar name={name} />}</Box>
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                   {!grouped && (
@@ -215,13 +215,13 @@ const Chat = ({ societyId, channel = 'general', placeholderName = 'the community
                       {m.reactions.map((r) => {
                         const mine = r.users.some((u) => String(u?._id || u) === String(userId));
                         return (
-                          <Box key={r.emoji} component="button" onClick={() => react(m._id, r.emoji)} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.6, px: 1, py: 0.2, borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 800, border: mine ? '1.5px solid var(--blue)' : '1.5px solid rgba(14,16,48,.12)', background: mine ? 'rgba(61,90,254,.1)' : '#fff', color: mine ? 'var(--blue)' : 'var(--ink)' }}>{r.emoji}<span>{r.users.length}</span></Box>
+                          <Box key={r.emoji} component="button" onClick={() => react(m._id, r.emoji)} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.6, px: 1, py: 0.2, borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: 800, border: mine ? '1.5px solid var(--brand)' : '1.5px solid rgba(18,20,24,.12)', background: mine ? 'rgba(47,92,255,.1)' : '#fff', color: mine ? 'var(--brand)' : 'var(--ink)' }}>{r.emoji}<span>{r.users.length}</span></Box>
                         );
                       })}
                     </Box>
                   )}
                 </Box>
-                <IconButton className="react-btn" size="small" aria-label="Add reaction" onClick={(e) => setReactFor({ id: m._id, anchor: e.currentTarget })} sx={{ position: 'absolute', right: 8, top: 4, opacity: { xs: 0.6, md: 0 }, background: '#fff', boxShadow: '0 2px 8px rgba(14,16,48,.15)', '&:hover': { background: '#fff' } }}><ReactIcon fontSize="small" /></IconButton>
+                <IconButton className="react-btn" size="small" aria-label="Add reaction" onClick={(e) => setReactFor({ id: m._id, anchor: e.currentTarget })} sx={{ position: 'absolute', right: 8, top: 4, opacity: { xs: 0.6, md: 0 }, background: '#fff', boxShadow: '0 2px 8px rgba(18,20,24,.15)', '&:hover': { background: '#fff' } }}><ReactIcon fontSize="small" /></IconButton>
               </Box>
             </React.Fragment>
           );
@@ -230,29 +230,29 @@ const Chat = ({ societyId, channel = 'general', placeholderName = 'the community
       </Box>
 
       {needLogin && (
-        <Box role="alert" sx={{ px: 2.5, py: 1.4, display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', background: 'rgba(61,90,254,.08)', borderTop: '1px solid rgba(61,90,254,.2)' }}>
-          <LockIcon sx={{ color: 'var(--blue)' }} />
+        <Box role="alert" sx={{ px: 2.5, py: 1.4, display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap', background: 'rgba(47,92,255,.08)', borderTop: '1px solid rgba(47,92,255,.2)' }}>
+          <LockIcon sx={{ color: 'var(--brand)' }} />
           <Box sx={{ flex: 1, minWidth: 180, fontWeight: 700, fontSize: 14.5 }}>Log in to send. Your message is saved and will be waiting when you come back.</Box>
           <Button size="small" variant="contained" onClick={goLogin}>Log in</Button>
         </Box>
       )}
-      {error && <Box role="alert" sx={{ px: 2.5, py: 1, background: 'rgba(225,29,116,.08)', color: '#B3125B', fontWeight: 700, fontSize: 14 }}>{error}</Box>}
+      {error && <Box role="alert" sx={{ px: 2.5, py: 1, background: 'rgba(224,51,74,.08)', color: '#b3202f', fontWeight: 700, fontSize: 14 }}>{error}</Box>}
 
-      <Box component="form" onSubmit={send} sx={{ p: { xs: 1.2, md: 2 }, borderTop: '1px solid rgba(14,16,48,.08)' }}>
-        <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 0.5, background: '#F3F5FF', borderRadius: 4, px: 1, py: 0.6 }}>
+      <Box component="form" onSubmit={send} sx={{ p: { xs: 1.2, md: 2 }, borderTop: '1px solid rgba(18,20,24,.08)' }}>
+        <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 0.5, background: '#f4f6f9', borderRadius: 4, px: 1, py: 0.6 }}>
           <IconButton aria-label="Add photo" onClick={() => fileRef.current?.click()} disabled={sending}><PhotoIcon /></IconButton>
           <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden onChange={sendPhoto} />
           <Box component="textarea" rows={1} value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) send(e); }} placeholder={userId ? `Message #${channel}` : `Write something to ${placeholderName} (log in to send)`} aria-label="Message" maxLength={1000} sx={{ flex: 1, border: 0, outline: 0, resize: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: 15.5, py: 1.1, maxHeight: 120 }} />
           <IconButton aria-label="Emoji" onClick={(e) => setPicker({ type: 'emoji', anchor: e.currentTarget })}><EmojiIcon /></IconButton>
           <IconButton aria-label="Stickers" onClick={(e) => setPicker({ type: 'sticker', anchor: e.currentTarget })}><StickerIcon /></IconButton>
-          <IconButton type="submit" aria-label="Send" disabled={!text.trim() || sending} sx={{ ml: 0.5, background: 'var(--blue)', color: '#fff', '&:hover': { background: '#2A3FC9' }, '&.Mui-disabled': { background: '#dfe3f5', color: '#9aa0c4' } }}><SendIcon fontSize="small" /></IconButton>
+          <IconButton type="submit" aria-label="Send" disabled={!text.trim() || sending} sx={{ ml: 0.5, background: 'var(--brand)', color: '#fff', '&:hover': { background: '#1f43d1' }, '&.Mui-disabled': { background: '#e3e7ee', color: '#9aa1ad' } }}><SendIcon fontSize="small" /></IconButton>
         </Box>
       </Box>
 
       <Popover open={Boolean(picker)} anchorEl={picker?.anchor} onClose={() => setPicker(null)} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} transformOrigin={{ vertical: 'bottom', horizontal: 'right' }} PaperProps={{ sx: { p: 1.5, borderRadius: 4 } }}>
         {picker?.type === 'emoji' ? (
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 0.3, width: 320 }}>
-            {EMOJIS.map((e) => <Box key={e} component="button" onClick={() => setText((t) => t + e)} sx={{ border: 0, background: 'transparent', cursor: 'pointer', fontSize: 24, p: 0.6, borderRadius: 2, '&:hover': { background: 'rgba(14,16,48,.07)' } }}>{e}</Box>)}
+            {EMOJIS.map((e) => <Box key={e} component="button" onClick={() => setText((t) => t + e)} sx={{ border: 0, background: 'transparent', cursor: 'pointer', fontSize: 24, p: 0.6, borderRadius: 2, '&:hover': { background: 'rgba(18,20,24,.07)' } }}>{e}</Box>)}
           </Box>
         ) : (
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, width: 360 }}>
@@ -268,7 +268,7 @@ const Chat = ({ societyId, channel = 'general', placeholderName = 'the community
 
       <Popover open={Boolean(reactFor)} anchorEl={reactFor?.anchor} onClose={() => setReactFor(null)} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} transformOrigin={{ vertical: 'top', horizontal: 'right' }} PaperProps={{ sx: { p: 0.8, borderRadius: 999 } }}>
         <Box sx={{ display: 'flex' }}>
-          {QUICK_REACTIONS.map((e) => <Box key={e} component="button" onClick={() => react(reactFor.id, e)} sx={{ border: 0, background: 'transparent', cursor: 'pointer', fontSize: 22, p: 0.7, borderRadius: '50%', '&:hover': { background: 'rgba(14,16,48,.08)' } }}>{e}</Box>)}
+          {QUICK_REACTIONS.map((e) => <Box key={e} component="button" onClick={() => react(reactFor.id, e)} sx={{ border: 0, background: 'transparent', cursor: 'pointer', fontSize: 22, p: 0.7, borderRadius: '50%', '&:hover': { background: 'rgba(18,20,24,.08)' } }}>{e}</Box>)}
         </Box>
       </Popover>
 

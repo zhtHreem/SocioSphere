@@ -236,7 +236,7 @@ if (!society || !society.positions) {
          </Button>)}
       </Box>
       {!isSmallScreen && (
-        <Box sx={{ width: "25%", padding: 2, backgroundColor: "#fff", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
+        <Box sx={{ width: "25%", padding: 2, backgroundColor: "#fff", boxShadow: "0px 0px 10px rgba(0,0,0, 0.1)" }}>
           <Typography variant="h6" sx={{ mb: 2 }}>{society.name}</Typography>
           {society.positions.map((position, index) => (
            <Typography key={index} variant="body2">{`${index + 1}. ${position.title} - ${position.users.length} people`}</Typography>

@@ -13,12 +13,12 @@ const LogoMark = ({ size = 36, mono = false, title = 'SocioSphere' }) => {
       {!mono && (
         <defs>
           <linearGradient id={`a${uid}`} x1="10" y1="4" x2="50" y2="96" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#3D5AFE" />
-            <stop offset="1" stopColor="#8B5CF6" />
+            <stop offset="0" stopColor="#2f5cff" />
+            <stop offset="1" stopColor="#5c8dff" />
           </linearGradient>
           <linearGradient id={`b${uid}`} x1="50" y1="4" x2="92" y2="96" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stopColor="#FF8AB8" />
-            <stop offset="1" stopColor="#FF3D8B" />
+            <stop offset="0" stopColor="#ff9aa2" />
+            <stop offset="1" stopColor="#ff4d5e" />
           </linearGradient>
         </defs>
       )}

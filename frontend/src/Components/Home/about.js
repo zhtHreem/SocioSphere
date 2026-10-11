@@ -50,8 +50,8 @@ const AboutPage = () => (
     <Box sx={{ maxWidth: 1000, mx: 'auto', px: 3, mt: { xs: 8, md: 12 } }}>
       <Box component="h2" sx={{ m: 0, mb: 4, fontFamily: display, fontWeight: 800, letterSpacing: '-0.03em', fontSize: { xs: '2rem', md: '3rem' } }}>What we believe</Box>
       {PRINCIPLES.map(([title, text], i) => (
-        <Box key={title} sx={{ display: 'grid', gridTemplateColumns: { xs: '48px 1fr', sm: '84px 1fr' }, gap: 2, py: 3, borderTop: '1px solid rgba(14,16,48,.14)', ...(i === PRINCIPLES.length - 1 && { borderBottom: '1px solid rgba(14,16,48,.14)' }) }}>
-          <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: { xs: 28, sm: 44 }, lineHeight: 1, letterSpacing: '-0.04em', color: 'var(--blue)' }}>{String(i + 1).padStart(2, '0')}</Box>
+        <Box key={title} sx={{ display: 'grid', gridTemplateColumns: { xs: '48px 1fr', sm: '84px 1fr' }, gap: 2, py: 3, borderTop: '1px solid rgba(18,20,24,.14)', ...(i === PRINCIPLES.length - 1 && { borderBottom: '1px solid rgba(18,20,24,.14)' }) }}>
+          <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: { xs: 28, sm: 44 }, lineHeight: 1, letterSpacing: '-0.04em', color: 'var(--brand)' }}>{String(i + 1).padStart(2, '0')}</Box>
           <Box>
             <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: { xs: 21, sm: 26 }, mb: 0.6 }}>{title}</Box>
             <Box sx={{ color: 'text.secondary', fontSize: 17, lineHeight: 1.65, maxWidth: 620 }}>{text}</Box>
@@ -74,7 +74,7 @@ const AboutPage = () => (
     <Box sx={{ maxWidth: 780, mx: 'auto', px: 3, mt: { xs: 8, md: 12 } }}>
       <Box component="h2" sx={{ m: 0, mb: 3, fontFamily: display, fontWeight: 800, letterSpacing: '-0.03em', fontSize: { xs: '2rem', md: '3rem' } }}>Questions</Box>
       {FAQ.map(([q, a]) => (
-        <Accordion key={q} disableGutters elevation={0} sx={{ mb: 1.2, borderRadius: '18px !important', border: '1px solid rgba(14,16,48,.1)', '&:before': { display: 'none' } }}>
+        <Accordion key={q} disableGutters elevation={0} sx={{ mb: 1.2, borderRadius: '18px !important', border: '1px solid rgba(18,20,24,.1)', '&:before': { display: 'none' } }}>
           <AccordionSummary expandIcon={<ExpandMore />} sx={{ px: 2.5, '& .MuiAccordionSummary-content': { fontWeight: 800 } }}>{q}</AccordionSummary>
           <AccordionDetails sx={{ px: 2.5, pb: 2.5, color: 'text.secondary', lineHeight: 1.7 }}>{a}</AccordionDetails>
         </Accordion>

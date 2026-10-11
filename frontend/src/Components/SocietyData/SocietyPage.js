@@ -7,15 +7,15 @@ import { useSocieties } from '../../lib/api';
 import { CardGridSkeleton } from '../common/Skeletons';
 import { PageHero, TiltCard } from '../Home/ui';
 
-const ACCENTS = ['#3D5AFE', '#FF3D8B', '#19E3B1', '#8B5CF6', '#38BDF8'];
+const ACCENTS = ['#2f5cff', '#e5304a', '#0e9f9a', '#b89800', '#1e88e5'];
 const display = '"Bricolage Grotesque", sans-serif';
 
 const Logo = ({ society, size = 64 }) => (
-  <Box sx={{ width: size, height: size, borderRadius: `${size * 0.26}px`, overflow: 'hidden', background: '#fff', p: '3px', boxShadow: '0 12px 24px -10px rgba(14,16,48,.55)', flexShrink: 0 }}>
+  <Box sx={{ width: size, height: size, borderRadius: `${size * 0.26}px`, overflow: 'hidden', background: '#fff', p: '3px', boxShadow: '0 12px 24px -10px rgba(18,20,24,.55)', flexShrink: 0 }}>
     {society.logo ? (
       <Box component="img" src={society.logo} alt={`${society.name} logo`} loading="lazy" sx={{ width: '100%', height: '100%', display: 'block', borderRadius: `${size * 0.22}px` }} />
     ) : (
-      <Box sx={{ width: '100%', height: '100%', borderRadius: `${size * 0.22}px`, display: 'grid', placeItems: 'center', color: '#fff', fontFamily: display, fontWeight: 800, fontSize: size * 0.42, background: 'linear-gradient(135deg,#3D5AFE,#FF3D8B)' }}>{(society.name || '?')[0]}</Box>
+      <Box sx={{ width: '100%', height: '100%', borderRadius: `${size * 0.22}px`, display: 'grid', placeItems: 'center', color: '#fff', fontFamily: display, fontWeight: 800, fontSize: size * 0.42, background: 'linear-gradient(135deg,#2f5cff,#5c8dff)' }}>{(society.name || '?')[0]}</Box>
     )}
   </Box>
 );
@@ -24,10 +24,10 @@ const SocietyCard = React.memo(({ society, index, onClick }) => {
   const color = ACCENTS[index % ACCENTS.length];
   return (
     <Box component={motion.div} layout initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }} sx={{ height: '100%' }}>
-      <TiltCard onClick={onClick} max={6} sx={{ borderRadius: 7, overflow: 'hidden', background: '#fff', border: '1px solid rgba(14,16,48,.07)', boxShadow: `0 26px 44px -32px ${color}`, display: 'flex', flexDirection: 'column' }}>
+      <TiltCard onClick={onClick} max={6} sx={{ borderRadius: 7, overflow: 'hidden', background: '#fff', border: '1px solid rgba(18,20,24,.07)', boxShadow: `0 26px 44px -32px ${color}`, display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ position: 'relative', height: 170, background: color }}>
           <Box component="img" src={society.cover || society.image} alt="" loading="lazy" sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-          <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(14,16,48,.55))' }} />
+          <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(18,20,24,.55))' }} />
           {society.category && <Box sx={{ position: 'absolute', top: 14, right: 14, px: 1.4, py: 0.5, borderRadius: 999, background: '#fff', color: 'var(--ink)', fontWeight: 800, fontSize: 12 }}>{society.category}</Box>}
         </Box>
         <Box sx={{ px: 3, pb: 3, display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
@@ -71,8 +71,8 @@ const SocietyPage = () => {
   return (
     <Box>
       <PageHero eyebrow={`${societies.length || 'All'} communities`} title={<>Pick your <span className="grad-text-light">people</span></>} sub="Search by interest, name or city. Everything is open to browse, no account needed.">
-        <Box sx={{ mt: 4.5, mx: 'auto', maxWidth: 620, display: 'flex', alignItems: 'center', gap: 1.5, pl: 2.5, pr: 1, py: 0.8, borderRadius: 999, background: '#fff', color: 'var(--ink)', boxShadow: '0 24px 50px -18px rgba(0,0,0,.55)', transition: 'box-shadow .2s', '&:focus-within': { boxShadow: '0 0 0 4px rgba(25,227,177,.55), 0 24px 50px -18px rgba(0,0,0,.55)' } }}>
-          <Search sx={{ color: 'var(--blue)' }} />
+        <Box sx={{ mt: 4.5, mx: 'auto', maxWidth: 620, display: 'flex', alignItems: 'center', gap: 1.5, pl: 2.5, pr: 1, py: 0.8, borderRadius: 999, background: '#fff', color: 'var(--ink)', boxShadow: '0 24px 50px -18px rgba(0,0,0,.55)', transition: 'box-shadow .2s', '&:focus-within': { boxShadow: '0 0 0 4px rgba(255,225,77,.55), 0 24px 50px -18px rgba(0,0,0,.55)' } }}>
+          <Search sx={{ color: 'var(--brand)' }} />
           <InputBase fullWidth placeholder="Try 'music', 'Berlin', 'volunteering'..." value={searchTerm} onChange={(e) => updateSearch(e.target.value)} inputProps={{ 'aria-label': 'Search societies' }} sx={{ fontSize: 18, fontWeight: 600, py: 0.8 }} />
           {searchTerm && <Button onClick={() => updateSearch('')} sx={{ minWidth: 0, p: 1, borderRadius: '50%', color: 'text.secondary' }} aria-label="Clear"><Close /></Button>}
         </Box>
@@ -82,7 +82,7 @@ const SocietyPage = () => {
         {!loading && categories.length > 2 && (
           <Box sx={{ display: 'flex', gap: 1, overflowX: 'auto', pb: 1, mb: 3, '&::-webkit-scrollbar': { display: 'none' } }}>
             {categories.map((c) => (
-              <Box key={c} component="button" onClick={() => setCategory(c)} sx={{ border: 0, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0, px: 2, py: 1, borderRadius: 999, fontWeight: 800, fontSize: 14.5, background: category === c ? 'var(--ink)' : '#fff', color: category === c ? '#fff' : 'var(--ink)', boxShadow: category === c ? 'none' : 'inset 0 0 0 1.5px rgba(14,16,48,.12)', transition: 'all .2s', '&:hover': { background: category === c ? 'var(--ink)' : 'rgba(14,16,48,.06)' } }}>{c}</Box>
+              <Box key={c} component="button" onClick={() => setCategory(c)} sx={{ border: 0, cursor: 'pointer', fontFamily: 'inherit', flexShrink: 0, px: 2, py: 1, borderRadius: 999, fontWeight: 800, fontSize: 14.5, background: category === c ? 'var(--ink)' : '#fff', color: category === c ? '#fff' : 'var(--ink)', boxShadow: category === c ? 'none' : 'inset 0 0 0 1.5px rgba(18,20,24,.12)', transition: 'all .2s', '&:hover': { background: category === c ? 'var(--ink)' : 'rgba(18,20,24,.06)' } }}>{c}</Box>
             ))}
           </Box>
         )}

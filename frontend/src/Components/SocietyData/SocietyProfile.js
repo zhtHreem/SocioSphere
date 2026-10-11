@@ -12,7 +12,7 @@ import EventCreationDialog from './EventCreation';
 import { PersonAvatar } from '../Chat/chat';
 import { Reveal, TiltCard, Aurora, fmtDate, splitEvents } from '../Home/ui';
 
-const ACCENTS = ['#3D5AFE', '#FF3D8B', '#19E3B1', '#8B5CF6', '#38BDF8'];
+const ACCENTS = ['#2f5cff', '#e5304a', '#0e9f9a', '#b89800', '#1e88e5'];
 const display = '"Bricolage Grotesque", sans-serif';
 const SECTIONS = [['about', 'About'], ['why', 'Why join'], ['events', 'Events'], ['team', 'Team'], ['gallery', 'Gallery'], ['faq', 'FAQ'], ['community', 'Community']];
 
@@ -28,14 +28,14 @@ const SocietyLogo = ({ society, size = 112 }) => (
     {society.logo ? (
       <Box component="img" src={society.logo} alt={`${society.name} logo`} sx={{ width: '100%', height: '100%', display: 'block', borderRadius: `${size * 0.22}px` }} />
     ) : (
-      <Box sx={{ width: '100%', height: '100%', borderRadius: `${size * 0.22}px`, display: 'grid', placeItems: 'center', color: '#fff', fontFamily: display, fontWeight: 800, fontSize: size * 0.42, background: 'linear-gradient(135deg,#3D5AFE,#FF3D8B)' }}>{(society.name || '?')[0]}</Box>
+      <Box sx={{ width: '100%', height: '100%', borderRadius: `${size * 0.22}px`, display: 'grid', placeItems: 'center', color: '#fff', fontFamily: display, fontWeight: 800, fontSize: size * 0.42, background: 'linear-gradient(135deg,#2f5cff,#5c8dff)' }}>{(society.name || '?')[0]}</Box>
     )}
   </Box>
 );
 
 const SectionHead = ({ id, eyebrow, children }) => (
   <Box id={id} sx={{ scrollMarginTop: 150, mb: 3 }}>
-    <Box sx={{ fontWeight: 800, fontSize: 12.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--pink)', mb: 0.8 }}>{eyebrow}</Box>
+    <Box sx={{ fontWeight: 800, fontSize: 12.5, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--rose)', mb: 0.8 }}>{eyebrow}</Box>
     <Box component="h2" sx={{ m: 0, fontFamily: display, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05, fontSize: { xs: '2rem', md: '2.8rem' } }}>{children}</Box>
   </Box>
 );
@@ -44,14 +44,14 @@ const EventCard = ({ event, index, isAdmin, onEdit, past }) => {
   const navigate = useNavigate();
   const color = ACCENTS[index % ACCENTS.length];
   return (
-    <TiltCard max={5} onClick={() => navigate(`/event/${event._id}`)} sx={{ borderRadius: 6, overflow: 'hidden', background: '#fff', border: '1px solid rgba(14,16,48,.07)', boxShadow: `0 24px 40px -30px ${color}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <TiltCard max={5} onClick={() => navigate(`/event/${event._id}`)} sx={{ borderRadius: 6, overflow: 'hidden', background: '#fff', border: '1px solid rgba(18,20,24,.07)', boxShadow: `0 24px 40px -30px ${color}`, display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Box sx={{ position: 'relative', height: 170, background: color }}>
         <Box component="img" src={event.image} alt={event.title} loading="lazy" sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: past ? 'saturate(.75)' : 'none' }} />
         <Box sx={{ position: 'absolute', top: 12, left: 12, textAlign: 'center', px: 1.5, py: 0.8, borderRadius: 3, background: '#fff', color: 'var(--ink)', lineHeight: 1, boxShadow: '0 10px 20px -8px rgba(0,0,0,.4)' }}>
           <Box sx={{ fontWeight: 800, fontSize: 11, letterSpacing: '.08em', color }}>{fmtDate.monthShort(event.date)}</Box>
           <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 26 }}>{fmtDate.day(event.date)}</Box>
         </Box>
-        <Box sx={{ position: 'absolute', top: 12, right: 12, px: 1.3, py: 0.4, borderRadius: 999, background: past ? 'rgba(14,16,48,.8)' : color, color: '#fff', fontWeight: 800, fontSize: 12 }}>
+        <Box sx={{ position: 'absolute', top: 12, right: 12, px: 1.3, py: 0.4, borderRadius: 999, background: past ? 'rgba(18,20,24,.8)' : color, color: '#fff', fontWeight: 800, fontSize: 12 }}>
           {past ? 'Past' : event.price || 'Free'}
         </Box>
       </Box>
@@ -146,14 +146,14 @@ const SocietyProfile = () => {
       {/* ---------- hero ---------- */}
       <Box sx={{ position: 'relative', overflow: 'hidden', color: '#fff', background: 'var(--ink)', mt: '-96px', pt: { xs: 15, md: 18 }, pb: { xs: 6, md: 8 }, borderBottomLeftRadius: { xs: 36, md: 64 }, borderBottomRightRadius: { xs: 36, md: 64 } }}>
         {(society.cover || society.image) && <Box component="img" src={society.cover || society.image} alt="" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.42 }} />}
-        <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,16,48,.55) 0%, rgba(14,16,48,.9) 100%)' }} />
+        <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(18,20,24,.55) 0%, rgba(18,20,24,.9) 100%)' }} />
         <Aurora />
         <Box sx={{ position: 'relative', maxWidth: 1180, mx: 'auto', px: 3 }}>
           <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 3, md: 5 }, alignItems: { md: 'flex-end' } }}>
             <SocietyLogo society={society} size={132} />
             <Box sx={{ flex: 1 }}>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 1.8 }}>
-                {society.category && <Box sx={{ px: 1.5, py: 0.5, borderRadius: 999, background: 'var(--mint)', color: 'var(--ink)', fontWeight: 800, fontSize: 13 }}>{society.category}</Box>}
+                {society.category && <Box sx={{ px: 1.5, py: 0.5, borderRadius: 999, background: 'var(--butter)', color: 'var(--ink)', fontWeight: 800, fontSize: 13 }}>{society.category}</Box>}
                 {society.city && <Box sx={{ px: 1.5, py: 0.5, borderRadius: 999, background: 'rgba(255,255,255,.14)', border: '1px solid rgba(255,255,255,.25)', fontWeight: 700, fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 0.4 }}><Place sx={{ fontSize: 15 }} />{society.city}</Box>}
               </Box>
               <Box component="h1" sx={{ m: 0, fontFamily: display, fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.98, fontSize: { xs: '2.6rem', md: '4.6rem' } }}>{society.name}</Box>
@@ -171,7 +171,7 @@ const SocietyProfile = () => {
               ))}
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, ml: { md: 'auto' } }}>
-              <Button size="large" variant="contained" endIcon={<ArrowOutward />} onClick={goApply} sx={{ background: 'var(--mint)', color: 'var(--ink)', boxShadow: '0 14px 34px -10px rgba(25,227,177,.7)', '&:hover': { background: '#fff' } }}>{join.label}</Button>
+              <Button size="large" variant="contained" endIcon={<ArrowOutward />} onClick={goApply} sx={{ background: 'var(--butter)', color: 'var(--ink)', boxShadow: '0 14px 34px -10px rgba(255,225,77,.7)', '&:hover': { background: '#fff' } }}>{join.label}</Button>
               <Button size="large" variant="outlined" onClick={() => navigate(`/society/${id}/community`)} sx={ghost}>Say hello</Button>
               {isAdmin && <Button size="large" variant="outlined" startIcon={<AddIcon />} onClick={() => openDialog()} sx={ghost}>Create event</Button>}
               {isAdmin && <Button size="large" variant="outlined" startIcon={<EditIcon />} onClick={() => navigate(`create/${id}`)} sx={ghost}>Apply form</Button>}
@@ -183,9 +183,9 @@ const SocietyProfile = () => {
 
       {/* ---------- sticky section nav ---------- */}
       <Box sx={{ position: 'sticky', top: { xs: 70, md: 86 }, zIndex: 20, mt: 3, px: 2, pointerEvents: 'none' }}>
-        <Box sx={{ pointerEvents: 'auto', width: 'fit-content', maxWidth: '100%', mx: 'auto', display: 'flex', gap: 0.5, p: 0.6, borderRadius: 999, overflowX: 'auto', background: 'rgba(255,255,255,.88)', backdropFilter: 'blur(14px)', border: '1px solid rgba(14,16,48,.08)', boxShadow: '0 12px 30px -16px rgba(14,16,48,.35)', '&::-webkit-scrollbar': { display: 'none' } }}>
+        <Box sx={{ pointerEvents: 'auto', width: 'fit-content', maxWidth: '100%', mx: 'auto', display: 'flex', gap: 0.5, p: 0.6, borderRadius: 999, overflowX: 'auto', background: 'rgba(255,255,255,.88)', backdropFilter: 'blur(14px)', border: '1px solid rgba(18,20,24,.08)', boxShadow: '0 12px 30px -16px rgba(18,20,24,.35)', '&::-webkit-scrollbar': { display: 'none' } }}>
           {SECTIONS.map(([sid, label]) => (
-            <Box key={sid} component="button" onClick={() => scrollTo(sid)} sx={{ border: 0, cursor: 'pointer', fontFamily: 'inherit', px: 1.8, py: 0.9, borderRadius: 999, fontWeight: 800, fontSize: 14, whiteSpace: 'nowrap', background: active === sid ? 'var(--ink)' : 'transparent', color: active === sid ? '#fff' : 'var(--ink-soft)', transition: 'all .2s', '&:hover': { background: active === sid ? 'var(--ink)' : 'rgba(14,16,48,.07)' } }}>{label}</Box>
+            <Box key={sid} component="button" onClick={() => scrollTo(sid)} sx={{ border: 0, cursor: 'pointer', fontFamily: 'inherit', px: 1.8, py: 0.9, borderRadius: 999, fontWeight: 800, fontSize: 14, whiteSpace: 'nowrap', background: active === sid ? 'var(--ink)' : 'transparent', color: active === sid ? '#fff' : 'var(--ink-soft)', transition: 'all .2s', '&:hover': { background: active === sid ? 'var(--ink)' : 'rgba(18,20,24,.07)' } }}>{label}</Box>
           ))}
         </Box>
       </Box>
@@ -204,7 +204,7 @@ const SocietyProfile = () => {
                 <Box sx={{ fontWeight: 800, mb: 1.2 }}>This is for you if you are...</Box>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {society.audience.map((a, i) => (
-                    <Box key={a} sx={{ px: 1.8, py: 0.9, borderRadius: 999, fontWeight: 700, fontSize: 14.5, background: `${ACCENTS[i % 5]}1A`, color: ACCENTS[i % 5] === '#19E3B1' ? '#0A8F6E' : ACCENTS[i % 5] }}>{a}</Box>
+                    <Box key={a} sx={{ px: 1.8, py: 0.9, borderRadius: 999, fontWeight: 700, fontSize: 14.5, background: `${ACCENTS[i % 5]}1A`, color: ACCENTS[i % 5] === '#ffe14d' ? '#0A8F6E' : ACCENTS[i % 5] }}>{a}</Box>
                   ))}
                 </Box>
               </Box>
@@ -217,8 +217,8 @@ const SocietyProfile = () => {
               <SectionHead id="why" eyebrow="What you get">Why people join</SectionHead>
               <Box>
                 {society.perks.map((p, i) => (
-                  <Box key={p.title} sx={{ display: 'grid', gridTemplateColumns: { xs: '52px 1fr', sm: '84px 1fr' }, gap: 2, py: 2.8, borderTop: '1px solid rgba(14,16,48,.14)', ...(i === society.perks.length - 1 && { borderBottom: '1px solid rgba(14,16,48,.14)' }) }}>
-                    <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: { xs: 30, sm: 46 }, lineHeight: 1, letterSpacing: '-0.04em', color: ACCENTS[i % 5] === '#19E3B1' ? '#0FBF8F' : ACCENTS[i % 5] }}>{String(i + 1).padStart(2, '0')}</Box>
+                  <Box key={p.title} sx={{ display: 'grid', gridTemplateColumns: { xs: '52px 1fr', sm: '84px 1fr' }, gap: 2, py: 2.8, borderTop: '1px solid rgba(18,20,24,.14)', ...(i === society.perks.length - 1 && { borderBottom: '1px solid rgba(18,20,24,.14)' }) }}>
+                    <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: { xs: 30, sm: 46 }, lineHeight: 1, letterSpacing: '-0.04em', color: ACCENTS[i % 5] === '#ffe14d' ? '#0FBF8F' : ACCENTS[i % 5] }}>{String(i + 1).padStart(2, '0')}</Box>
                     <Box>
                       <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: { xs: 21, sm: 26 }, lineHeight: 1.15, mb: 0.6 }}>{p.title}</Box>
                       <Box sx={{ color: 'text.secondary', fontSize: 17, lineHeight: 1.6, maxWidth: 560 }}>{p.text}</Box>
@@ -243,7 +243,7 @@ const SocietyProfile = () => {
           {/* Events */}
           <Box>
             <SectionHead id="events" eyebrow="What's on">Events</SectionHead>
-            <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 3, borderBottom: '1px solid rgba(14,16,48,.1)' }}>
+            <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 3, borderBottom: '1px solid rgba(18,20,24,.1)' }}>
               <Tab value="upcoming" label={`Upcoming (${upcoming.length})`} />
               <Tab value="past" label={`Past (${past.length})`} />
             </Tabs>
@@ -256,7 +256,7 @@ const SocietyProfile = () => {
                 ))}
               </Box>
             ) : (
-              <Box sx={{ p: 5, textAlign: 'center', borderRadius: 6, border: '2px dashed rgba(61,90,254,.3)' }}>
+              <Box sx={{ p: 5, textAlign: 'center', borderRadius: 6, border: '2px dashed rgba(47,92,255,.3)' }}>
                 <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 24 }}>{tab === 'upcoming' ? 'Nothing scheduled right now' : 'No past events yet'}</Box>
                 <Box sx={{ color: 'text.secondary', mt: 0.6 }}>{tab === 'upcoming' ? 'Join the chat to hear first when the next one is announced.' : 'This society is just getting started.'}</Box>
               </Box>
@@ -269,8 +269,8 @@ const SocietyProfile = () => {
             {team.some((t) => t.people.length) ? (
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', sm: 'repeat(3, 1fr)' }, gap: 2.5 }}>
                 {team.flatMap((t) => t.people.map((p) => ({ ...p, title: t.title }))).map((p, i) => (
-                  <Box key={p.id} sx={{ textAlign: 'center', p: 3, borderRadius: 6, background: '#fff', border: '1px solid rgba(14,16,48,.07)' }}>
-                    <Avatar sx={{ width: 76, height: 76, mx: 'auto', mb: 1.5, fontSize: 28, fontFamily: display, background: `linear-gradient(135deg, ${ACCENTS[i % 5]}, ${ACCENTS[(i + 2) % 5]})` }}>{p.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}</Avatar>
+                  <Box key={p.id} sx={{ textAlign: 'center', p: 3, borderRadius: 6, background: '#fff', border: '1px solid rgba(18,20,24,.07)' }}>
+                    <Avatar sx={{ width: 76, height: 76, mx: 'auto', mb: 1.5, fontSize: 28, fontFamily: display, background: ACCENTS[i % 5] }}>{p.name.split(' ').map((w) => w[0]).slice(0, 2).join('')}</Avatar>
                     <Box sx={{ fontWeight: 800 }}>{p.name}</Box>
                     <Box sx={{ color: 'text.secondary', fontSize: 14 }}>{p.title}</Box>
                   </Box>
@@ -300,7 +300,7 @@ const SocietyProfile = () => {
             <Box>
               <SectionHead id="faq" eyebrow="Good to know">Questions people ask</SectionHead>
               {society.faq.map((f) => (
-                <Accordion key={f.q} disableGutters elevation={0} sx={{ mb: 1.2, borderRadius: '18px !important', border: '1px solid rgba(14,16,48,.08)', '&:before': { display: 'none' } }}>
+                <Accordion key={f.q} disableGutters elevation={0} sx={{ mb: 1.2, borderRadius: '18px !important', border: '1px solid rgba(18,20,24,.08)', '&:before': { display: 'none' } }}>
                   <AccordionSummary expandIcon={<ExpandMore />} sx={{ px: 2.5, '& .MuiAccordionSummary-content': { fontWeight: 800 } }}>{f.q}</AccordionSummary>
                   <AccordionDetails sx={{ px: 2.5, pb: 2.5, color: 'text.secondary', lineHeight: 1.65 }}>{f.a}</AccordionDetails>
                 </Accordion>
@@ -311,11 +311,11 @@ const SocietyProfile = () => {
           {/* Community */}
           <Box>
             <SectionHead id="community" eyebrow="Inside the community">What members are saying</SectionHead>
-            <Box sx={{ borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(14,16,48,.12)', background: '#fff' }}>
+            <Box sx={{ borderRadius: 6, overflow: 'hidden', border: '1px solid rgba(18,20,24,.12)', background: '#fff' }}>
               {preview.length === 0 ? (
                 <Box sx={{ p: 4, color: 'text.secondary' }}>No messages yet. Be the first to say hello.</Box>
               ) : preview.map((m) => (
-                <Box key={m._id} sx={{ display: 'flex', gap: 1.6, px: 2.5, py: 1.8, borderBottom: '1px solid rgba(14,16,48,.07)' }}>
+                <Box key={m._id} sx={{ display: 'flex', gap: 1.6, px: 2.5, py: 1.8, borderBottom: '1px solid rgba(18,20,24,.07)' }}>
                   <PersonAvatar name={m.sender?.username || 'Member'} size={38} />
                   <Box sx={{ minWidth: 0 }}>
                     <Box sx={{ display: 'flex', gap: 1, alignItems: 'baseline' }}>
@@ -328,7 +328,7 @@ const SocietyProfile = () => {
               ))}
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, flexWrap: 'wrap', px: 2.5, py: 2, background: 'var(--ink)', color: '#fff' }}>
                 <Box sx={{ lineHeight: 1.4 }}><Box sx={{ fontWeight: 800 }}>Join the conversation</Box><Box sx={{ opacity: 0.7, fontSize: 14 }}>Read along, then say hello.</Box></Box>
-                <Button variant="contained" endIcon={<ArrowOutward />} onClick={() => navigate(`/society/${id}/community`)} sx={{ background: 'var(--mint)', color: 'var(--ink)', '&:hover': { background: '#fff' } }}>Open the community</Button>
+                <Button variant="contained" endIcon={<ArrowOutward />} onClick={() => navigate(`/society/${id}/community`)} sx={{ background: 'var(--butter)', color: 'var(--ink)', '&:hover': { background: '#fff' } }}>Open the community</Button>
               </Box>
             </Box>
           </Box>
@@ -339,7 +339,7 @@ const SocietyProfile = () => {
               <SectionHead id="similar" eyebrow="Keep exploring">You might also like</SectionHead>
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 2.5 }}>
                 {similar.map((s) => (
-                  <Box key={s._id} component={Link} to={`/society/${s._id}`} sx={{ textDecoration: 'none', color: 'inherit', p: 2.5, borderRadius: 6, background: '#fff', border: '1px solid rgba(14,16,48,.07)', display: 'flex', flexDirection: 'column', gap: 1.5, transition: 'transform .25s, box-shadow .25s', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 24px 40px -28px rgba(61,90,254,.7)' } }}>
+                  <Box key={s._id} component={Link} to={`/society/${s._id}`} sx={{ textDecoration: 'none', color: 'inherit', p: 2.5, borderRadius: 6, background: '#fff', border: '1px solid rgba(18,20,24,.07)', display: 'flex', flexDirection: 'column', gap: 1.5, transition: 'transform .25s, box-shadow .25s', '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 24px 40px -28px rgba(47,92,255,.7)' } }}>
                     <SocietyLogo society={s} size={56} />
                     <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 19, lineHeight: 1.15 }}>{s.name}</Box>
                     <Box sx={{ color: 'text.secondary', fontSize: 14 }}>{[s.category, s.city].filter(Boolean).join(' · ')}</Box>
@@ -354,8 +354,8 @@ const SocietyProfile = () => {
         <Box sx={{ position: { md: 'sticky' }, top: { md: 150 }, order: { xs: -1, md: 0 } }}>
           <Box sx={{ borderTop: '3px solid var(--ink)', pt: 2.5 }}>
             {upcoming[0] && (
-              <Box component={Link} to={`/event/${upcoming[0]._id}`} sx={{ display: 'block', textDecoration: 'none', color: 'inherit', mb: 3, '&:hover .t': { color: 'var(--blue)' } }}>
-                <Box sx={{ fontSize: 12, fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--pink)', mb: 0.6 }}>Next up</Box>
+              <Box component={Link} to={`/event/${upcoming[0]._id}`} sx={{ display: 'block', textDecoration: 'none', color: 'inherit', mb: 3, '&:hover .t': { color: 'var(--brand)' } }}>
+                <Box sx={{ fontSize: 12, fontWeight: 800, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--rose)', mb: 0.6 }}>Next up</Box>
                 <Box className="t" sx={{ fontFamily: display, fontWeight: 800, fontSize: 26, lineHeight: 1.1, transition: 'color .2s' }}>{upcoming[0].title}</Box>
                 <Box sx={{ mt: 0.6, fontWeight: 700 }}>{fmtDate.long(upcoming[0].date)}</Box>
                 <Box sx={{ color: 'text.secondary' }}>{fmtDate.time(upcoming[0].date)}{upcoming[0].venue ? ` · ${upcoming[0].venue}` : ''}</Box>
@@ -364,7 +364,7 @@ const SocietyProfile = () => {
 
             <Box component="dl" sx={{ m: 0 }}>
               {facts.map(([label, value]) => (
-                <Box key={label} sx={{ py: 1.3, borderTop: '1px solid rgba(14,16,48,.12)' }}>
+                <Box key={label} sx={{ py: 1.3, borderTop: '1px solid rgba(18,20,24,.12)' }}>
                   <Box component="dt" sx={{ fontSize: 12, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase', color: 'text.secondary' }}>{label}</Box>
                   <Box component="dd" sx={{ m: 0, mt: 0.2, fontWeight: 700, fontSize: 17, lineHeight: 1.35 }}>{value}</Box>
                 </Box>
@@ -372,10 +372,10 @@ const SocietyProfile = () => {
             </Box>
 
             {society.requirements?.length > 0 && (
-              <Box sx={{ py: 1.8, borderTop: '1px solid rgba(14,16,48,.12)' }}>
+              <Box sx={{ py: 1.8, borderTop: '1px solid rgba(18,20,24,.12)' }}>
                 <Box sx={{ fontSize: 12, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase', color: 'text.secondary', mb: 0.8 }}>To join</Box>
                 {society.requirements.map((r) => (
-                  <Box key={r} sx={{ display: 'flex', gap: 1, mb: 0.6, lineHeight: 1.4, fontSize: 15.5 }}><Box component="span" sx={{ color: 'var(--pink)', fontWeight: 800 }}>+</Box>{r}</Box>
+                  <Box key={r} sx={{ display: 'flex', gap: 1, mb: 0.6, lineHeight: 1.4, fontSize: 15.5 }}><Box component="span" sx={{ color: 'var(--rose)', fontWeight: 800 }}>+</Box>{r}</Box>
                 ))}
               </Box>
             )}
@@ -384,10 +384,10 @@ const SocietyProfile = () => {
             {!token && <Box sx={{ mt: 1, textAlign: 'center', fontSize: 13, color: 'text.secondary' }}>You will be asked to log in first.</Box>}
 
             {(society.socials?.instagram || society.socials?.website || society.socials?.email) && (
-              <Box sx={{ mt: 3, pt: 2, borderTop: '1px solid rgba(14,16,48,.12)', display: 'grid', gap: 0.6, fontWeight: 700 }}>
-                {society.socials.instagram && <Box component="a" href={`https://instagram.com/${society.socials.instagram}`} target="_blank" rel="noreferrer" sx={{ color: 'var(--ink)', '&:hover': { color: 'var(--pink)' } }}>Instagram @{society.socials.instagram}</Box>}
+              <Box sx={{ mt: 3, pt: 2, borderTop: '1px solid rgba(18,20,24,.12)', display: 'grid', gap: 0.6, fontWeight: 700 }}>
+                {society.socials.instagram && <Box component="a" href={`https://instagram.com/${society.socials.instagram}`} target="_blank" rel="noreferrer" sx={{ color: 'var(--ink)', '&:hover': { color: 'var(--rose)' } }}>Instagram @{society.socials.instagram}</Box>}
                 {society.socials.website && <Box>{society.socials.website}</Box>}
-                {society.socials.email && <Box component="a" href={`mailto:${society.socials.email}`} sx={{ color: 'var(--ink)', '&:hover': { color: 'var(--pink)' } }}>{society.socials.email}</Box>}
+                {society.socials.email && <Box component="a" href={`mailto:${society.socials.email}`} sx={{ color: 'var(--ink)', '&:hover': { color: 'var(--rose)' } }}>{society.socials.email}</Box>}
               </Box>
             )}
           </Box>

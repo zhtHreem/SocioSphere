@@ -61,12 +61,12 @@ const TeamManager = () => {
       <Box sx={{ mt: 5 }}>
         {(isLoading || roleLoading) && <ListRowsSkeleton count={4} />}
         {ladder.map((rank, ri) => (
-          <Box key={rank.index} sx={{ py: 3, borderTop: ri === 0 ? '3px solid var(--ink)' : '1px solid rgba(14,16,48,.14)' }}>
+          <Box key={rank.index} sx={{ py: 3, borderTop: ri === 0 ? '3px solid var(--ink)' : '1px solid rgba(18,20,24,.14)' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1.5, flexWrap: 'wrap' }}>
               <Box sx={{ fontFamily: display, fontWeight: 800, color: 'text.secondary', fontSize: 15 }}>Rank {ri + 1}</Box>
               {editing?.index === rank.index ? (
                 <>
-                  <InputBase autoFocus value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} onKeyDown={(e) => e.key === 'Enter' && saveRank()} inputProps={{ maxLength: 40, 'aria-label': 'Rank name' }} sx={{ fontFamily: display, fontWeight: 800, fontSize: 26, borderBottom: '2px solid var(--blue)' }} />
+                  <InputBase autoFocus value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} onKeyDown={(e) => e.key === 'Enter' && saveRank()} inputProps={{ maxLength: 40, 'aria-label': 'Rank name' }} sx={{ fontFamily: display, fontWeight: 800, fontSize: 26, borderBottom: '2px solid var(--brand)' }} />
                   <IconButton onClick={saveRank} aria-label="Save"><Check /></IconButton>
                   <IconButton onClick={() => setEditing(null)} aria-label="Cancel"><Close /></IconButton>
                 </>
@@ -98,15 +98,15 @@ const TeamManager = () => {
         ))}
 
         {isOwner && (
-          <Box sx={{ pt: 3, borderTop: '1px solid rgba(14,16,48,.14)', display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center' }}>
-            <InputBase value={newRank} onChange={(e) => setNewRank(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && addRank()} placeholder="Add a rank, e.g. Treasurer" inputProps={{ maxLength: 40, 'aria-label': 'New rank name' }} sx={{ px: 2, py: 0.8, borderRadius: 999, border: '1.5px solid rgba(14,16,48,.2)', minWidth: 260, background: '#fff' }} />
+          <Box sx={{ pt: 3, borderTop: '1px solid rgba(18,20,24,.14)', display: 'flex', gap: 1.5, flexWrap: 'wrap', alignItems: 'center' }}>
+            <InputBase value={newRank} onChange={(e) => setNewRank(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && addRank()} placeholder="Add a rank, e.g. Treasurer" inputProps={{ maxLength: 40, 'aria-label': 'New rank name' }} sx={{ px: 2, py: 0.8, borderRadius: 999, border: '1.5px solid rgba(18,20,24,.2)', minWidth: 260, background: '#fff' }} />
             <Button variant="contained" onClick={addRank} disabled={!newRank.trim()}>Add rank</Button>
           </Box>
         )}
 
         <Box sx={{ mt: 5, p: 3, borderRadius: 5, background: 'var(--ink)', color: '#fff' }}>
           <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 22, mb: 0.6 }}>How people join</Box>
-          <Box sx={{ opacity: 0.85, lineHeight: 1.6 }}>Someone applies on your society page. Open <Box component={Link} to="/user" sx={{ color: 'var(--mint)', fontWeight: 800 }}>your profile</Box> to review the application and accept it. They start at the lowest rank, and you can promote them here whenever you like.</Box>
+          <Box sx={{ opacity: 0.85, lineHeight: 1.6 }}>Someone applies on your society page. Open <Box component={Link} to="/user" sx={{ color: 'var(--butter)', fontWeight: 800 }}>your profile</Box> to review the application and accept it. They start at the lowest rank, and you can promote them here whenever you like.</Box>
         </Box>
       </Box>
 

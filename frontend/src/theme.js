@@ -2,23 +2,23 @@ import { createTheme } from '@mui/material/styles';
 
 // Design tokens shared by MUI and plain CSS (see index.css)
 export const palette = {
-  ink: '#0E1030',
-  inkSoft: '#2A2D55',
-  paper: '#F3F5FF',
+  ink: '#121418',
+  inkSoft: '#2b2f38',
+  paper: '#f4f6f9',
   white: '#FFFFFF',
-  blue: '#3D5AFE',
-  pink: '#FF3D8B',
-  mint: '#19E3B1',
-  violet: '#8B5CF6',
-  sky: '#38BDF8',
-  lime: '#C6F432',
+  blue: '#2f5cff',
+  pink: '#ff4d5e',
+  mint: '#ffe14d',
+  violet: '#5c8dff',
+  sky: '#ffd60a',
+  lime: '#fff0a0',
 };
 
 export const gradients = {
-  hero: `linear-gradient(135deg, ${palette.blue} 0%, ${palette.violet} 50%, ${palette.pink} 100%)`,
+  hero: `linear-gradient(135deg, ${palette.blue} 0%, ${palette.violet} 100%)`,
   cool: `linear-gradient(135deg, ${palette.sky} 0%, ${palette.blue} 100%)`,
   fresh: `linear-gradient(135deg, ${palette.mint} 0%, ${palette.sky} 100%)`,
-  hot: `linear-gradient(135deg, ${palette.pink} 0%, ${palette.violet} 100%)`,
+  hot: `linear-gradient(135deg, ${palette.pink} 0%, #d62f45 100%)`,
 };
 
 const display = '"Bricolage Grotesque", "Figtree", system-ui, sans-serif';
@@ -32,8 +32,8 @@ const theme = createTheme({
     success: { main: '#0FBF8F' },
     info: { main: palette.sky },
     background: { default: palette.paper, paper: palette.white },
-    text: { primary: palette.ink, secondary: '#5B5F8A' },
-    divider: 'rgba(14,16,48,0.1)',
+    text: { primary: palette.ink, secondary: '#5a6270' },
+    divider: 'rgba(18,20,24,0.1)',
   },
   shape: { borderRadius: 4 },
   typography: {
@@ -64,8 +64,8 @@ const theme = createTheme({
         containedPrimary: {
           background: gradients.hero,
           backgroundSize: '140% 140%',
-          boxShadow: '0 10px 24px -8px rgba(61,90,254,.6)',
-          '&:hover': { boxShadow: '0 16px 30px -8px rgba(255,61,139,.55)', backgroundPosition: '100% 0' },
+          boxShadow: '0 10px 24px -8px rgba(47,92,255,.6)',
+          '&:hover': { boxShadow: '0 16px 30px -8px rgba(255,77,94,.55)', backgroundPosition: '100% 0' },
         },
         outlined: { borderWidth: 2, '&:hover': { borderWidth: 2 } },
         sizeLarge: { padding: '14px 30px', fontSize: '1.02rem' },
@@ -74,18 +74,18 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         rounded: { borderRadius: 22 },
-        outlined: { borderColor: 'rgba(14,16,48,0.08)' },
-        elevation1: { boxShadow: '0 10px 30px -14px rgba(14,16,48,.25)' },
-        elevation3: { boxShadow: '0 18px 44px -18px rgba(14,16,48,.35)' },
-        elevation6: { boxShadow: '0 28px 60px -24px rgba(14,16,48,.45)' },
+        outlined: { borderColor: 'rgba(18,20,24,0.08)' },
+        elevation1: { boxShadow: '0 10px 30px -14px rgba(18,20,24,.25)' },
+        elevation3: { boxShadow: '0 18px 44px -18px rgba(18,20,24,.35)' },
+        elevation6: { boxShadow: '0 28px 60px -24px rgba(18,20,24,.45)' },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
           borderRadius: 24,
-          border: '1px solid rgba(14,16,48,0.07)',
-          boxShadow: '0 14px 36px -18px rgba(14,16,48,.28)',
+          border: '1px solid rgba(18,20,24,0.07)',
+          boxShadow: '0 14px 36px -18px rgba(18,20,24,.28)',
           overflow: 'hidden',
         },
       },
@@ -96,7 +96,7 @@ const theme = createTheme({
         root: {
           borderRadius: 16,
           backgroundColor: '#fff',
-          '& fieldset': { borderColor: 'rgba(14,16,48,0.14)', borderWidth: 1.5 },
+          '& fieldset': { borderColor: 'rgba(18,20,24,0.14)', borderWidth: 1.5 },
           '&:hover fieldset': { borderColor: palette.blue },
           '&.Mui-focused fieldset': { borderColor: palette.blue, borderWidth: 2 },
         },

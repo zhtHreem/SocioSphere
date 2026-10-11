@@ -74,14 +74,14 @@ const Navbar = () => {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         sx={{ position: 'fixed', top: { xs: 10, md: 16 }, left: 0, right: 0, zIndex: 1200, display: 'flex', justifyContent: 'center', px: { xs: 1.5, md: 3 }, pointerEvents: 'none' }}
       >
-        <Box sx={{ pointerEvents: 'auto', width: '100%', maxWidth: 1180, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, pl: { xs: 2, md: 3 }, pr: 1, py: 0.9, borderRadius: 999, color: '#fff', background: scrolled ? 'rgba(14,16,48,.9)' : 'rgba(14,16,48,.78)', backdropFilter: 'blur(18px) saturate(160%)', WebkitBackdropFilter: 'blur(18px) saturate(160%)', border: '1px solid rgba(255,255,255,.16)', boxShadow: scrolled ? '0 18px 40px -16px rgba(14,16,48,.7)' : '0 8px 24px -12px rgba(14,16,48,.5)', transition: 'background .3s, box-shadow .3s' }}>
+        <Box sx={{ pointerEvents: 'auto', width: '100%', maxWidth: 1180, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, pl: { xs: 2, md: 3 }, pr: 1, py: 0.9, borderRadius: 999, color: '#fff', background: scrolled ? 'rgba(18,20,24,.9)' : 'rgba(18,20,24,.78)', backdropFilter: 'blur(18px) saturate(160%)', WebkitBackdropFilter: 'blur(18px) saturate(160%)', border: '1px solid rgba(255,255,255,.16)', boxShadow: scrolled ? '0 18px 40px -16px rgba(18,20,24,.7)' : '0 8px 24px -12px rgba(18,20,24,.5)', transition: 'background .3s, box-shadow .3s' }}>
           <Logo />
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 0.5 }}>
             {NAV_ITEMS.map((item) => (
               <Box key={item.name} component={Link} to={item.link} sx={{ position: 'relative', px: 2, py: 1, borderRadius: 999, fontWeight: 700, fontSize: 15, color: isActive(item.link) ? '#fff' : 'rgba(255,255,255,.7)', textDecoration: 'none', transition: 'color .2s', '&:hover': { color: '#fff' } }}>
                 {isActive(item.link) && (
-                  <Box component={motion.span} layoutId="nav-pill" transition={{ type: 'spring', stiffness: 420, damping: 34 }} sx={{ position: 'absolute', inset: 0, borderRadius: 999, background: 'linear-gradient(135deg, rgba(61,90,254,.9), rgba(255,61,139,.85))', zIndex: 0 }} />
+                  <Box component={motion.span} layoutId="nav-pill" transition={{ type: 'spring', stiffness: 420, damping: 34 }} sx={{ position: 'absolute', inset: 0, borderRadius: 999, background: 'linear-gradient(135deg, rgba(47,92,255,.95), rgba(92,141,255,.9))', zIndex: 0 }} />
                 )}
                 <Box component="span" sx={{ position: 'relative', zIndex: 1 }}>{item.name}</Box>
               </Box>
@@ -99,7 +99,7 @@ const Navbar = () => {
               </Box>
             )}
             {!isLoggedIn && (
-              <Button onClick={() => navigate('/auth')} variant="contained" endIcon={<ArrowIcon />} sx={{ display: { xs: 'none', md: 'inline-flex' }, background: '#fff', color: 'var(--ink)', boxShadow: 'none', '&:hover': { background: '#19E3B1', boxShadow: 'none' } }}>
+              <Button onClick={() => navigate('/auth')} variant="contained" endIcon={<ArrowIcon />} sx={{ display: { xs: 'none', md: 'inline-flex' }, background: '#fff', color: 'var(--ink)', boxShadow: 'none', '&:hover': { background: '#ffe14d', boxShadow: 'none' } }}>
                 Join free
               </Button>
             )}
@@ -122,7 +122,7 @@ const Navbar = () => {
           </Box>
           {NAV_ITEMS.map((item, i) => (
             <Box key={item.name} component={motion.div} initial={{ x: 40, opacity: 0 }} animate={mobileOpen ? { x: 0, opacity: 1 } : {}} transition={{ delay: 0.08 * i + 0.1 }}>
-              <Box component={Link} to={item.link} onClick={() => setMobileOpen(false)} sx={{ display: 'block', py: 1.2, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 38, letterSpacing: '-0.03em', textDecoration: 'none', color: isActive(item.link) ? '#19E3B1' : '#fff' }}>{item.name}</Box>
+              <Box component={Link} to={item.link} onClick={() => setMobileOpen(false)} sx={{ display: 'block', py: 1.2, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 38, letterSpacing: '-0.03em', textDecoration: 'none', color: isActive(item.link) ? '#ffe14d' : '#fff' }}>{item.name}</Box>
             </Box>
           ))}
           <Box sx={{ mt: 'auto', display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -160,7 +160,7 @@ const Footer = () => {
           </Box>
           {cols.map((c) => (
             <Box key={c.title}>
-              <Box sx={{ mb: 1.5, fontWeight: 800, fontSize: 13, letterSpacing: '.1em', textTransform: 'uppercase', color: '#19E3B1' }}>{c.title}</Box>
+              <Box sx={{ mb: 1.5, fontWeight: 800, fontSize: 13, letterSpacing: '.1em', textTransform: 'uppercase', color: '#ffe14d' }}>{c.title}</Box>
               {c.links.map(([name, to]) => (
                 <Box key={name} component={Link} to={to} sx={{ display: 'block', py: 0.5, color: 'rgba(255,255,255,.8)', textDecoration: 'none', fontWeight: 600, '&:hover': { color: '#fff' } }}>{name}</Box>
               ))}

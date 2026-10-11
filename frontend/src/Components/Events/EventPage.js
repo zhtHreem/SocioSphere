@@ -77,7 +77,7 @@ const EventPage = () => {
       {/* hero: the photo, big */}
       <Box sx={{ position: 'relative', overflow: 'hidden', color: '#fff', background: 'var(--ink)', mt: '-96px', pt: { xs: 14, md: 17 }, pb: { xs: 5, md: 7 }, borderBottomLeftRadius: { xs: 36, md: 64 }, borderBottomRightRadius: { xs: 36, md: 64 } }}>
         <Box component="img" src={event.image} alt="" sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }} />
-        <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(14,16,48,.5), rgba(14,16,48,.92))' }} />
+        <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(18,20,24,.5), rgba(18,20,24,.92))' }} />
         <Aurora />
         <Box sx={{ position: 'relative', maxWidth: 1100, mx: 'auto', px: 3 }}>
           {soc && (
@@ -99,7 +99,7 @@ const EventPage = () => {
         <Box sx={{ display: 'grid', gap: 7, minWidth: 0 }}>
           {isPast && (
             <Box sx={{ p: 2.5, borderRadius: 5, background: 'var(--ink)', color: '#fff', display: 'flex', gap: 1.5, alignItems: 'center' }}>
-              <CheckCircle sx={{ color: 'var(--mint)' }} />
+              <CheckCircle sx={{ color: 'var(--butter)' }} />
               <Box sx={{ fontWeight: 700 }}>This event has ended{event.attendees ? `. ${event.attendees} people came.` : '.'}</Box>
             </Box>
           )}
@@ -115,8 +115,8 @@ const EventPage = () => {
               <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 30, mb: 2 }}>{isPast ? 'How it ran' : 'How it will run'}</Box>
               <Box>
                 {event.agenda.map((a, i) => (
-                  <Box key={a.text} sx={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 2, py: 1.8, borderTop: '1px solid rgba(14,16,48,.1)', ...(i === event.agenda.length - 1 && { borderBottom: '1px solid rgba(14,16,48,.1)' }) }}>
-                    <Box sx={{ fontWeight: 800, color: 'var(--blue)' }}>{a.time}</Box>
+                  <Box key={a.text} sx={{ display: 'grid', gridTemplateColumns: '110px 1fr', gap: 2, py: 1.8, borderTop: '1px solid rgba(18,20,24,.1)', ...(i === event.agenda.length - 1 && { borderBottom: '1px solid rgba(18,20,24,.1)' }) }}>
+                    <Box sx={{ fontWeight: 800, color: 'var(--brand)' }}>{a.time}</Box>
                     <Box sx={{ fontSize: 17, fontWeight: 600 }}>{a.text}</Box>
                   </Box>
                 ))}
@@ -134,7 +134,7 @@ const EventPage = () => {
           )}
 
           {soc && (
-            <Box sx={{ p: 3, borderRadius: 6, border: '1px solid rgba(14,16,48,.1)', display: 'flex', gap: 2.5, alignItems: 'center', flexWrap: 'wrap' }}>
+            <Box sx={{ p: 3, borderRadius: 6, border: '1px solid rgba(18,20,24,.1)', display: 'flex', gap: 2.5, alignItems: 'center', flexWrap: 'wrap' }}>
               {soc.logo && <Box component="img" src={soc.logo} alt="" sx={{ width: 72, height: 72, borderRadius: 4 }} />}
               <Box sx={{ flex: 1, minWidth: 200 }}>
                 <Box sx={{ fontSize: 12.5, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase', color: 'text.secondary' }}>Hosted by</Box>
@@ -151,10 +151,10 @@ const EventPage = () => {
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 2.5 }}>
                 {others.map((o) => (
                   <Reveal key={o._id}>
-                    <Box component={Link} to={`/event/${o._id}`} sx={{ display: 'block', textDecoration: 'none', color: 'inherit', borderRadius: 5, overflow: 'hidden', border: '1px solid rgba(14,16,48,.1)', '&:hover': { boxShadow: '0 20px 36px -26px rgba(61,90,254,.7)' } }}>
+                    <Box component={Link} to={`/event/${o._id}`} sx={{ display: 'block', textDecoration: 'none', color: 'inherit', borderRadius: 5, overflow: 'hidden', border: '1px solid rgba(18,20,24,.1)', '&:hover': { boxShadow: '0 20px 36px -26px rgba(47,92,255,.7)' } }}>
                       <Box component="img" src={o.image} alt="" sx={{ width: '100%', height: 130, objectFit: 'cover', display: 'block' }} />
                       <Box sx={{ p: 2 }}>
-                        <Box sx={{ fontSize: 12.5, fontWeight: 800, color: 'var(--pink)' }}>{fmtDate.medium(o.date)}</Box>
+                        <Box sx={{ fontSize: 12.5, fontWeight: 800, color: 'var(--rose)' }}>{fmtDate.medium(o.date)}</Box>
                         <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 19, lineHeight: 1.15 }}>{o.title}</Box>
                       </Box>
                     </Box>
@@ -167,7 +167,7 @@ const EventPage = () => {
 
         {/* RSVP */}
         <Box sx={{ position: { md: 'sticky' }, top: { md: 100 }, order: { xs: -1, md: 0 } }}>
-          <Box sx={{ p: 3, borderRadius: 6, background: '#fff', border: '1px solid rgba(14,16,48,.1)', boxShadow: '0 30px 60px -40px rgba(14,16,48,.6)' }}>
+          <Box sx={{ p: 3, borderRadius: 6, background: '#fff', border: '1px solid rgba(18,20,24,.1)', boxShadow: '0 30px 60px -40px rgba(18,20,24,.6)' }}>
             <Box sx={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', mb: 0.5 }}>
               <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 36, lineHeight: 1 }}>{event.price || 'Free'}</Box>
               {!isPast && goingTotal > 0 && <Box sx={{ fontWeight: 700, color: 'text.secondary' }}>{goingTotal} going</Box>}
@@ -189,7 +189,7 @@ const EventPage = () => {
               </>
             )}
 
-            <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(14,16,48,.08)', display: 'grid', gap: 0.5 }}>
+            <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(18,20,24,.08)', display: 'grid', gap: 0.5 }}>
               <Box sx={{ fontSize: 12, fontWeight: 800, letterSpacing: '.08em', textTransform: 'uppercase', color: 'text.secondary' }}>When</Box>
               <Box sx={{ fontWeight: 700 }}>{fmtDate.long(event.date)}</Box>
               <Box sx={{ fontWeight: 700 }}>{fmtDate.time(event.date)}</Box>

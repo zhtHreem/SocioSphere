@@ -73,7 +73,7 @@ const ContactPage = () => {
     }
   ];
 
-  const colors = ['#3D5AFE', '#FF3D8B', '#0FBF8F', '#8B5CF6'];
+  const colors = ['#2f5cff', '#ff4d5e', '#0FBF8F', '#5c8dff'];
 
   return (
     <Box>
@@ -81,7 +81,7 @@ const ContactPage = () => {
 
       <Box sx={{ maxWidth: 1180, mx: 'auto', px: 3, mt: { xs: 6, md: 9 }, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1.3fr 1fr' }, gap: 4, alignItems: 'start' }}>
         <Reveal>
-          <Box sx={{ p: { xs: 3, md: 5 }, borderRadius: 7, background: '#fff', border: '1px solid rgba(14,16,48,.07)', boxShadow: '0 30px 60px -36px rgba(14,16,48,.5)' }}>
+          <Box sx={{ p: { xs: 3, md: 5 }, borderRadius: 7, background: '#fff', border: '1px solid rgba(18,20,24,.07)', boxShadow: '0 30px 60px -36px rgba(18,20,24,.5)' }}>
             <Box component="h2" sx={{ m: 0, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 34, letterSpacing: '-0.02em' }}>Send us a message</Box>
             <Box sx={{ color: 'text.secondary', mt: 1, mb: 4 }}>Fill in the form and we'll get back to you as soon as we can.</Box>
             <form onSubmit={handleSubmit}>

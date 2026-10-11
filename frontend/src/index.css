@@ -1,13 +1,13 @@
 :root {
-  --ink: #0E1030;
-  --ink-soft: #2A2D55;
-  --paper: #F3F5FF;
-  --blue: #3D5AFE;
-  --pink: #FF3D8B;
-  --mint: #19E3B1;
-  --violet: #8B5CF6;
-  --sky: #38BDF8;
-  --lime: #C6F432;
+  --ink: #121418;
+  --ink-soft: #2b2f38;
+  --paper: #f4f6f9;
+  --brand: #2f5cff;
+  --rose: #ff4d5e;
+  --butter: #ffe14d;
+  --brand-light: #5c8dff;
+  --yellow: #ffd60a;
+  --butter-light: #fff0a0;
 }
 
 * { box-sizing: border-box; }
@@ -23,24 +23,24 @@ body {
   overflow-x: hidden;
 }
 
-::selection { background: var(--pink); color: #fff; }
+::selection { background: var(--rose); color: #fff; }
 
 /* slim gradient scrollbar */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--paper); }
-::-webkit-scrollbar-thumb { background: linear-gradient(var(--blue), var(--pink)); border-radius: 10px; border: 2px solid var(--paper); }
+::-webkit-scrollbar-thumb { background: linear-gradient(var(--brand), var(--brand-light)); border-radius: 10px; border: 2px solid var(--paper); }
 
 code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace; }
 
 /* shared helpers */
 .grad-text {
-  background: linear-gradient(100deg, var(--blue), var(--violet) 45%, var(--pink));
+  background: linear-gradient(100deg, var(--brand), var(--brand-light));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 .grad-text-light {
-  background: linear-gradient(100deg, var(--sky), var(--mint) 50%, var(--lime));
+  background: linear-gradient(100deg, var(--yellow), var(--butter) 50%, var(--butter-light));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -48,7 +48,7 @@ code { font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', mon
 
 @keyframes ss-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes ss-float { 0%,100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 3deg)); } }
-@keyframes ss-pulse { 0% { box-shadow: 0 0 0 0 rgba(25,227,177,.6); } 100% { box-shadow: 0 0 0 14px rgba(25,227,177,0); } }
+@keyframes ss-pulse { 0% { box-shadow: 0 0 0 0 rgba(255,225,77,.6); } 100% { box-shadow: 0 0 0 14px rgba(255,225,77,0); } }
 @keyframes ss-shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
 @keyframes ss-aurora { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(4%,-6%,0) scale(1.15); } 100% { transform: translate3d(0,0,0) scale(1); } }
 

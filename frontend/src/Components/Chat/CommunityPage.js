@@ -27,7 +27,7 @@ const CommunityPage = () => {
 
   return (
     <Box sx={{ maxWidth: 1280, mx: 'auto', px: { xs: 1.5, md: 3 }, pb: 2 }}>
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '280px minmax(0, 1fr)' }, height: { md: 'calc(100vh - 130px)' }, minHeight: { md: 560 }, borderRadius: { xs: 5, md: 7 }, overflow: 'hidden', border: '1px solid rgba(14,16,48,.1)', boxShadow: '0 40px 80px -50px rgba(14,16,48,.6)', background: '#fff' }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '280px minmax(0, 1fr)' }, height: { md: 'calc(100vh - 130px)' }, minHeight: { md: 560 }, borderRadius: { xs: 5, md: 7 }, overflow: 'hidden', border: '1px solid rgba(18,20,24,.1)', boxShadow: '0 40px 80px -50px rgba(18,20,24,.6)', background: '#fff' }}>
         {/* sidebar */}
         <Box sx={{ background: 'var(--ink)', color: '#fff', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           <Box component={Link} to={`/society/${id}`} sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2.5, pt: 2.2, color: 'rgba(255,255,255,.7)', textDecoration: 'none', fontSize: 14, fontWeight: 700, '&:hover': { color: '#fff' } }}><ArrowBack sx={{ fontSize: 17 }} />Back to society</Box>
@@ -63,7 +63,7 @@ const CommunityPage = () => {
 
         {/* conversation */}
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: 0, height: { xs: 560, md: 'auto' } }}>
-          <Box sx={{ px: 3, py: 1.6, borderBottom: '1px solid rgba(14,16,48,.08)', display: 'flex', alignItems: 'baseline', gap: 1.2 }}>
+          <Box sx={{ px: 3, py: 1.6, borderBottom: '1px solid rgba(18,20,24,.08)', display: 'flex', alignItems: 'baseline', gap: 1.2 }}>
             <Box sx={{ fontFamily: display, fontWeight: 800, fontSize: 22 }}># {channel}</Box>
             <Box sx={{ color: 'text.secondary', fontSize: 14 }}>{CHANNELS.find(([k]) => k === channel)?.[1]}</Box>
           </Box>

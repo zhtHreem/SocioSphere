@@ -178,8 +178,8 @@ export default function FormBuilder() {
                 <Stack px={4} direction="row" justifyContent="space-between" alignItems="center">
                     <TextField value={formTitle} onChange={(e) => setFormTitle(e.target.value)} variant="standard" fullWidth placeholder="Form Title" InputProps={{ readOnly: isPreviewMode }} />
                     <Stack direction="row" spacing={2}>
-                        <Button sx={{backgroundColor:"#FF3D8B"}}  startIcon={<Add />} onClick={handleAddQuestion} variant="contained" disabled={isPreviewMode}>Add Question</Button>
-                        <Button sx={{backgroundColor:"#FF3D8B"}} onClick={() => setIsPreviewMode(!isPreviewMode)} variant="contained">{isPreviewMode ? "Edit Mode" : "Preview Mode"}</Button>
+                        <Button sx={{backgroundColor:"#ff4d5e"}}  startIcon={<Add />} onClick={handleAddQuestion} variant="contained" disabled={isPreviewMode}>Add Question</Button>
+                        <Button sx={{backgroundColor:"#ff4d5e"}} onClick={() => setIsPreviewMode(!isPreviewMode)} variant="contained">{isPreviewMode ? "Edit Mode" : "Preview Mode"}</Button>
                     </Stack>
                 </Stack>
             </Box>
@@ -233,7 +233,7 @@ export default function FormBuilder() {
                         )}
                     </Droppable>
                 </DragDropContext>
-                                <Button variant="contained" size="large" onClick={handleCreateForm}sx={{ backgroundColor: "#3D5AFE", mt: 4, mb: 4, '&:hover': { backgroundColor: "#2A3FC9" } }} >Create</Button>
+                                <Button variant="contained" size="large" onClick={handleCreateForm}sx={{ backgroundColor: "#2f5cff", mt: 4, mb: 4, '&:hover': { backgroundColor: "#1f43d1" } }} >Create</Button>
 
             </Box>
         </Box>

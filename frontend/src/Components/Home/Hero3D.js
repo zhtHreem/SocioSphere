@@ -6,11 +6,11 @@ import { photo, PHOTOS } from './ui';
 
 // Round photo "satellites", each on its own tilted orbit ring around the globe
 const ORBS = [
-  { name: 'Music', img: PHOTOS.music, color: '#FF3D8B', r: 2.45, size: 0.5, speed: 0.5, tilt: 0.35, phase: 0 },
-  { name: 'Code', img: PHOTOS.code, color: '#3D5AFE', r: 2.8, size: 0.56, speed: 0.38, tilt: -0.55, phase: 2 },
-  { name: 'Dance', img: PHOTOS.dance, color: '#19E3B1', r: 3.15, size: 0.48, speed: 0.3, tilt: 0.85, phase: 4 },
-  { name: 'Debate', img: PHOTOS.debate, color: '#8B5CF6', r: 2.6, size: 0.44, speed: 0.62, tilt: -1.0, phase: 1 },
-  { name: 'Photography', img: PHOTOS.photography, color: '#38BDF8', r: 3.3, size: 0.52, speed: 0.24, tilt: 0.1, phase: 3 },
+  { name: 'Music', img: PHOTOS.music, color: '#ff4d5e', r: 2.45, size: 0.5, speed: 0.5, tilt: 0.35, phase: 0 },
+  { name: 'Code', img: PHOTOS.code, color: '#2f5cff', r: 2.8, size: 0.56, speed: 0.38, tilt: -0.55, phase: 2 },
+  { name: 'Dance', img: PHOTOS.dance, color: '#ffe14d', r: 3.15, size: 0.48, speed: 0.3, tilt: 0.85, phase: 4 },
+  { name: 'Debate', img: PHOTOS.debate, color: '#5c8dff', r: 2.6, size: 0.44, speed: 0.62, tilt: -1.0, phase: 1 },
+  { name: 'Photography', img: PHOTOS.photography, color: '#ffd60a', r: 3.3, size: 0.52, speed: 0.24, tilt: 0.1, phase: 3 },
 ];
 
 const Satellite = ({ name, img, color, r, size, speed, tilt, phase }) => {
@@ -70,9 +70,9 @@ const Globe = () => {
     const n = 1500;
     const pos = new Float32Array(n * 3);
     const col = new Float32Array(n * 3);
-    const c1 = new THREE.Color('#38BDF8');
-    const c2 = new THREE.Color('#19E3B1');
-    const c3 = new THREE.Color('#FF3D8B');
+    const c1 = new THREE.Color('#5c8dff');
+    const c2 = new THREE.Color('#c7d8ff');
+    const c3 = new THREE.Color('#ffe14d');
     const golden = Math.PI * (3 - Math.sqrt(5));
     for (let i = 0; i < n; i++) {
       const y = 1 - (i / (n - 1)) * 2;
@@ -94,7 +94,7 @@ const Globe = () => {
     <group ref={ref}>
       <mesh>
         <sphereGeometry args={[1.46, 64, 64]} />
-        <meshStandardMaterial color="#14206B" emissive="#1B2A9A" emissiveIntensity={0.55} roughness={0.7} />
+        <meshStandardMaterial color="#14308a" emissive="#2f5cff" emissiveIntensity={0.55} roughness={0.7} />
       </mesh>
       <points>
         <bufferGeometry>
@@ -106,7 +106,7 @@ const Globe = () => {
       {/* atmosphere */}
       <mesh scale={1.12}>
         <sphereGeometry args={[1.46, 48, 48]} />
-        <meshBasicMaterial color="#5B8CFF" transparent opacity={0.14} side={THREE.BackSide} />
+        <meshBasicMaterial color="#8db4ff" transparent opacity={0.14} side={THREE.BackSide} />
       </mesh>
     </group>
   );
@@ -171,7 +171,7 @@ const Hero3D = () => (
   <Canvas camera={{ position: [0, 0, 7], fov: 42 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} style={{ background: 'transparent' }}>
     <ambientLight intensity={1} />
     <directionalLight position={[4, 5, 5]} intensity={1.6} color="#ffffff" />
-    <pointLight position={[-5, -2, 3]} intensity={30} color="#FF3D8B" />
+    <pointLight position={[-5, -2, 3]} intensity={30} color="#ff4d5e" />
     <CameraRig />
     <Stars />
     <Suspense fallback={null}>
