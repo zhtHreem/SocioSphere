@@ -119,6 +119,7 @@ const Globe = () => {
 
 const Scene = () => {
   const group = useRef();
+  const placed = useRef(false);
   useFrame(({ pointer, camera, size }, d) => {
     // on wide screens park the system to the right so the headline sits on the left
     const aspect = size.width / size.height;
@@ -126,6 +127,12 @@ const Scene = () => {
     const wide = aspect > 1.25;
     const baseX = wide ? halfW * 0.46 : 0;
     const sc = wide ? 0.6 : 0.9;
+    // first frame: start exactly where the system belongs instead of drifting in from the centre
+    if (!placed.current) {
+      group.current.position.set(baseX, wide ? -0.35 : 0, 0);
+      group.current.scale.setScalar(sc);
+      placed.current = true;
+    }
     group.current.scale.setScalar(THREE.MathUtils.lerp(group.current.scale.x, sc, 0.1));
     group.current.position.y = THREE.MathUtils.lerp(group.current.position.y, wide ? -0.35 : 0, 0.08);
     group.current.rotation.y += d * 0.1;
