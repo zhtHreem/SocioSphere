@@ -25,3 +25,7 @@ yarn-error.log*
 frontend/src/App.js
 frontend/src/Components/character.js
 
+
+# local database backups made by backend/scripts/seed.js
+backend/backups/
+backend/uploads/
