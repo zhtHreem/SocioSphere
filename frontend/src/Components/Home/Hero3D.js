@@ -11,6 +11,11 @@ const ORBS = [
   { name: 'Dance', img: PHOTOS.dance, color: '#ffe14d', r: 3.15, size: 0.48, speed: 0.3, tilt: 0.85, phase: 4 },
   { name: 'Debate', img: PHOTOS.debate, color: '#5c8dff', r: 2.6, size: 0.44, speed: 0.62, tilt: -1.0, phase: 1 },
   { name: 'Photography', img: PHOTOS.photography, color: '#ffd60a', r: 3.3, size: 0.52, speed: 0.24, tilt: 0.1, phase: 3 },
+  // smaller moons on their own orbits, so no two paths line up
+  { name: 'Drama', img: PHOTOS.drama, color: '#e5304a', r: 2.95, size: 0.32, speed: 0.46, tilt: -0.2, phase: 5.2 },
+  { name: 'Film', img: PHOTOS.film, color: '#ffd60a', r: 3.45, size: 0.3, speed: 0.27, tilt: -0.8, phase: 0.9 },
+  { name: 'Volunteering', img: PHOTOS.volunteer, color: '#0e9f9a', r: 2.35, size: 0.28, speed: 0.72, tilt: 1.15, phase: 3.6 },
+  { name: 'Robotics', img: PHOTOS.robotics, color: '#2f5cff', r: 3.05, size: 0.31, speed: 0.34, tilt: 0.6, phase: 2.7 },
 ];
 
 const Satellite = ({ name, img, color, r, size, speed, tilt, phase }) => {
