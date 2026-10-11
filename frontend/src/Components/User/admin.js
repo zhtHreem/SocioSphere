@@ -62,11 +62,11 @@ function Admin() {
     };
     
     return (
-        <Box mt={6}>        
+        <Box mt='-96px'>        
             <Grid container direction="column" sx={{position:"relative"}}>
                 {/* User Profile Section */}
-                <Grid item sx={{  background: 'linear-gradient(135deg, #001524 10%, #445D48 90%)', display: "flex", flexDirection:"column",   height:"40vh",  justifyContent:"center",  alignItems:"center",  zIndex:5,    transition: 'height 0.3s ease',  '&:hover': { height: '50vh'} }}>
-                    <Avatar sx={{ backgroundColor:"#FBA834", width: 150, height: 150 }}>
+                <Grid item sx={{  background: 'linear-gradient(135deg, #0E1030 0%, #3D5AFE 60%, #8B5CF6 100%)', display: "flex", flexDirection:"column",   minHeight:"46vh", pt:12,  justifyContent:"center",  alignItems:"center",  zIndex:5,    transition: 'height 0.3s ease',  '&:hover': { height: '50vh'} }}>
+                    <Avatar sx={{ backgroundColor:"#FF3D8B", width: 150, height: 150 }}>
                         <PersonIcon fontSize="large"/>
                     </Avatar>
                     
@@ -75,7 +75,7 @@ function Admin() {
                 </Grid>
 
                 {/* Societies Applications Section */}
-                <Grid item padding={10} sx={{backgroundColor:"#F2F2F2", width: '100%', overflow: 'hidden'}}>
+                <Grid item padding={10} sx={{backgroundColor:"#F3F5FF", width: '100%', overflow: 'hidden'}}>
                     <ApplicationTracker
                         societies={societies}
                         selectedTab={selectedTab}
@@ -95,7 +95,7 @@ function Admin() {
                         onClick={() => navigate("/add")} 
                         sx={{position:"fixed", right:20, bottom:10, zIndex: 100}}
                     >
-                        <AddCircleIcon sx={{ color: "#6A9C89", fontSize: 60 }}/>
+                        <AddCircleIcon sx={{ color: "#3D5AFE", fontSize: 60 }}/>
                     </IconButton>
                 </Tooltip>
             </Grid>

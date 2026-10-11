@@ -195,7 +195,7 @@ export default function ApplyForm() {
                                 </Stack>
                             </Paper>
                         ))}
-                        <Button   type="submit"   variant="contained" sx={{ backgroundColor: "#526E48" }}  >
+                        <Button   type="submit"   variant="contained" sx={{ backgroundColor: "#3D5AFE" }}  >
                             Submit
                         </Button>
                     </Stack>
@@ -204,7 +204,7 @@ export default function ApplyForm() {
 
             <Dialog open={showAuthDialog} onClose={() => setShowAuthDialog(false)}  maxWidth="xs"  fullWidth >
                 <Box sx={{ p: 4, textAlign: 'center' }}>
-                    <AccountCircleIcon sx={{ fontSize: 80, color: '#50727B', mb: 2 }} />
+                    <AccountCircleIcon sx={{ fontSize: 80, color: '#3D5AFE', mb: 2 }} />
                     <Alert severity="info" variant="outlined" sx={{ mb: 3 }}>
                         <AlertTitle>Authentication Required</AlertTitle>
                         Please log in to submit your application
@@ -213,7 +213,7 @@ export default function ApplyForm() {
                         <Button  variant="outlined"  onClick={() => setShowAuthDialog(false)} >
                             Cancel
                         </Button>
-                        <Button  variant="contained" onClick={() => navigate('/auth')} sx={{  backgroundColor: '#50727B', '&:hover': { backgroundColor: '#2C021F' }   }}  >
+                        <Button  variant="contained" onClick={() => navigate('/auth')} sx={{  backgroundColor: '#3D5AFE', '&:hover': { backgroundColor: '#0E1030' }   }}  >
                             Login Now
                         </Button>
                     </Stack>
