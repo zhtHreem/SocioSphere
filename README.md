@@ -67,6 +67,6 @@ PORT=3001 npm start
 
 The frontend must run on the origin set in `REACT_APP_API_URL`, otherwise requests are blocked by CORS.
 
-**Sample data.** `node scripts/seed.js` in `backend/` adds 12 sample societies with events, conversations and a leadership team (all fictional; the sample people have random passwords and cannot log in). Add `--wipe-old` to first remove societies that were created before the seed, and everything attached to them. It writes a JSON backup to `backend/backups/` before deleting anything. The script is safe to re-run.
+
 
 
