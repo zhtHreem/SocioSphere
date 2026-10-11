@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Avatar, Typography, Card, CardContent, Tabs, Tab, IconButton, CardMedia, Tooltip } from "@mui/material";
+import { Box, Avatar, Typography, IconButton, Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid2';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -7,7 +7,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import axios from "axios";
 import ApplicationTracker from "../SocietyData/ApplicationTracker";
 function Admin() {
-    const [user, setUser] = useState({ name: "Admin", Joiningdate: "10-12-2024" });
+    const [user] = useState({ name: "Admin", Joiningdate: "10-12-2024" });
     const [societies, setSocieties] = useState([]);
     const navigate = useNavigate();
     const [selectedTab, setSelectedTab] = useState('');

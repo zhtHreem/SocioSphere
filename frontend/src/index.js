@@ -11,7 +11,6 @@ import { queryClient } from './lib/api';
 import App from './App';
 import { UserProfile } from './pages/userprofile';
 import { SocietyForm } from './pages/createapplyformpage';
-import { Positions } from './pages/positions';
 import { SocietyApply } from './pages/societyapplyform';
 import AddSocietyInfo from './pages/addSocietyInfo';
 import Society from './pages/societycataloguePage';

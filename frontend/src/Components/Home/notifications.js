@@ -6,7 +6,6 @@ import {
   Typography,
   Box,
   CircularProgress,
-  Paper,
   IconButton,
   Badge,
   Alert,
@@ -18,8 +17,7 @@ import {
   ChatBubbleOutline as ChatIcon,
   NotificationsOutlined as NotificationIcon,
   PersonAdd as PersonAddIcon,
-  Favorite as FavoriteIcon,
-  Error as ErrorIcon
+  Favorite as FavoriteIcon
 } from '@mui/icons-material';
 
 const Notifications = ({ anchorEl, onClose }) => {

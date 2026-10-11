@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, lazy, useMemo } from 'react';
 import { Box, Button, Skeleton } from '@mui/material';
 import { ArrowOutward } from '@mui/icons-material';
 import { motion, useScroll, useTransform } from 'framer-motion';

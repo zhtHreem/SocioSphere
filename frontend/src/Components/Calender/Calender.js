@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useAllEvents } from '../../lib/api';
 import { EventRowsSkeleton } from '../common/Skeletons';
 import { Link } from 'react-router-dom';
-import { Box, Button, InputBase, Skeleton } from '@mui/material';
+import { Box, Button, InputBase } from '@mui/material';
 import { Search, Close, Place } from '@mui/icons-material';
 import { PageHero, Reveal, fmtDate, splitEvents } from '../Home/ui';
 

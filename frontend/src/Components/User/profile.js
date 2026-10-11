@@ -45,7 +45,7 @@ function User() {
     const { data: going = [], isLoading: goingLoading } = useMyGoing();
 
     const user = mine?.user || {};
-    const userSocieties = mine?.societies || [];
+    const userSocieties = useMemo(() => mine?.societies || [], [mine]);
     const societies = useMemo(() => (Array.isArray(forms) ? forms.filter((s) => userSocieties.some((us) => us.societyName === s.name)) : []), [forms, userSocieties]);
 
     const [selectedTab, setSelectedTab] = useState('');

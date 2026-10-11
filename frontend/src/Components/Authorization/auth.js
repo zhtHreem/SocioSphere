@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { Alert, Box, Button, TextField, Tab, Tabs, IconButton } from '@mui/material';
+import { Alert, Box, Button, TextField, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { photo, PHOTOS, fmtDate, splitEvents } from '../Home/ui';
 import Snackbar from '@mui/material/Snackbar';
@@ -113,7 +113,7 @@ const AuthPage = () => {
     }
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_HOST_URL}/api/register`, {
+      await axios.post(`${process.env.REACT_APP_HOST_URL}/api/register`, {
         username: signupData.username,
         email: signupData.email,
         password: signupData.password,

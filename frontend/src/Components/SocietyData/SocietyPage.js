@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Box, InputBase, Skeleton, Button } from '@mui/material';
+import React, { useState, useMemo } from 'react';
+import { Box, InputBase, Button } from '@mui/material';
 import { Search, ArrowOutward, Close, Place, Groups } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';

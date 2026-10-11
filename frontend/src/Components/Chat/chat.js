@@ -4,7 +4,7 @@ import axios from "axios";
 import { ChatSkeleton } from "../common/Skeletons";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Avatar, Box, IconButton, CircularProgress, Button, Popover, Dialog } from "@mui/material";
+import { Avatar, Box, IconButton, Button, Popover, Dialog } from "@mui/material";
 import { Send as SendIcon, LockOutlined as LockIcon, SentimentSatisfiedAlt as EmojiIcon, AddPhotoAlternateOutlined as PhotoIcon, EmojiEmotionsOutlined as StickerIcon, PushPin as PinIcon, AddReactionOutlined as ReactIcon, Close } from "@mui/icons-material";
 
 const display = '"Bricolage Grotesque", sans-serif';

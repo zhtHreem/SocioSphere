@@ -1,13 +1,10 @@
 import React, { useState ,useEffect} from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { Avatar,Alert, Box, Typography, Chip,Modal,  Button, useMediaQuery ,TextField} from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import CakeIcon from "@mui/icons-material/Cake";
 import DiamondIcon from '@mui/icons-material/Diamond';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonIcon from '@mui/icons-material/Person';
 import Snackbar from '@mui/material/Snackbar';
 import { jwtDecode } from 'jwt-decode';

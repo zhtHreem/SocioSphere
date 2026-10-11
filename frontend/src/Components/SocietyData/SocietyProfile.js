@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Box, Button, Accordion, AccordionSummary, AccordionDetails, Dialog, Tabs, Tab, Avatar } from '@mui/material';
 import {
-  Edit as EditIcon, Add as AddIcon, ExpandMore, Place, Schedule, Groups, EventRepeat, CalendarMonth, CheckCircle,
-  ArrowOutward, Instagram, Language, MailOutline, Close, Star, EmojiEvents, Bolt, Favorite, Lock,
+  Edit as EditIcon, Add as AddIcon, ExpandMore, Place, Schedule, Groups,
+  ArrowOutward, Close,
 } from '@mui/icons-material';
 import { useSociety, useSocietyEvents, useTeam, useSocieties, useChatPreview, useMyRole } from '../../lib/api';
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,7 +14,6 @@ import { Reveal, TiltCard, Aurora, fmtDate, splitEvents } from '../Home/ui';
 
 const ACCENTS = ['#3D5AFE', '#FF3D8B', '#19E3B1', '#8B5CF6', '#38BDF8'];
 const display = '"Bricolage Grotesque", sans-serif';
-const PERK_ICONS = [<Star />, <Groups />, <EmojiEvents />, <Bolt />];
 const SECTIONS = [['about', 'About'], ['why', 'Why join'], ['events', 'Events'], ['team', 'Team'], ['gallery', 'Gallery'], ['faq', 'FAQ'], ['community', 'Community']];
 
 const JOIN = {
