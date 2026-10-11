@@ -1,196 +1,184 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {AppBar,Toolbar,Typography,Button,Box,IconButton,Drawer,List, ListItem, ListItemIcon,ListItemText, Container,Paper, Menu,MenuItem,} from '@mui/material';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Box, Button, IconButton, Drawer, Typography, Badge } from '@mui/material';
 import {
-  Home as HomeIcon,
-  NotificationsActive as NotificationsIcon,
-  Info as AboutIcon,
-  People as SocietiesIcon,
-  ContactMail as ContactIcon,
-  Person as ProfileIcon,
-  Login as LoginIcon,
-  Logout as LogoutIcon,
+  NotificationsNone as NotificationsIcon,
+  PersonOutline as ProfileIcon,
   Menu as MenuIcon,
+  Close as CloseIcon,
+  ArrowOutward as ArrowIcon,
 } from '@mui/icons-material';
-import axios from 'axios';
-import {jwtDecode} from 'jwt-decode';
+import { motion } from 'framer-motion';
+import { jwtDecode } from 'jwt-decode';
 import Notifications from '../Home/notifications';
+import { Aurora } from './ui';
+
+const NAV_ITEMS = [
+  { name: 'Home', link: '/' },
+  { name: 'Societies', link: '/society' },
+  { name: 'Events', link: '/events' },
+  { name: 'About', link: '/about' },
+  { name: 'Contact', link: '/contact' },
+];
+
+export const Logo = ({ light = true, size = 36 }) => (
+  <Box component={Link} to="/" sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.2, textDecoration: 'none', color: light ? '#fff' : 'var(--ink)' }}>
+    <Box sx={{ position: 'relative', width: size, height: size, flexShrink: 0, '@keyframes ss-orbit': { to: { transform: 'rotate(360deg)' } } }}>
+      {/* logo image fitted inside a round white badge */}
+      <Box sx={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#fff', display: 'grid', placeItems: 'center', overflow: 'hidden', boxShadow: '0 6px 18px -4px rgba(61,90,254,.6)' }}>
+        <Box component="img" src="/logo.png" alt="SocioSphere logo" sx={{ width: '82%', height: '82%', objectFit: 'contain' }} />
+      </Box>
+      {/* two dots roaming around the badge */}
+      {[{ c: '#19E3B1', d: '5s', s: 0 }, { c: '#FF3D8B', d: '5s', s: -2.5 }].map((o) => (
+        <Box key={o.c} sx={{ position: 'absolute', inset: -5, animation: `ss-orbit ${o.d} linear ${o.s}s infinite` }}>
+          <Box sx={{ position: 'absolute', top: 0, left: '50%', width: 7, height: 7, ml: '-3.5px', borderRadius: '50%', background: o.c, boxShadow: `0 0 8px ${o.c}` }} />
+        </Box>
+      ))}
+    </Box>
+    <Box component="span" sx={{ fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: size * 0.62, letterSpacing: '-0.03em' }}>
+      Socio<Box component="span" sx={{ color: '#19E3B1' }}>Sphere</Box>
+    </Box>
+  </Box>
+);
+
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null); // For notification dropdown
-   
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const token = localStorage.getItem('token'); // Adjust based on your storage mechanism
+  const token = localStorage.getItem('token');
+  const isLoggedIn = Boolean(token);
   let role = null;
-
   try {
-    if (typeof token === 'string' && token.trim() !== '') {
-      role = jwtDecode(token)?.role; // Decode token and get role
-    }
+    if (typeof token === 'string' && token.trim() !== '') role = jwtDecode(token)?.role;
   } catch (error) {
     console.error('Error decoding token:', error);
   }
+  const profilePath = role === 'admin' ? '/admin' : '/user';
 
-  const path = role === 'admin' ? '/admin' : '/user'; // Default path if no role
-
-  // Check if there's a token in localStorage when the component mounts
   useEffect(() => {
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [token]);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
-    setIsLoggedIn(false);
+    setMobileOpen(false);
     navigate('/auth');
   };
 
-  
-
-  const handleNotificationClick = (event) => {
-    setAnchorEl(event.currentTarget);
-   
-  };
-
-  const handleNotificationClose = () => {
-    setAnchorEl(null);
-  };
-
-  const navItems = [
-    { name: 'Home', icon: <HomeIcon />, link: '/' },
-    { name: 'About', icon: <AboutIcon />, link: '/about' },
-    { name: 'Contact', icon: <ContactIcon />, link: '/contact' },
-    { name: 'Societies', icon: <SocietiesIcon />, link: '/society' },
-  ];
-
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', width: 250 }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Menu
-      </Typography>
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item.name} onClick={() => navigate(item.link)}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.name} />
-          </ListItem>
-        ))}
-        {isLoggedIn ? (
-          <>
-            <ListItem button onClick={() => navigate(path)}>
-              <ListItemIcon>
-                <ProfileIcon />
-              </ListItemIcon>
-              <ListItemText primary="Profile" />
-            </ListItem>
-            <ListItem onClick={handleLogout}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </>
-        ) : (
-          <ListItem onClick={() => navigate('/auth')}>
-            <ListItemIcon>
-              <LoginIcon />
-            </ListItemIcon>
-            <ListItemText primary="Login" />
-          </ListItem>
-        )}
-      </List>
-    </Box>
-  );
+  const isActive = (link) => (link === '/' ? pathname === '/' : pathname.startsWith(link));
 
   return (
-    <Box sx={{ display: 'flex', overflow: 'hidden' }}>
-      <AppBar sx={{   background: 'white',     borderBottom: '2px solid rgba(0, 0, 0, 0.1)', boxShadow: '0 8px 40px rgba(0,0,0,0.2)', overflow: 'hidden',  position: 'relative',  }}  >
-        <Toolbar>
-          <IconButton  color="inherit"  aria-label="open drawer"  edge="start" onClick={handleDrawerToggle} sx={{color:"black", mr: 2, display: { sm: 'none' } }}>
-            <MenuIcon />
-          </IconButton>
+    <>
+      <Box
+        component={motion.header}
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        sx={{ position: 'fixed', top: { xs: 10, md: 16 }, left: 0, right: 0, zIndex: 1200, display: 'flex', justifyContent: 'center', px: { xs: 1.5, md: 3 }, pointerEvents: 'none' }}
+      >
+        <Box sx={{ pointerEvents: 'auto', width: '100%', maxWidth: 1180, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2, pl: { xs: 2, md: 3 }, pr: 1, py: 0.9, borderRadius: 999, color: '#fff', background: scrolled ? 'rgba(14,16,48,.9)' : 'rgba(14,16,48,.78)', backdropFilter: 'blur(18px) saturate(160%)', WebkitBackdropFilter: 'blur(18px) saturate(160%)', border: '1px solid rgba(255,255,255,.16)', boxShadow: scrolled ? '0 18px 40px -16px rgba(14,16,48,.7)' : '0 8px 24px -12px rgba(14,16,48,.5)', transition: 'background .3s, box-shadow .3s' }}>
+          <Logo />
 
-          <Typography variant="h6"  component="div" sx={{ color: 'black', flexGrow: 1, fontWeight: 'bold' }} >
-            SocioSphere
-          </Typography>
-
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item, index) => (
-              <Button key={index} startIcon={item.icon} onClick={() => navigate(item.link)} sx={{  mx: 1, color: 'black',   '&:hover': { background: 'rgba(255,255,255,0.2)' },  }}  >
-                {item.name}
-              </Button>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 0.5 }}>
+            {NAV_ITEMS.map((item) => (
+              <Box key={item.name} component={Link} to={item.link} sx={{ position: 'relative', px: 2, py: 1, borderRadius: 999, fontWeight: 700, fontSize: 15, color: isActive(item.link) ? '#fff' : 'rgba(255,255,255,.7)', textDecoration: 'none', transition: 'color .2s', '&:hover': { color: '#fff' } }}>
+                {isActive(item.link) && (
+                  <Box component={motion.span} layoutId="nav-pill" transition={{ type: 'spring', stiffness: 420, damping: 34 }} sx={{ position: 'absolute', inset: 0, borderRadius: 999, background: 'linear-gradient(135deg, rgba(61,90,254,.9), rgba(255,61,139,.85))', zIndex: 0 }} />
+                )}
+                <Box component="span" sx={{ position: 'relative', zIndex: 1 }}>{item.name}</Box>
+              </Box>
             ))}
+          </Box>
 
-            {/* Notification Bell */}
-            {(isLoggedIn &&(
-            <IconButton  sx={{ color: 'black' }} onClick={handleNotificationClick} >
-              <NotificationsIcon />
-            </IconButton>
-            ))}
-
-            {/* Notifications Dropdown */}
-            <Notifications anchorEl={anchorEl} onClose={handleNotificationClose} />
-
-
-            {isLoggedIn ? (
-              <>
-                <IconButton    sx={{ color: 'black' }} onClick={() => navigate(path)} >
-                  <ProfileIcon />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            {isLoggedIn && (
+              <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+                <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} sx={{ color: '#fff' }} aria-label="Notifications">
+                  <Badge variant="dot" color="secondary"><NotificationsIcon /></Badge>
                 </IconButton>
-                <Button sx={{ color: 'black' }} startIcon={<LogoutIcon />} onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <Button sx={{ color: 'black' }} startIcon={<LoginIcon />} onClick={() => navigate('/auth')} >
-                Login
+                <IconButton onClick={() => navigate(profilePath)} sx={{ color: '#fff' }} aria-label="Profile"><ProfileIcon /></IconButton>
+                <Button onClick={handleLogout} sx={{ color: 'rgba(255,255,255,.8)', '&:hover': { color: '#fff' } }}>Logout</Button>
+              </Box>
+            )}
+            {!isLoggedIn && (
+              <Button onClick={() => navigate('/auth')} variant="contained" endIcon={<ArrowIcon />} sx={{ display: { xs: 'none', md: 'inline-flex' }, background: '#fff', color: 'var(--ink)', boxShadow: 'none', '&:hover': { background: '#19E3B1', boxShadow: 'none' } }}>
+                Join free
               </Button>
             )}
+            <IconButton onClick={() => setMobileOpen(true)} sx={{ display: { md: 'none' }, color: '#fff' }} aria-label="Open menu"><MenuIcon /></IconButton>
           </Box>
-        </Toolbar>
-      </AppBar>
+        </Box>
+      </Box>
 
-      <Drawer variant="temporary" open={mobileOpen} onClose={handleDrawerToggle} ModalProps={{  keepMounted: true,  }} sx={{color:"black" ,display: { xs: 'block', sm: 'none' },  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 }, }}>
-        {drawer}
+      {/* spacer so inner pages don't hide under the floating bar; heroes pull it back with negative margin */}
+      <Box sx={{ height: 96 }} />
+
+      <Notifications anchorEl={anchorEl} onClose={() => setAnchorEl(null)} />
+
+      <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)} PaperProps={{ sx: { width: 'min(86vw, 360px)', background: 'var(--ink)', color: '#fff', borderTopLeftRadius: 32, borderBottomLeftRadius: 32, overflow: 'hidden' } }}>
+        <Aurora />
+        <Box sx={{ position: 'relative', p: 3, display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+            <Logo />
+            <IconButton onClick={() => setMobileOpen(false)} sx={{ color: '#fff' }}><CloseIcon /></IconButton>
+          </Box>
+          {NAV_ITEMS.map((item, i) => (
+            <Box key={item.name} component={motion.div} initial={{ x: 40, opacity: 0 }} animate={mobileOpen ? { x: 0, opacity: 1 } : {}} transition={{ delay: 0.08 * i + 0.1 }}>
+              <Box component={Link} to={item.link} onClick={() => setMobileOpen(false)} sx={{ display: 'block', py: 1.2, fontFamily: '"Bricolage Grotesque", sans-serif', fontWeight: 800, fontSize: 38, letterSpacing: '-0.03em', textDecoration: 'none', color: isActive(item.link) ? '#19E3B1' : '#fff' }}>{item.name}</Box>
+            </Box>
+          ))}
+          <Box sx={{ mt: 'auto', display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+            {isLoggedIn ? (
+              <>
+                <Button variant="contained" onClick={() => { setMobileOpen(false); navigate(profilePath); }}>My profile</Button>
+                <Button onClick={handleLogout} sx={{ color: '#fff' }}>Logout</Button>
+              </>
+            ) : (
+              <Button variant="contained" size="large" onClick={() => { setMobileOpen(false); navigate('/auth'); }}>Join free</Button>
+            )}
+          </Box>
+        </Box>
       </Drawer>
-    </Box>
+    </>
   );
 };
 
-const Footer = () => {
-  return (
-    <Paper
-      component="footer"
-      square
-      variant="outlined"
-      sx={{  background: 'white',  boxShadow: '0 4px 6px rgba(0,0,0,0.1)',mt:10,  py: 3, px: 2,bottom: 0, overflow: 'hidden', zIndex: 0,        }}>
-      <Container maxWidth="lg">
-        <Box sx={{  display: 'flex', justifyContent: 'space-between',   alignItems: 'center', }} >
-          <Typography variant="body2" color="text.secondary">
-            © {new Date().getFullYear()} My App. All rights reserved.
-          </Typography>
+const FOOT_COLS = [
+  { title: 'Explore', links: [['Societies', '/society'], ['Events', '/events'], ['About', '/about']] },
+  { title: 'Get involved', links: [['Start a society', '/add'], ['Contact us', '/contact']] },
+];
 
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button size="small" color="primary">
-              Privacy Policy
-            </Button>
-            <Button size="small" color="primary">
-              Terms of Service
-            </Button>
+const Footer = () => {
+  const loggedIn = Boolean(localStorage.getItem('token'));
+  const cols = [...FOOT_COLS, { title: 'Account', links: loggedIn ? [['My profile', '/user']] : [['Log in', '/auth'], ['Sign up', '/auth']] }];
+  return (
+    <Box component="footer" sx={{ position: 'relative', mt: { xs: 9, md: 14 }, background: 'var(--ink)', color: '#fff', overflow: 'hidden', borderTopLeftRadius: { xs: 36, md: 64 }, borderTopRightRadius: { xs: 36, md: 64 } }}>
+      <Aurora />
+      <Box sx={{ position: 'relative', maxWidth: 1180, mx: 'auto', px: 3, pt: { xs: 6, md: 8 }, pb: 3 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr 1fr', md: '1.6fr repeat(3, 1fr)' }, gap: { xs: 4, md: 6 } }}>
+          <Box sx={{ gridColumn: { xs: '1 / -1', md: 'auto' } }}>
+            <Logo />
+            <Typography sx={{ mt: 2, maxWidth: 300, color: 'rgba(255,255,255,.65)', lineHeight: 1.6 }}>Find your people, and see what's happening around you.</Typography>
           </Box>
+          {cols.map((c) => (
+            <Box key={c.title}>
+              <Box sx={{ mb: 1.5, fontWeight: 800, fontSize: 13, letterSpacing: '.1em', textTransform: 'uppercase', color: '#19E3B1' }}>{c.title}</Box>
+              {c.links.map(([name, to]) => (
+                <Box key={name} component={Link} to={to} sx={{ display: 'block', py: 0.5, color: 'rgba(255,255,255,.8)', textDecoration: 'none', fontWeight: 600, '&:hover': { color: '#fff' } }}>{name}</Box>
+              ))}
+            </Box>
+          ))}
         </Box>
-      </Container>
-    </Paper>
+        <Box sx={{ mt: { xs: 5, md: 7 }, pt: 2.5, borderTop: '1px solid rgba(255,255,255,.12)', color: 'rgba(255,255,255,.5)', fontSize: 14 }}>© {new Date().getFullYear()} SocioSphere</Box>
+      </Box>
+    </Box>
   );
 };
 
